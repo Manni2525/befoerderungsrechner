@@ -1,0 +1,14 @@
+# Veröffentlicht die statische Seite. Die Excel-Datei bleibt im Repository und geht nicht online.
+image: busybox
+
+create-pages:
+  stage: deploy
+  script:
+    - mkdir -p public
+    - cp index.html polizeistern.png public/
+  pages: true
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

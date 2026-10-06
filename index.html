@@ -3,50 +3,127 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wann endlich A9Z?</title>
+<title>Beförderungsrechner</title>
 <style>
   :root {
-    --ink: #1b2430;
-    --muted: #5d6b7a;
-    --line: #d7dee6;
-    --bg: #eef2f5;
+    --ink: #1c2833;
+    --muted: #5c6b78;
+    --line: #e1e6eb;
+    --bg: #f3f5f7;
     --card: #fff;
-    --blue: #14324f;
-    --blue-2: #1e4f78;
+    --navy: #1b3a4b;
+    --navy-2: #16344a;
+    --burgundy: #8d3a45;
     --amber: #7a4e09;
     --amber-bg: #fff6e6;
     --green: #0e6844;
     --green-bg: #e6f5ee;
     --red: #8d2c38;
     --red-bg: #fdecee;
-    --gray-bg: #f3f5f7;
-    --focus: #1e4f78;
+    --gray-bg: #f4f6f8;
+    --focus: #1b3a4b;
   }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html { scroll-behavior: smooth; }
   body {
     margin: 0;
     color: var(--ink);
     background: var(--bg);
-    font: 16px/1.5 "Segoe UI", Candara, "Trebuchet MS", sans-serif;
+    font: 16px/1.5 "Segoe UI", Calibri, Candara, sans-serif;
   }
   button, input, select { font: inherit; color: inherit; }
-  header.top {
-    background: var(--blue);
+  .flagbar { height: 4px; background: var(--navy); }
+  .skip {
+    position: absolute;
+    left: 12px;
+    top: -40px;
+    background: var(--navy);
     color: #fff;
-    padding: 28px 20px 24px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    z-index: 5;
+  }
+  .skip:focus { top: 8px; }
+  header.top {
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    padding: 0 20px;
   }
   .wrap { max-width: 1080px; margin: 0 auto; }
-  header.top h1 {
-    margin: 0 0 6px;
-    font-size: 1.7rem;
+  .head {
+    display: grid;
+    grid-template-columns: minmax(280px, 460px) 1fr;
+    gap: 40px;
+    align-items: center;
+    padding: 26px 0 24px;
+  }
+  .brandmark {
+    color: var(--navy);
+    text-align: center;
+    width: 100%;
+  }
+  .brand-xl {
+    margin: 1px 0;
+    font-weight: 700;
+    font-size: clamp(1.55rem, 2.5vw, 2.05rem);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    white-space: nowrap;
+  }
+  .brand-rule {
+    display: flex;
+    align-items: center;
+    margin: 0 6px;
+  }
+  .brand-rule > span.rule {
+    height: 1.5px;
+    background: var(--navy);
+    flex: 1;
+  }
+  .info-i {
+    width: 22px;
+    height: 22px;
+    margin: 0 8px;
+    border: 1.5px solid var(--navy);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-style: italic;
+    background: #fff;
+    line-height: 1;
+  }
+  .brand-sub {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 7px 0 6px;
+    font-size: 1.22rem;
     font-weight: 650;
     letter-spacing: -0.02em;
   }
-  header.top p { margin: 0; max-width: 46rem; color: #d5e2ee; }
-  .byline { margin-top: 14px; font-size: 0.75rem; letter-spacing: 0.04em; color: #9fb4c8; }
-  .stand { margin-left: 10px; padding-left: 10px; border-left: 1px solid #4d6d8c; }
-  main { padding: 20px 20px 48px; }
+  .brand-sub .rule {
+    width: 64px;
+    height: 1.5px;
+    background: var(--navy);
+    flex: none;
+  }
+  .shield { display: block; flex: none; }
+  .bubble { display: block; margin: 0 8px; background: #fff; }
+  .titles h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.7rem, 2.4vw, 2.15rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .titles p { margin: 0; max-width: 38rem; color: var(--muted); }
+  main { padding: 22px 20px 48px; }
   .disclaimer {
     background: var(--amber-bg);
     border: 1px solid #efd7a8;
@@ -59,13 +136,57 @@
   .card {
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 18px 18px 16px;
     margin-bottom: 16px;
+    box-shadow: 0 1px 2px rgba(27, 58, 75, 0.04);
   }
-  h2 { margin: 0 0 4px; font-size: 1.15rem; }
+  h2 { margin: 0 0 6px; font-size: 1.28rem; letter-spacing: -0.02em; color: var(--navy); }
   h3 { margin: 0 0 8px; font-size: 1rem; }
+  .kicker {
+    margin: 0 0 4px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .question { font-size: 1.35rem; margin: 0 0 6px; }
   .lede { margin: 0 0 14px; color: var(--muted); }
+  .group { margin: 22px 0 10px; }
+  .group-lead { margin: 0 0 12px; color: var(--muted); }
+  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  button.pick {
+    text-align: left;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 16px 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 132px;
+    box-shadow: 0 1px 2px rgba(27, 58, 75, 0.04);
+  }
+  button.pick:hover { border-color: #b7c6d2; box-shadow: 0 8px 22px rgba(27, 58, 75, 0.06); }
+  button.pick:focus-visible, button.back:focus-visible, button.primary:focus-visible, button.ghost:focus-visible, .tip-btn:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  button.pick.mark { box-shadow: inset 3px 0 0 var(--navy); }
+  .pick-kicker { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .pick-title { font-size: 1.05rem; font-weight: 700; color: var(--navy); letter-spacing: -0.02em; }
+  .pick-text { color: var(--muted); font-size: 0.92rem; }
+  button.back {
+    background: none;
+    border: 0;
+    padding: 0 0 14px;
+    cursor: pointer;
+    font-weight: 650;
+    color: var(--navy);
+  }
+  button.back:hover { text-decoration: underline; }
   fieldset {
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -74,15 +195,20 @@
   }
   legend { padding: 0 6px; font-weight: 650; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1.15fr; gap: 14px; }
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 440px; }
   .pair select { min-width: 0; }
-  .brand { display: flex; align-items: center; gap: 18px; }
-  .logo { width: 88px; height: 88px; flex: none; }
-  .both { background: #e7f0f8; border-left: 4px solid var(--blue); border-radius: 8px; padding: 10px 14px; margin: 0 0 14px; }
+  .notes {
+    background: #f4f7fa;
+    border-left: 3px solid var(--navy);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 0 0 14px;
+  }
+  .notes p { margin: 0 0 8px; }
+  .notes p:last-child { margin: 0; }
   label.field { display: flex; flex-direction: column; gap: 4px; font-size: 0.92rem; }
   label.field span.lbl { font-weight: 600; }
-  input[type="month"], input[type="number"], select {
+  input[type="number"], select {
     width: 100%;
     height: 42px;
     border: 1px solid #b7c3cf;
@@ -90,10 +216,7 @@
     padding: 0 10px;
     background: #fff;
   }
-  input:focus, select:focus, button:focus-visible {
-    outline: 2px solid var(--focus);
-    outline-offset: 2px;
-  }
+  input:focus, select:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
   .hint { margin: 6px 0 0; color: var(--muted); font-size: 0.85rem; }
   .warn-inline { color: var(--amber); font-size: 0.85rem; margin: 6px 0 0; }
   .choice { display: flex; gap: 16px; margin-top: 6px; }
@@ -106,16 +229,16 @@
     padding: 0 16px;
     cursor: pointer;
   }
-  button.primary { background: var(--blue-2); color: #fff; border: 0; }
-  button.primary:hover { background: var(--blue); }
+  button.primary { background: var(--navy); color: #fff; border: 0; }
+  button.primary:hover { background: var(--navy-2); }
   button.ghost { background: #fff; border: 1px solid #b7c3cf; }
-  .answer { border-color: #b9cfe0; }
+  .answer { border-color: #d5e0e8; }
   .answer .when {
     margin: 6px 0 8px;
     font-size: 2rem;
     line-height: 1.15;
     letter-spacing: -0.03em;
-    color: var(--blue);
+    color: var(--navy);
     font-weight: 700;
   }
   .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -135,6 +258,8 @@
   .fact.met .badge { background: var(--green); color: #fff; }
   .fact.open { background: var(--red-bg); border-color: #f3c5cb; }
   .fact.open .badge { background: var(--red); color: #fff; }
+  .fact.wait { background: var(--amber-bg); border-color: #efd7a8; }
+  .fact.wait .badge { background: var(--amber); color: #fff; }
   .ok { color: var(--green); }
   .bad { color: var(--red); }
   .steps { list-style: none; margin: 0; padding: 0; }
@@ -164,21 +289,22 @@
   .chip.wait { background: var(--gray-bg); color: var(--muted); }
   .chip.no { background: var(--red-bg); border-color: #f3c5cb; }
   .chip.yes { background: var(--green-bg); border-color: #b7e0cc; font-weight: 700; }
-  .chip.mark { outline: 2px solid var(--blue); }
+  .chip.mark { outline: 2px solid var(--navy); }
   table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
   th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { font-size: 0.78rem; color: var(--muted); font-weight: 650; }
   tr.hit td { background: #f3faf6; }
   tr.miss td { background: #fffafa; }
+  tr.is-you td { background: #f4f7fa; font-weight: 650; }
   .scroll { overflow-x: auto; }
   .chart { width: 100%; height: auto; display: block; }
   details summary { cursor: pointer; font-weight: 650; }
-  details p, details li { color: var(--ink); }
+  .both { background: #f4f7fa; border-left: 3px solid var(--navy); border-radius: 8px; padding: 10px 14px; margin: 0 0 14px; }
   .tip { position: relative; display: inline-block; margin-left: 6px; vertical-align: middle; }
   .tip-btn {
     width: 22px; height: 22px; border-radius: 50%;
     border: 1px solid #b7c3cf; background: #fff; cursor: help;
-    font-size: 0.8rem; font-weight: 700; color: var(--blue-2); padding: 0;
+    font-size: 0.8rem; font-weight: 700; color: var(--navy); padding: 0;
   }
   .tip-box {
     display: none;
@@ -187,13 +313,13 @@
     left: 28px;
     top: -8px;
     width: min(340px, 70vw);
-    background: #14324f;
+    background: var(--navy);
     color: #fff;
     border-radius: 10px;
     padding: 12px 14px;
     font-size: 0.88rem;
     font-weight: 400;
-    box-shadow: 0 8px 24px rgba(20, 50, 79, 0.25);
+    box-shadow: 0 8px 24px rgba(27, 58, 75, 0.25);
   }
   .tip-box ul { margin: 6px 0 8px; padding-left: 18px; }
   .tip:hover .tip-box, .tip:focus-within .tip-box { display: block; }
@@ -205,205 +331,746 @@
     font-size: 0.78rem;
   }
   @media (max-width: 860px) {
-    .grid-2, .facts, .grid-3 { grid-template-columns: 1fr 1fr; }
+    .head { grid-template-columns: 1fr; gap: 18px; }
+    .brandmark { margin: 0 auto; }
+    .grid-2, .facts, .picks { grid-template-columns: 1fr 1fr; }
     .answer .when { font-size: 1.6rem; }
     .tip-box { left: 0; top: 28px; }
+    .brand-sub .rule { width: 36px; }
   }
-  @media (max-width: 560px) {
-    .grid-2, .facts, .grid-3, .pair { grid-template-columns: 1fr; }
-    .logo { width: 64px; height: 64px; }
-    header.top h1 { font-size: 1.45rem; }
+  @media (max-width: 640px) {
+    .grid-2, .facts, .picks, .pair { grid-template-columns: 1fr; }
+    .brand-xl { white-space: normal; }
+    .titles h1 { font-size: 1.55rem; }
   }
   @media print {
-    header.top { background: #fff; color: #000; }
-    header.top p, .byline { color: #333; }
-    button, .actions { display: none; }
+    .flagbar, button, .actions, .picks, button.back { display: none; }
+    header.top { border: 0; }
     body { background: #fff; }
   }
 </style>
 </head>
 <body>
+<div class="flagbar"></div>
+<a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top">
-  <div class="wrap brand">
-    <img class="logo" src="polizeistern.png" alt="Stern der Bayerischen Polizei">
-    <div>
-      <h1>Wann endlich A9Z?</h1>
-      <p>Ungefähre Prognose für Beamtinnen und Beamte der Bayerischen Polizei in A9, wann die Amtszulage erreicht wird, abhängig von der Bewährungszeit und der Beförderungswahl</p>
-      <div class="byline">© Nowadnick <span class="stand">Stand Oktober 2026</span></div>
+  <div class="wrap head">
+    <div class="brandmark" role="img" aria-label="Dein Personalrat Schwaben Nord informiert">
+      <div class="brand-rule" aria-hidden="true"><span class="rule"></span><span class="info-i">i</span><span class="rule"></span></div>
+      <div class="brand-xl">Dein Personalrat</div>
+      <div class="brand-sub">
+        <span class="rule" aria-hidden="true"></span>
+        <span>Schwaben Nord</span>
+        <svg class="shield" viewBox="0 0 22 26" width="22" height="26" aria-hidden="true">
+          <defs>
+            <clipPath id="shield-clip">
+              <path d="M11 1.2 20.2 4.2v7.6c0 6.2-9.2 12.6-9.2 12.6S1.8 18 1.8 11.8V4.2Z"/>
+            </clipPath>
+            <pattern id="rauten" patternUnits="userSpaceOnUse" width="6.4" height="6.4" patternTransform="rotate(45)">
+              <rect width="6.4" height="6.4" fill="#fff"/>
+              <rect width="3.2" height="6.4" fill="#0a66b3"/>
+            </pattern>
+          </defs>
+          <g clip-path="url(#shield-clip)">
+            <rect x="-8" y="-8" width="40" height="44" fill="url(#rauten)"/>
+          </g>
+          <path d="M11 1.2 20.2 4.2v7.6c0 6.2-9.2 12.6-9.2 12.6S1.8 18 1.8 11.8V4.2Z" fill="none" stroke="#1b3a4b" stroke-width="1"/>
+        </svg>
+        <span class="rule" aria-hidden="true"></span>
+      </div>
+      <div class="brand-xl">informiert</div>
+      <div class="brand-rule" aria-hidden="true">
+        <span class="rule"></span>
+        <svg class="bubble" viewBox="0 0 24 22" width="24" height="22">
+          <path fill="#8d3a45" d="M3.2 1.6h16.2a2.2 2.2 0 0 1 2.2 2.2v9.2a2.2 2.2 0 0 1-2.2 2.2h-7.4L7.2 20v-4.8H3.2A2.2 2.2 0 0 1 1 13V3.8a2.2 2.2 0 0 1 2.2-2.2z"/>
+          <path stroke="#fff" stroke-width="1.4" stroke-linecap="round" d="M6.2 6.4h10.2M6.2 9.6h6.4"/>
+        </svg>
+        <span class="rule"></span>
+      </div>
+    </div>
+    <div class="titles">
+      <h1>Beförderungsrechner</h1>
+      <p>Für Beamtinnen und Beamte der Bayerischen Polizei. Die Wartezeiten folgen den Beförderungsrichtlinien (BefRPolVS) vom 21. Juli 2026.</p>
     </div>
   </div>
 </header>
-<main>
+<main id="inhalt">
   <div class="wrap">
-    <div class="disclaimer">
-      <strong>Keine rechtsverbindliche Auskunft.</strong>
-      Das Ergebnis ist eine ungefähre Prognose aus der historischen Beförderungsauswahl seit September 2023. Künftige Stichtage hängen von Haushalt und freien Stellen ab. Eine neue Beurteilung kann Wartezeit und Auswahl verändern. Daraus folgt kein Anspruch auf eine Beförderung oder auf einen Termin.
-    </div>
-
-    <form id="form" class="card" autocomplete="off">
-      <h2>Ihre Angaben</h2>
-      <p class="lede">Die Berechnung bleibt in diesem Browser. Es wird nichts gespeichert und nichts übertragen.</p>
-
-      <div class="grid-2">
-        <fieldset>
-          <legend>Zeiten</legend>
-          <label class="field">Allgemeiner Dienstzeitbeginn
-            <span class="pair">
-              <select id="einstieg-monat" name="einstieg-monat" required>
-                <option value="">Monat</option>
-                <option value="3">März</option>
-                <option value="9">September</option>
-              </select>
-              <select id="einstieg-jahr" name="einstieg-jahr" required>
-                <option value="">Jahr</option>
-              </select>
-            </span>
-          </label>
-          <p class="hint">Die Einstellung liegt im März oder September. Gerechnet wird ab dem 1. des Monats. Daraus ergibt sich die allgemeine Dienstzeit.</p>
-          <label class="field" style="margin-top:10px">Im Amt A&nbsp;9 seit
-            <span class="pair">
-              <select id="a9-monat" name="a9-monat" required>
-                <option value="">Monat</option>
-                <option value="1">Januar</option>
-                <option value="2">Februar</option>
-                <option value="3">März</option>
-                <option value="4">April</option>
-                <option value="5">Mai</option>
-                <option value="6">Juni</option>
-                <option value="7">Juli</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">Oktober</option>
-                <option value="11">November</option>
-                <option value="12">Dezember</option>
-              </select>
-              <select id="a9-jahr" name="a9-jahr" required>
-                <option value="">Jahr</option>
-              </select>
-            </span>
-          </label>
-          <p class="hint">Monat, in dem Ihnen das Amt A&nbsp;9 übertragen wurde. Die Bewährungszeit läuft ab diesem Monat.</p>
-          <p id="zeit-warn" class="warn-inline" hidden></p>
-        </fieldset>
-
-        <fieldset>
-          <legend>Schwerbehinderung</legend>
-          <p class="hint">Nur ein Grad der Behinderung von mindestens 50 zählt, §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX. Eine Gleichstellung nach §&nbsp;2 Abs.&nbsp;3 SGB&nbsp;IX ersetzt das nicht. Schwerbehinderung hilft in der Beförderungsauswahl nur, wenn Gesamturteil, Einzelmerkmale und das Gesamturteil der vorletzten Beurteilung genau auf der veröffentlichten Grenze liegen.</p>
-          <div class="choice">
-            <label><input type="radio" name="sb" value="ja"> Ja</label>
-            <label><input type="radio" name="sb" value="nein"> Nein</label>
-          </div>
-        </fieldset>
+    <section id="view-auswahl">
+      <div class="disclaimer">
+        <strong>Keine rechtsverbindliche Auskunft.</strong>
+        Eine Beförderung setzt eine freie und besetzbare Planstelle voraus. Ein Anspruch auf Beförderung besteht nicht (Nr. 2.1 BefRPolVS). Für das Amt der Besoldungsgruppe A&nbsp;9 mit Amtszulage kommt die veröffentlichte Beförderungsauswahl hinzu. Unterbrechungen, Teilzeit, Nachteilsausgleich und Erziehungszeiten sind nicht eingerechnet.
       </div>
-
-      <fieldset>
-        <legend>Letzte Beurteilung (2026)</legend>
-        <div class="grid-2">
-          <label class="field">Gesamturteil
-            <select id="gu" name="gu" required></select>
-          </label>
-          <label class="field">
-            <span class="lbl">Summe der Einzelmerkmale
-              <span class="tip">
-                <button type="button" class="tip-btn" aria-describedby="tip-merkmale">i</button>
-                <span id="tip-merkmale" class="tip-box" role="tooltip">
-                  Die fünf doppelt gewichteten Einzelmerkmale sind:
-                  <ul>
-                    <li>Arbeitsgüte</li>
-                    <li>Eigeninitiative, Selbstständigkeit</li>
-                    <li>Teamverhalten</li>
-                    <li>Geistige Beweglichkeit</li>
-                    <li>Fachkenntnisse</li>
-                  </ul>
-                  Tragen Sie die Summe dieser fünf Punktzahlen ein, so wie sie in der Beförderungswahl steht, zum Beispiel 66. Nicht den bereits verdoppelten Wert.
-                </span>
-              </span>
-            </span>
-            <input type="number" id="einzel" name="einzel" min="5" max="80" step="1" inputmode="numeric" required>
-          </label>
-        </div>
-        <p class="hint">Für alle gilt die periodische Beurteilung 2026, wirksam seit Oktober 2026. Die Summe der fünf Einzelmerkmale liegt zwischen 5 und 80.</p>
-        <label class="check">
-          <input type="checkbox" id="in-a9" checked>
-          <span>Diese Beurteilung ist im Statusamt A&nbsp;9 erstellt worden. Die Beförderungswahl verlangt das ausdrücklich.</span>
-        </label>
-        <p id="a9-hint" class="warn-inline" hidden></p>
-      </fieldset>
-
-      <fieldset>
-        <legend>Vorletzte Beurteilung (2023)</legend>
-        <label class="field" style="max-width:280px">Gesamturteil
-          <select id="rw" name="rw" required></select>
-        </label>
-        <p class="hint">Gesamturteil der Beurteilung 2023. Die Einzelmerkmale dieser Beurteilung werden nicht gebraucht.</p>
-      </fieldset>
-
-      <label class="check">
-        <input type="checkbox" id="fortschreiben" checked>
-        <span>Dieselben Punktzahlen auch nach der nächsten Beurteilung weiterverwenden. Die Punkte von 2029 und später kennt heute niemand. Ohne diesen Haken endet die Prognose mit dem September vor der nächsten Beurteilung.</span>
-      </label>
-
-      <div class="actions" style="margin-top:14px">
-        <button class="primary" type="submit">Prognose anzeigen</button>
-        <button class="ghost" type="button" id="beispiel">Beispiel eintragen</button>
-        <button class="ghost" type="button" id="leeren">Felder leeren</button>
-      </div>
-    </form>
-
-    <section id="ergebnis" class="card answer" aria-live="polite">
-      <h2>Prognose</h2>
-      <p id="ergebnis-text" class="lede">Sobald die Angaben vollständig sind, steht hier der voraussichtliche Termin.</p>
+      <h2 class="question">Welche Beförderung soll berechnet werden?</h2>
+      <p class="lede">Zuerst die Qualifikationsebene und das Amt wählen. Danach folgt der Rechner nur für diese Beförderung. Rechtsgrundlage ist die BefRPolVS vom 21. Juli 2026, in Kraft seit dem 1. Oktober 2026.</p>
+      <div id="groups"></div>
     </section>
 
-    <details class="card">
-      <summary>So rechnet das Tool</summary>
-      <p class="both" style="margin-top:14px"><strong>Zwei Kriterien, beide nötig.</strong> A&nbsp;9 mit Amtszulage wird nur übertragen, wenn die Bewährungszeit und die Beförderungsauswahl erfüllt sind. Fehlt eines, gibt es keinen Termin.</p>
-      <div class="grid-2">
-        <div>
-          <h3>1. Bewährungszeit</h3>
-          <p>Seit der letzten Beförderung muss diese Wartezeit zurückgelegt sein. Sie richtet sich nach dem Gesamturteil der Beurteilung 2026:</p>
+    <section id="view-a9z" hidden>
+      <button class="back" type="button" data-back>← Zur Auswahl</button>
+      <p class="kicker">Zweite Qualifikationsebene · Nr. 4.4</p>
+      <h2>Amt der Besoldungsgruppe A&nbsp;9 mit Amtszulage</h2>
+      <p class="lede">Ungefähre Prognose, wann die Amtszulage erreicht wird. Hier bleiben zwei Kriterien: die Bewährungszeit und die Beförderungsauswahl.</p>
+      <div class="disclaimer">
+        <strong>Keine rechtsverbindliche Auskunft.</strong>
+        Das Ergebnis ist eine ungefähre Prognose aus der historischen Beförderungsauswahl seit September 2023. Künftige Stichtage hängen von Haushalt und freien Stellen ab. Eine neue Beurteilung kann Wartezeit und Auswahl verändern. Daraus folgt kein Anspruch auf eine Beförderung oder auf einen Termin.
+      </div>
+
+      <form id="form" class="card" autocomplete="off">
+        <h3>Ihre Angaben</h3>
+        <p class="lede">Die Berechnung bleibt in diesem Browser. Es wird nichts gespeichert und nichts übertragen.</p>
+        <div class="grid-2">
+          <fieldset>
+            <legend>Zeiten</legend>
+            <label class="field">Allgemeiner Dienstzeitbeginn
+              <span class="pair">
+                <select id="einstieg-monat" name="einstieg-monat" required>
+                  <option value="">Monat</option>
+                  <option value="3">März</option>
+                  <option value="9">September</option>
+                </select>
+                <select id="einstieg-jahr" name="einstieg-jahr" required>
+                  <option value="">Jahr</option>
+                </select>
+              </span>
+            </label>
+            <p class="hint">Die Einstellung liegt im März oder September. Gerechnet wird ab dem 1. des Monats. Daraus ergibt sich die allgemeine Dienstzeit.</p>
+            <label class="field" style="margin-top:10px">Im Amt A&nbsp;9 seit
+              <span class="pair">
+                <select id="a9-monat" name="a9-monat" required>
+                  <option value="">Monat</option>
+                  <option value="1">Januar</option>
+                  <option value="2">Februar</option>
+                  <option value="3">März</option>
+                  <option value="4">April</option>
+                  <option value="5">Mai</option>
+                  <option value="6">Juni</option>
+                  <option value="7">Juli</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">Oktober</option>
+                  <option value="11">November</option>
+                  <option value="12">Dezember</option>
+                </select>
+                <select id="a9-jahr" name="a9-jahr" required>
+                  <option value="">Jahr</option>
+                </select>
+              </span>
+            </label>
+            <p class="hint">Monat, in dem Ihnen das Amt A&nbsp;9 übertragen wurde. Die Bewährungszeit läuft ab diesem Monat.</p>
+            <p id="zeit-warn" class="warn-inline" hidden></p>
+          </fieldset>
+          <fieldset>
+            <legend>Schwerbehinderung</legend>
+            <p class="hint">Nur ein Grad der Behinderung von mindestens 50 zählt, §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX. Eine Gleichstellung nach §&nbsp;2 Abs.&nbsp;3 SGB&nbsp;IX ersetzt das nicht. Schwerbehinderung hilft in der Beförderungsauswahl nur, wenn Gesamturteil, Einzelmerkmale und das Gesamturteil der vorletzten Beurteilung genau auf der veröffentlichten Grenze liegen.</p>
+            <div class="choice">
+              <label><input type="radio" name="sb" value="ja"> Ja</label>
+              <label><input type="radio" name="sb" value="nein"> Nein</label>
+            </div>
+          </fieldset>
+        </div>
+        <fieldset>
+          <legend>Letzte Beurteilung (2026)</legend>
+          <div class="grid-2">
+            <label class="field">Gesamturteil
+              <select id="gu" name="gu" required></select>
+            </label>
+            <label class="field">
+              <span class="lbl">Summe der Einzelmerkmale
+                <span class="tip">
+                  <button type="button" class="tip-btn" aria-describedby="tip-merkmale">i</button>
+                  <span id="tip-merkmale" class="tip-box" role="tooltip">
+                    Die fünf doppelt gewichteten Einzelmerkmale sind:
+                    <ul>
+                      <li>Arbeitsgüte</li>
+                      <li>Eigeninitiative, Selbstständigkeit</li>
+                      <li>Teamverhalten</li>
+                      <li>Geistige Beweglichkeit</li>
+                      <li>Fachkenntnisse</li>
+                    </ul>
+                    Tragen Sie die Summe dieser fünf Punktzahlen ein, so wie sie in der Beförderungswahl steht, zum Beispiel 66. Nicht den bereits verdoppelten Wert.
+                  </span>
+                </span>
+              </span>
+              <input type="number" id="einzel" name="einzel" min="5" max="80" step="1" inputmode="numeric" required>
+            </label>
+          </div>
+          <p class="hint">Für alle gilt die periodische Beurteilung 2026, wirksam seit Oktober 2026. Die Summe der fünf Einzelmerkmale liegt zwischen 5 und 80.</p>
+          <label class="check">
+            <input type="checkbox" id="in-a9" checked>
+            <span>Diese Beurteilung ist im Statusamt A&nbsp;9 erstellt worden. Die Beförderungswahl verlangt das ausdrücklich.</span>
+          </label>
+          <p id="a9-hint" class="warn-inline" hidden></p>
+        </fieldset>
+        <fieldset>
+          <legend>Vorletzte Beurteilung (2023)</legend>
+          <label class="field" style="max-width:280px">Gesamturteil
+            <select id="rw" name="rw" required></select>
+          </label>
+          <p class="hint">Gesamturteil der Beurteilung 2023. Die Einzelmerkmale dieser Beurteilung werden nicht gebraucht.</p>
+        </fieldset>
+        <label class="check">
+          <input type="checkbox" id="fortschreiben" checked>
+          <span>Dieselben Punktzahlen auch nach der nächsten Beurteilung weiterverwenden. Die Punkte von 2029 und später kennt heute niemand. Ohne diesen Haken endet die Prognose mit dem September vor der nächsten Beurteilung.</span>
+        </label>
+        <div class="actions" style="margin-top:14px">
+          <button class="primary" type="submit">Prognose anzeigen</button>
+          <button class="ghost" type="button" id="beispiel">Beispiel eintragen</button>
+          <button class="ghost" type="button" id="leeren">Felder leeren</button>
+        </div>
+      </form>
+
+      <section id="ergebnis" class="card answer" aria-live="polite">
+        <h2>Prognose</h2>
+        <p id="ergebnis-text" class="lede">Sobald die Angaben vollständig sind, steht hier der voraussichtliche Termin.</p>
+      </section>
+
+      <details class="card">
+        <summary>So rechnet das Tool</summary>
+        <p class="both" style="margin-top:14px"><strong>Zwei Kriterien, beide nötig.</strong> A&nbsp;9 mit Amtszulage wird nur übertragen, wenn die Bewährungszeit und die Beförderungsauswahl erfüllt sind. Fehlt eines, gibt es keinen Termin.</p>
+        <div class="grid-2">
+          <div>
+            <h3>1. Bewährungszeit</h3>
+            <p>Seit der letzten Beförderung muss diese Wartezeit zurückgelegt sein. Sie richtet sich nach dem Gesamturteil der Beurteilung 2026 (Nr. 4.4):</p>
+            <table>
+              <thead><tr><th>Gesamturteil</th><th>Monate</th></tr></thead>
+              <tbody id="warte-tabelle"></tbody>
+            </table>
+          </div>
+          <div>
+            <h3>2. Beförderungsauswahl</h3>
+            <p>Das Innenministerium veröffentlicht jeden Monat, wer bei zu wenigen Stellen noch zum Zug kommt. Auch wer die Bewährungszeit schon erfüllt hat, wird nur befördert, wenn diese Auswahl passt. Das jeweils nächste Kriterium gilt nur für diejenigen, die exakt die Mindestpunktzahl des vorherigen Kriteriums erreicht haben. Wer darüber liegt, muss die weiteren Hürden nicht nehmen. Wer darunter liegt, kommt auch mit langer Dienstzeit nicht darüber.</p>
+            <p>Die Reihenfolge ist: Gesamturteil der Beurteilung 2026, Summe der fünf doppelt gewichteten Einzelmerkmale, Gesamturteil der Beurteilung 2023, dann die sonstige Voraussetzung. Schwerbehinderung oder die in der Tabelle genannte Dienstzeit ersetzen einander. Steht dort ein Plus, müssen beide Dienstzeiten erreicht sein. Steht „oder“, genügt eine davon.</p>
+            <p>Liegt für einen Monat bereits eine veröffentlichte Beförderungsauswahl vor, gilt diese Zeile. Für spätere Monate ohne eigene Zeile nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Dezember 2026 wird also an Dezember 2023 gemessen, Oktober 2027 an Oktober 2024. Der November 2026 ist der letzte eingetragene Stichtag.</p>
+          </div>
+        </div>
+        <h3 style="margin-top:16px">Gesamturteil der bekannten Stichtage</h3>
+        <svg id="chart" class="chart" viewBox="0 0 760 180" role="img" aria-label="Verlauf der Mindestpunktzahl Gesamturteil"></svg>
+        <h3>Alle Stichtage, gemessen an Ihrer heutigen Lage</h3>
+        <p class="hint">Grün heißt: Mit Ihren heutigen Punkten und Ihrer heutigen Dienstzeit hätten Sie diese historische Hürde genommen. Das sagt nichts darüber, ob Sie damals schon die Bewährungszeit erfüllt hatten.</p>
+        <div class="scroll">
           <table>
-            <thead><tr><th>Gesamturteil</th><th>Monate</th></tr></thead>
-            <tbody id="warte-tabelle"></tbody>
+            <thead>
+              <tr>
+                <th>Stichtag</th>
+                <th>Gesamturteil</th>
+                <th>Einzelmerkmale</th>
+                <th>Gesamturteil 2023 bzw. vorletzte</th>
+                <th>Sonstige Voraussetzung</th>
+                <th>Befördert / fähig</th>
+                <th>Ihre Lage heute</th>
+              </tr>
+            </thead>
+            <tbody id="historie"></tbody>
           </table>
         </div>
-        <div>
-          <h3>2. Beförderungsauswahl</h3>
-          <p>Das Innenministerium veröffentlicht jeden Monat, wer bei zu wenigen Stellen noch zum Zug kommt. Auch wer die Bewährungszeit schon erfüllt hat, wird nur befördert, wenn diese Auswahl passt. Das jeweils nächste Kriterium gilt nur für diejenigen, die exakt die Mindestpunktzahl des vorherigen Kriteriums erreicht haben. Wer darüber liegt, muss die weiteren Hürden nicht nehmen. Wer darunter liegt, kommt auch mit langer Dienstzeit nicht darüber.</p>
-          <p>Die Reihenfolge ist: Gesamturteil der Beurteilung 2026, Summe der fünf doppelt gewichteten Einzelmerkmale, Gesamturteil der Beurteilung 2023, dann die sonstige Voraussetzung. Schwerbehinderung oder die in der Tabelle genannte Dienstzeit ersetzen einander. Steht dort ein Plus, müssen beide Dienstzeiten erreicht sein. Steht „oder“, genügt eine davon.</p>
-          <p>Für künftige Monate nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Oktober 2027 wird also an Oktober 2024 gemessen, November 2026 an November 2023. Der Oktober 2026 ist der letzte eingetragene Stichtag.</p>
+      </details>
+    </section>
+
+    <section id="view-simple" hidden>
+      <button class="back" type="button" data-back>← Zur Auswahl</button>
+      <p class="kicker" id="s-kicker"></p>
+      <h2 id="s-title"></h2>
+      <p class="lede" id="s-lede"></p>
+      <div class="disclaimer">
+        <strong>Keine rechtsverbindliche Auskunft.</strong>
+        Angezeigt wird der Monatserste, an dem die Bewährungszeit der BefRPolVS erfüllt ist. Eine freie und besetzbare Planstelle bleibt Voraussetzung, ein Anspruch besteht nicht (Nr. 2.1). Bei zu wenigen Stellen gilt zusätzlich die Beförderungsreihenfolge nach Nr. 6; ihre Mindestwerte sind hier nicht prognostiziert. Unterbrechungen, Teilzeit, Nachteilsausgleich und Erziehungszeiten (Nrn. 3.2 bis 3.5) sind nicht eingerechnet. Bei Teilzeit ist die Beförderung zum Ersten des folgenden Monats vorzunehmen (Nr. 3.3 Satz 2).
+      </div>
+      <form id="simple-form" class="card" autocomplete="off">
+        <h3>Ihre Angaben</h3>
+        <p class="lede">Die Berechnung bleibt in diesem Browser. Es wird nichts gespeichert und nichts übertragen.</p>
+        <div class="notes" id="s-notes" hidden></div>
+        <div id="s-grid">
+          <fieldset>
+            <legend id="s-start-legend">Beginn</legend>
+            <label class="field"><span class="lbl" id="s-start-label"></span>
+              <span class="pair">
+                <select id="s-monat"></select>
+                <select id="s-jahr"></select>
+              </span>
+            </label>
+            <p class="hint" id="s-start-hint"></p>
+          </fieldset>
+          <fieldset id="s-fuenftel-box">
+            <legend>Qualifikationsprüfung</legend>
+            <label class="field">Fünftel
+              <select id="s-fuenftel"></select>
+            </label>
+            <p class="hint">Platzziffer der Qualifikationsprüfung, ausgedrückt als Fünftel der Zahl der Prüfungsteilnehmerinnen und Prüfungsteilnehmer (Nr. 4.2.1).</p>
+          </fieldset>
         </div>
-      </div>
-      <h3 style="margin-top:16px">Gesamturteil der bekannten Stichtage</h3>
-      <svg id="chart" class="chart" viewBox="0 0 760 180" role="img" aria-label="Verlauf der Mindestpunktzahl Gesamturteil"></svg>
-      <h3>Alle Stichtage, gemessen an Ihrer heutigen Lage</h3>
-      <p class="hint">Grün heißt: Mit Ihren heutigen Punkten und Ihrer heutigen Dienstzeit hätten Sie diese historische Hürde genommen. Das sagt nichts darüber, ob Sie damals schon die Bewährungszeit erfüllt hatten.</p>
-      <div class="scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Stichtag</th>
-              <th>Gesamturteil</th>
-              <th>Einzelmerkmale</th>
-              <th>Gesamturteil 2023 bzw. vorletzte</th>
-              <th>Sonstige Voraussetzung</th>
-              <th>Befördert / fähig</th>
-              <th>Ihre Lage heute</th>
-            </tr>
-          </thead>
-          <tbody id="historie"></tbody>
-        </table>
-      </div>
-    </details>
+        <fieldset>
+          <legend>Letzte dienstliche Beurteilung</legend>
+          <label class="field" style="max-width:280px">Gesamturteil
+            <select id="s-gu"></select>
+          </label>
+          <p class="hint" id="s-gu-hint"></p>
+          <label class="check" id="s-status-row">
+            <input type="checkbox" id="s-status">
+            <span id="s-status-label"></span>
+          </label>
+        </fieldset>
+        <fieldset id="s-scope-box">
+          <legend>Persönlicher Geltungsbereich</legend>
+          <label class="check">
+            <input type="checkbox" id="s-scope">
+            <span id="s-scope-label"></span>
+          </label>
+        </fieldset>
+        <fieldset id="s-posten-box">
+          <legend>Dienstposten</legend>
+          <label class="check">
+            <input type="checkbox" id="s-posten">
+            <span id="s-posten-label"></span>
+          </label>
+          <p class="hint">Nr. 4.6.1 verlangt die Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A&nbsp;9/11, A&nbsp;11/00 oder höher.</p>
+        </fieldset>
+        <div class="actions">
+          <button class="primary" type="submit">Beförderungsfähigkeit anzeigen</button>
+          <button class="ghost" type="button" id="s-beispiel">Beispiel eintragen</button>
+          <button class="ghost" type="button" id="s-leeren">Felder leeren</button>
+        </div>
+      </form>
+      <section id="s-ergebnis" class="card answer" aria-live="polite">
+        <h2>Beförderungsfähigkeit</h2>
+        <p class="lede">Sobald die Angaben vollständig sind, steht hier der Monatserste.</p>
+      </section>
+      <details class="card">
+        <summary>Maßgebliche Regelung</summary>
+        <p class="lede" id="s-method" style="margin-top:14px"></p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th id="s-col-a">Maßstab</th><th>Bewährungszeit</th></tr></thead>
+            <tbody id="s-table"></tbody>
+          </table>
+        </div>
+        <p class="hint">Dienstzeiten werden in Monaten gerechnet. Zum Zeitpunkt der Ernennung beträgt die Dienstzeit null (Nr. 6.2.2). Die Beförderung wird auf dem Monatsersten angezeigt, an dem diese Zahl erreicht ist (Nr. 3.6). Eingetragen wird der Monat; gerechnet wird ab dessen Erstem. Wer mitten im Monat ernannt wurde, rundet nach Nr. 6.2.2 auf volle Monate auf und kann dafür den Vormonat eintragen.</p>
+      </details>
+    </section>
   </div>
 </main>
-<footer class="site">Erstellt von © Nowadnick, Stand Oktober 2026. Auswahlgrenzen aus der Tabelle Beförderungswahl zum A9Z, September 2023 bis Oktober 2026.</footer>
+<footer class="site">Personalrat Schwaben Nord. Erstellt von © Nowadnick. Grundlage: Beförderungsrichtlinien für die Beamten und Beamtinnen der Bayerischen Polizei und des Landesamts für Verfassungsschutz (BefRPolVS) vom 21. Juli 2026, Az. C22-0406-2-86, in Kraft seit dem 1. Oktober 2026. Beförderungsauswahl für das Amt A&nbsp;9 mit Amtszulage: September 2023 bis November 2026.</footer>
 
 <script>
-const WARTEZEIT = { 16: 36, 15: 39, 14: 42, 13: 45, 12: 48, 11: 54, 10: 60, 9: 72 };
+const $ = (id) => document.getElementById(id);
 const MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+const FUENFTEL = [
+  { id: "1", label: "erstes Fünftel", months: 24 },
+  { id: "2", label: "zweites Fünftel", months: 27 },
+  { id: "3", label: "drittes Fünftel", months: 30 },
+  { id: "4", label: "viertes Fünftel", months: 33 },
+  { id: "5", label: "fünftes Fünftel", months: 36 }
+];
 
-/** Stichtage September 2023 bis Oktober 2026 aus der Tabelle Beförderungswahl zum A9Z. */
+const SCOPE_QE2 = "Ich bin in der zweiten Qualifikationsebene eingestiegen und habe an der Ausbildungsqualifizierung für Ämter ab der dritten Qualifikationsebene nicht erfolgreich teilgenommen.";
+
+const PATHS = [
+  {
+    id: "qe2-a8",
+    group: "qe2",
+    kicker: "Nr. 4.2.1",
+    title: "Beförderung zum Amt der Besoldungsgruppe A 8",
+    card: "Bewährungszeit nach dem Fünftel der Qualifikationsprüfung, seit dem allgemeinen Dienstzeitbeginn.",
+    lede: "Für die Fachlaufbahn Polizei und Verfassungsschutz. Die Bewährungszeit hängt vom Fünftel ab, nicht vom Gesamturteil. Das Gesamturteil muss mindestens drei Punkte betragen.",
+    kind: "fuenftel",
+    minPoints: 3,
+    startLegend: "Allgemeiner Dienstzeitbeginn",
+    startLabel: "Allgemeiner Dienstzeitbeginn",
+    startHint: "Die Bewährungszeit nach Nr. 4.2.1 läuft seit dem allgemeinen Dienstzeitbeginn (Nr. 3.1.1). In der zweiten Qualifikationsebene liegt die Einstellung regelmäßig im März oder September. Ein vorverlegter Beginn, etwa durch Nachteilsausgleich (Nr. 3.4), kann in jedem Monat liegen.",
+    startShort: "allgemeiner Dienstzeitbeginn",
+    guHint: "Mindestens „drei Punkte“. Das Gesamturteil stuft die Monate nicht ab. Maßgeblich ist die letzte dienstliche Beurteilung im aktuellen Statusamt (Nr. 2.1), auch eine Probezeitbeurteilung (Nr. 6.2.1).",
+    notes: [
+      "Gilt für die Fachlaufbahn Polizei und Verfassungsschutz. In den übrigen Fachlaufbahnen gelten die Nrn. 4.2.2 und 4.2.3."
+    ],
+    method: "Nr. 4.2.1: seit dem allgemeinen Dienstzeitbeginn, abgestuft nach der Platzziffer der Qualifikationsprüfung.",
+    col: "Fünftel der Qualifikationsprüfung",
+    minMessage: (gu) => "Nr. 4.2.1 verlangt in der letzten dienstlichen Beurteilung mindestens „drei Punkte“. Eingetragen sind " + gu + " Punkte.",
+    example: { m: 9, y: 2024, gu: 8, fuenftel: "1" }
+  },
+  {
+    id: "qe2-a9",
+    group: "qe2",
+    kicker: "Nr. 4.3",
+    title: "Beförderung zum Amt der Besoldungsgruppe A 9",
+    card: "Bewährungszeit nach der letzten dienstlichen Beurteilung im Statusamt A 8.",
+    lede: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten dienstlichen Beurteilung im Statusamt A 8.",
+    kind: "points",
+    bands: [
+      { min: 13, max: 16, months: 39, label: "16 bis 13 Punkte" },
+      { min: 12, max: 12, months: 42, label: "12 Punkte" },
+      { min: 11, max: 11, months: 45, label: "11 Punkte" },
+      { min: 9, max: 10, months: 48, label: "10 und 09 Punkte" },
+      { min: 7, max: 8, months: 60, label: "08 und 07 Punkte" },
+      { min: 6, max: 6, months: 72, label: "06 Punkte" }
+    ],
+    startLegend: "Letzte Beförderung",
+    startLabel: "Übertragung des Amtes der Besoldungsgruppe A 8",
+    startHint: "Die Bewährungszeit nach Nr. 4.3 läuft seit der letzten Beförderung.",
+    startShort: "Übertragung des Amtes A 8",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 8 erstellt worden.",
+    statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 8 erstellt wurde",
+    guHint: "Gesamturteil der letzten dienstlichen Beurteilung im aktuellen Statusamt (Nr. 2.1). Für die Beförderung nach A 9 ist das das Statusamt A 8.",
+    notes: [
+      "Nr. 4.3 gilt nicht für die Übertragung eines Amtes der Besoldungsgruppe A 9 im Wege der Ausbildungsqualifizierung für Ämter ab der dritten Qualifikationsebene."
+    ],
+    method: "Nr. 4.3: seit der letzten Beförderung, abgestuft nach dem Ergebnis der letzten dienstlichen Beurteilung.",
+    col: "Gesamturteil",
+    bandMessage: (gu) => "Für " + gu + " Punkte bestimmt Nr. 4.3 keine Bewährungszeit. Die Tabelle endet bei „06 Punkte“.",
+    example: { m: 3, y: 2023, gu: 14, status: true }
+  },
+  {
+    id: "a9z",
+    group: "qe2",
+    kicker: "Nr. 4.4",
+    title: "Beförderung zum Amt der Besoldungsgruppe A 9 mit Amtszulage",
+    card: "Bewährungszeit nach dem Gesamturteil und zusätzlich die veröffentlichte Beförderungsauswahl.",
+    kind: "a9z",
+    mark: true
+  },
+  {
+    id: "qe2-a10",
+    group: "qe2",
+    kicker: "Nr. 4.5.5",
+    title: "Beförderung zum Amt der Besoldungsgruppe A 10",
+    card: "Bewährungszeit nach der letzten dienstlichen Beurteilung im Statusamt A 9 mit Amtszulage. Mindestens neun Punkte.",
+    lede: "Für den Einstieg in der zweiten Qualifikationsebene ohne erfolgreiche Ausbildungsqualifizierung. Die Bewährungszeit läuft seit der Übertragung des Amtes A 9 mit Amtszulage.",
+    kind: "points",
+    bands: [16, 15, 14, 13, 12, 11, 10, 9].map((p, i) => ({
+      min: p, max: p, months: [36, 39, 42, 45, 48, 54, 60, 72][i], label: String(p).padStart(2, "0") + " Punkte"
+    })),
+    startLegend: "Beginn der Bewährungszeit",
+    startLabel: "Übertragung des Amtes der Besoldungsgruppe A 9 mit Amtszulage",
+    startHint: "Nr. 4.5.5 lässt die Bewährungszeit seit der Übertragung eines Amtes der Besoldungsgruppe A 9 mit Amtszulage laufen.",
+    startShort: "Übertragung A 9 mit Amtszulage",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 9 mit Amtszulage erstellt worden.",
+    statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 9 mit Amtszulage erstellt wurde",
+    scopeLabel: SCOPE_QE2,
+    scopeMissing: "Bestätigung zum Einstieg in der zweiten Qualifikationsebene ohne Ausbildungsqualifizierung",
+    guHint: "Mindestens „neun Punkte“ (Nr. 4.5.5). Maßgeblich ist die letzte dienstliche Beurteilung im Statusamt A 9 mit Amtszulage.",
+    notes: [
+      "Nach Nr. 5 haben bei Beförderungen nach A 10 diejenigen Vorrang, die in der dritten Qualifikationsebene eingestiegen sind oder die Qualifikation durch Ausbildungsqualifizierung oder modulare Qualifizierung erworben haben."
+    ],
+    method: "Nr. 4.5.5: seit der Übertragung eines Amtes der Besoldungsgruppe A 9 mit Amtszulage, abgestuft nach dem Ergebnis der letzten dienstlichen Beurteilung. Mindestens „neun Punkte“.",
+    col: "Gesamturteil",
+    bandMessage: (gu) => "Nr. 4.5.5 verlangt mindestens „neun Punkte“. Eingetragen sind " + gu + " Punkte. Darunter ist keine Bewährungszeit bestimmt.",
+    example: { m: 10, y: 2023, gu: 12, status: true, scope: true }
+  },
+  {
+    id: "qe2-a11",
+    group: "qe2",
+    kicker: "Nr. 4.6.3",
+    title: "Beförderung zum Amt der Besoldungsgruppe A 11",
+    card: "Bewährungszeit nach der letzten dienstlichen Beurteilung, seit der letzten Beförderung.",
+    lede: "Für den Einstieg in der zweiten Qualifikationsebene ohne erfolgreiche Ausbildungsqualifizierung. Die letzte dienstliche Beurteilung muss im aktuellen Statusamt liegen, vor dieser Beförderung im Statusamt A 10.",
+    kind: "points",
+    bands: [
+      { min: 12, max: 16, months: 60, label: "16 bis 12 Punkte" },
+      { min: 9, max: 11, months: 66, label: "11 bis 09 Punkte" },
+      { min: 6, max: 8, months: 72, label: "08 bis 06 Punkte" }
+    ],
+    startLegend: "Letzte Beförderung",
+    startLabel: "Letzte Beförderung",
+    startHint: "Die Bewährungszeit nach Nr. 4.6.3 läuft seit der letzten Beförderung. Das ist in diesem Werdegang die Übertragung des Amtes A 10.",
+    startShort: "letzte Beförderung",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
+    statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
+    scopeLabel: SCOPE_QE2,
+    scopeMissing: "Bestätigung zum Einstieg in der zweiten Qualifikationsebene ohne Ausbildungsqualifizierung",
+    guHint: "Gesamturteil der letzten dienstlichen Beurteilung im aktuellen Statusamt (Nr. 2.1).",
+    notes: [
+      "Nach Nr. 5 haben bei Beförderungen nach A 11 diejenigen Vorrang, die in der dritten Qualifikationsebene eingestiegen sind oder die Qualifikation durch Ausbildungsqualifizierung oder modulare Qualifizierung erworben haben."
+    ],
+    method: "Nr. 4.6.3: seit der letzten Beförderung, abgestuft nach dem Ergebnis der letzten dienstlichen Beurteilung.",
+    col: "Gesamturteil",
+    bandMessage: (gu) => "Für " + gu + " Punkte bestimmt Nr. 4.6.3 keine Bewährungszeit. Die Tabelle endet bei „08 bis 06 Punkte“.",
+    example: { m: 1, y: 2022, gu: 11, status: true, scope: true }
+  },
+  {
+    id: "qe3-a10",
+    group: "qe3",
+    kicker: "Nr. 4.5.1",
+    title: "Beförderung zum Amt der Besoldungsgruppe A 10",
+    card: "Mindestens 36 Monate seit dem allgemeinen Dienstzeitbeginn und mindestens drei Punkte.",
+    lede: "Für den Einstieg in der dritten Qualifikationsebene in der Fachlaufbahn Polizei und Verfassungsschutz.",
+    kind: "flat",
+    flatMonths: 36,
+    flatLabel: "mindestens 36 Monate, unabhängig vom Fünftel und vom weiteren Gesamturteil",
+    minPoints: 3,
+    startLegend: "Allgemeiner Dienstzeitbeginn",
+    startLabel: "Allgemeiner Dienstzeitbeginn",
+    startHint: "Die Bewährungszeit nach Nr. 4.5.1 beträgt mindestens 36 Monate seit dem allgemeinen Dienstzeitbeginn.",
+    startShort: "allgemeiner Dienstzeitbeginn",
+    guHint: "Mindestens „drei Punkte“ (Nr. 4.5.1). Darüber bleibt die Bewährungszeit 36 Monate. Maßgeblich ist die letzte dienstliche Beurteilung im aktuellen Statusamt (Nr. 2.1).",
+    notes: [
+      "Nr. 4.5.1 stuft die Bewährungszeit nicht nach einem Fünftel der Qualifikationsprüfung ab. Für den Einstieg in der dritten Qualifikationsebene genügen mindestens „drei Punkte“ und mindestens 36 Monate seit dem allgemeinen Dienstzeitbeginn.",
+      "Ein Fünftel gilt nach Nr. 4.5.2 nur für die Ausbildungsqualifizierung für Ämter ab der dritten Qualifikationsebene. Diesen Weg rechnet das Tool derzeit nicht."
+    ],
+    method: "Nr. 4.5.1: Einstieg in der dritten Qualifikationsebene, letzte dienstliche Beurteilung mindestens „drei Punkte“, Bewährungszeit von mindestens 36 Monaten seit dem allgemeinen Dienstzeitbeginn.",
+    col: "Voraussetzung",
+    rows: [{ key: "flat", label: "mindestens drei Punkte, ohne Abstufung nach Fünfteln", months: 36 }],
+    minMessage: (gu) => "Nr. 4.5.1 verlangt in der letzten dienstlichen Beurteilung mindestens „drei Punkte“. Eingetragen sind " + gu + " Punkte.",
+    example: { m: 9, y: 2024, gu: 10 }
+  },
+  {
+    id: "qe3-a11",
+    group: "qe3",
+    kicker: "Nr. 4.6.1",
+    title: "Beförderung zum Amt der Besoldungsgruppe A 11",
+    card: "Bewährungszeit nach der letzten dienstlichen Beurteilung im Statusamt A 10, auf einem Dienstposten A 9/11, A 11/00 oder höher.",
+    lede: "Für Beamtinnen und Beamte, die im Eingangsamt A 9 oder niedriger eingestellt wurden. Beim Einstieg in der dritten Qualifikationsebene ist das der Weg nach dem Amt A 10.",
+    kind: "points",
+    bands: [
+      { min: 12, max: 16, months: 36, label: "16 bis 12 Punkte" },
+      { min: 9, max: 11, months: 39, label: "11 bis 09 Punkte" },
+      { min: 6, max: 8, months: 45, label: "08 bis 06 Punkte" },
+      { min: 3, max: 5, months: 66, label: "05 bis 03 Punkte" }
+    ],
+    startLegend: "Letzte Beförderung",
+    startLabel: "Letzte Beförderung",
+    startHint: "Die Bewährungszeit nach Nr. 4.6.1 läuft seit der letzten Beförderung. Das ist hier die Übertragung des Amtes A 10.",
+    startShort: "letzte Beförderung",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
+    statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
+    postenLabel: "Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A 9/11, A 11/00 oder höher.",
+    postenMissing: "Bestätigung zum Dienstposten A 9/11, A 11/00 oder höher",
+    guHint: "Gesamturteil der letzten dienstlichen Beurteilung im Statusamt A 10 (Nr. 2.1, Nr. 4.6.1).",
+    notes: [
+      "Nr. 4.6.2 betrifft den Einstieg im Eingangsamt A 10 und rechnet seit dem allgemeinen Dienstzeitbeginn. Diesen Fall bildet dieser Rechner nicht ab."
+    ],
+    method: "Nr. 4.6.1: Eingangsamt A 9 oder niedriger, Dienstposten der Bewertung A 9/11, A 11/00 oder höher, Bewährungszeit seit der letzten Beförderung nach dem Gesamturteil.",
+    col: "Gesamturteil",
+    bandMessage: (gu) => "Für " + gu + " Punkte bestimmt Nr. 4.6.1 keine Bewährungszeit. Die Tabelle beginnt bei „05 bis 03 Punkte“.",
+    example: { m: 10, y: 2023, gu: 12, status: true, posten: true }
+  }
+];
+
+const GROUPS = [
+  {
+    id: "qe2",
+    title: "Zweite Qualifikationsebene",
+    lead: "Die Ämter bauen aufeinander auf. Nur beim Amt A 9 mit Amtszulage rechnet das Tool zusätzlich die Beförderungsauswahl."
+  },
+  {
+    id: "qe3",
+    title: "Dritte Qualifikationsebene",
+    lead: "Für den Einstieg in der dritten Qualifikationsebene genügt die Bewährungszeit. Eine monatliche Beförderungsauswahl wie bei A 9 mit Amtszulage ist hier nicht hinterlegt."
+  }
+];
+
+function addMonths(y, m, n) {
+  const zero = y * 12 + (m - 1) + n;
+  return { y: Math.floor(zero / 12), m: (zero % 12) + 1 };
+}
+function diffMonths(from, to) {
+  return (to.y * 12 + (to.m - 1)) - (from.y * 12 + (from.m - 1));
+}
+function cmpMonth(a, b) {
+  return diffMonths(b, a);
+}
+function formatDE(dt) {
+  return "01." + String(dt.m).padStart(2, "0") + "." + dt.y;
+}
+function formatLong(dt) {
+  return "1. " + MONATE[dt.m - 1] + " " + dt.y;
+}
+function formatZahl(n) {
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+function formatDauer(months) {
+  if (months < 0) return "0 Monate";
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  const ys = y === 1 ? "1 Jahr" : y + " Jahre";
+  const ms = m === 1 ? "1 Monat" : m + " Monate";
+  if (y && m) return ys + " und " + ms + " (" + months + " Monate)";
+  if (y) return ys + " (" + months + " Monate)";
+  return ms;
+}
+function relation(dt, today) {
+  const diff = diffMonths({ y: today.getFullYear(), m: today.getMonth() + 1 }, dt);
+  if (diff > 0) return "future";
+  if (diff === 0 && today.getDate() === 1) return "today";
+  return "past";
+}
+function waitOf(path, gu, fuenftelId) {
+  if (path.minPoints && gu < path.minPoints) return { ok: false, reason: "min" };
+  if (path.kind === "flat") return { ok: true, months: path.flatMonths, label: path.flatLabel, key: "flat" };
+  if (path.kind === "fuenftel") {
+    const row = FUENFTEL.find((f) => f.id === fuenftelId);
+    if (!row) return { ok: false, reason: "fuenftel" };
+    return { ok: true, months: row.months, label: row.label, key: row.id };
+  }
+  const row = (path.bands || []).find((b) => gu >= b.min && gu <= b.max);
+  if (!row) return { ok: false, reason: "band" };
+  return { ok: true, months: row.months, label: row.label, key: row.label };
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+}
+
+function buildSelection() {
+  $("groups").innerHTML = GROUPS.map((group) => {
+    const cards = PATHS.filter((p) => p.group === group.id).map((p) =>
+      "<button type='button' class='pick" + (p.mark ? " mark" : "") + "' data-open='" + p.id + "'>" +
+      "<span class='pick-kicker'>" + esc(p.kicker) + "</span>" +
+      "<span class='pick-title'>" + esc(p.title) + "</span>" +
+      "<span class='pick-text'>" + esc(p.card) + "</span></button>"
+    ).join("");
+    return "<h2 class='group'>" + esc(group.title) + "</h2><p class='group-lead'>" + esc(group.lead) + "</p><div class='picks'>" + cards + "</div>";
+  }).join("");
+  $("groups").addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-open]");
+    if (!btn) return;
+    location.hash = btn.getAttribute("data-open");
+  });
+}
+
+let currentPath = null;
+
+function applyPath(path) {
+  currentPath = path;
+  $("s-kicker").textContent = path.group === "qe2" ? "Zweite Qualifikationsebene · " + path.kicker : "Dritte Qualifikationsebene · " + path.kicker;
+  $("s-title").textContent = path.title;
+  $("s-lede").textContent = path.lede;
+  $("s-start-legend").textContent = path.startLegend;
+  $("s-start-label").textContent = path.startLabel;
+  $("s-start-hint").textContent = path.startHint;
+  $("s-gu-hint").textContent = path.guHint;
+  $("s-method").textContent = path.method;
+  $("s-col-a").textContent = path.col;
+  $("s-fuenftel-box").hidden = path.kind !== "fuenftel";
+  $("s-grid").className = path.kind === "fuenftel" ? "grid-2" : "";
+  $("s-status-row").hidden = !path.statusLabel;
+  if (path.statusLabel) $("s-status-label").textContent = path.statusLabel;
+  $("s-scope-box").hidden = !path.scopeLabel;
+  if (path.scopeLabel) $("s-scope-label").textContent = path.scopeLabel;
+  $("s-posten-box").hidden = !path.postenLabel;
+  if (path.postenLabel) $("s-posten-label").textContent = path.postenLabel;
+  const notes = $("s-notes");
+  notes.innerHTML = (path.notes || []).map((t) => "<p>" + esc(t) + "</p>").join("");
+  notes.hidden = !(path.notes || []).length;
+  $("simple-form").reset();
+  $("s-status").checked = false;
+  $("s-scope").checked = false;
+  $("s-posten").checked = false;
+  renderSimpleTable(null);
+  renderSimple();
+}
+
+function tableRows(path) {
+  if (path.kind === "fuenftel") return FUENFTEL.map((f) => ({ key: f.id, label: f.label, months: f.months }));
+  if (path.kind === "flat") return path.rows;
+  return path.bands.map((b) => ({ key: b.label, label: b.label, months: b.months }));
+}
+
+function renderSimpleTable(activeKey) {
+  if (!currentPath) return;
+  $("s-table").innerHTML = tableRows(currentPath).map((row) =>
+    "<tr" + (row.key === activeKey ? " class='is-you'" : "") + "><td>" + esc(row.label) + "</td><td>" + row.months + " Monate</td></tr>"
+  ).join("");
+}
+
+function readSimple() {
+  const path = currentPath;
+  const monat = Number($("s-monat").value);
+  const jahr = Number($("s-jahr").value);
+  const start = monat && jahr ? { y: jahr, m: monat } : null;
+  const gu = Number($("s-gu").value);
+  const fuenftel = $("s-fuenftel").value;
+  const missing = [];
+  if (!start) missing.push(path.startLabel);
+  if (path.kind === "fuenftel" && !fuenftel) missing.push("Fünftel der Qualifikationsprüfung");
+  if (!gu) missing.push("Gesamturteil der letzten dienstlichen Beurteilung");
+  if (path.statusLabel && !$("s-status").checked) missing.push(path.statusMissing);
+  if (path.scopeLabel && !$("s-scope").checked) missing.push(path.scopeMissing);
+  if (path.postenLabel && !$("s-posten").checked) missing.push(path.postenMissing);
+  return { missing, start, gu, fuenftel };
+}
+
+function renderSimple() {
+  const box = $("s-ergebnis");
+  if (!currentPath) return;
+  const input = readSimple();
+  const preview = input.gu ? waitOf(currentPath, input.gu, input.fuenftel) : null;
+  renderSimpleTable(preview && preview.ok ? preview.key : null);
+  if (input.missing.length) {
+    box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
+    return;
+  }
+  const wait = waitOf(currentPath, input.gu, input.fuenftel);
+  if (!wait.ok) {
+    const text = wait.reason === "min" ? currentPath.minMessage(input.gu) : currentPath.bandMessage(input.gu);
+    box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='when'>Nach dieser Nummer nicht vorgesehen</p><p>" + esc(text) + "</p>" +
+      factWrap(factHtml("Gesamturteil", false, esc(text), "open"));
+    return;
+  }
+  const when = addMonths(input.start.y, input.start.m, wait.months);
+  const rel = relation(when, new Date());
+  const lede = rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit";
+  const factClass = rel === "future" ? "wait" : "met";
+  const factBadge = rel === "future" ? "Noch nicht" : "Erfüllt";
+  const kern = wait.months + " Monate (" + wait.label + ", " + currentPath.kicker + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
+    (rel === "future"
+      ? "Frühester Monatserste ist der " + formatLong(when) + "."
+      : "Erreicht am " + formatLong(when) + ".");
+  box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
+    esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1)) + ": " + esc(formatLong(input.start)) + ". Gesamturteil: " + input.gu + " Punkte.</p>" +
+    factWrap(
+      factHtml("Bewährungszeit", factClass !== "open", esc(kern), factClass) +
+      factHtml("Gesamturteil", true, esc(wait.label + ". " + currentPath.kicker + "."), "met")
+    ) +
+    "<p class='hint'>Ob eine freie und besetzbare Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht (Nr. 2.1).</p>";
+}
+
+function factWrap(inner) {
+  return "<div class='facts'>" + inner + "</div>";
+}
+function factHtml(title, met, text, cls) {
+  const badge = cls === "wait" ? "Noch nicht" : cls === "met" ? "Erfüllt" : "Nicht erfüllt";
+  return "<div class='fact " + cls + "'><span class='badge'>" + badge + "</span><b>" + title + "</b>" + text + "</div>";
+}
+
+function fillMonthYear(monthId, yearId, months) {
+  const month = $(monthId);
+  month.innerHTML = "<option value=''>Monat</option>" + months.map((m) =>
+    "<option value='" + m + "'>" + MONATE[m - 1] + "</option>"
+  ).join("");
+  const year = $(yearId);
+  year.innerHTML = "<option value=''>Jahr</option>";
+  const diesesJahr = new Date().getFullYear();
+  for (let y = diesesJahr; y >= 1970; y--) {
+    const opt = document.createElement("option");
+    opt.value = String(y);
+    opt.textContent = String(y);
+    year.appendChild(opt);
+  }
+}
+
+function fromHash() {
+  const id = (location.hash || "").slice(1);
+  if (id === "a9z" || PATHS.some((p) => p.id === id && p.kind !== "a9z")) return id;
+  if (id === "auswahl" || id === "") return "auswahl";
+  return "auswahl";
+}
+
+function show(id, scroll) {
+  $("view-auswahl").hidden = id !== "auswahl";
+  $("view-a9z").hidden = id !== "a9z";
+  const simple = PATHS.find((p) => p.id === id && p.kind !== "a9z");
+  $("view-simple").hidden = !simple;
+  if (simple) applyPath(simple);
+  if (id === "a9z" && typeof render === "function") render();
+  const path = PATHS.find((p) => p.id === id);
+  document.title = path ? "Beförderungsrechner – " + path.title.replace("Beförderung zum ", "") : "Beförderungsrechner";
+  if (scroll) window.scrollTo(0, 0);
+}
+
+/* ——— Amt A 9 mit Amtszulage: Bewährungszeit und Beförderungsauswahl ——— */
+
+const WARTEZEIT = { 16: 36, 15: 39, 14: 42, 13: 45, 12: 48, 11: 54, 10: 60, 9: 72 };
+
+/** Stichtage September 2023 bis November 2026 aus der Tabelle Beförderungsauswahl. */
 const RAW = [
   ["2023-09-01", 10, 50, 10, 2017, ["a9", 98], 1187, 73],
   ["2023-10-01", 14, 70, 11, 2020, ["a9", 53], 1640, 94],
@@ -442,7 +1109,8 @@ const RAW = [
   ["2026-07-01", 10, 52, 13, 2020, ["a9", 101], 1484, 47],
   ["2026-08-01", 10, 52, 10, 2020, ["a9", 127], 1476, 27],
   ["2026-09-01", 11, 53, 9, 2020, ["none"], 1516, 41],
-  ["2026-10-01", 13, 66, 10, 2023, ["or", 104, 188], 1977, 35]
+  ["2026-10-01", 13, 66, 10, 2023, ["or", 104, 188], 1977, 35],
+  ["2026-11-01", 12, 62, 10, 2023, ["a9", 87], 1966, 116]
 ];
 
 const CUTOFFS = RAW.map(([date, gu, einzel, rw, rwYear, sonst, faehig, befoerdert]) => {
@@ -458,94 +1126,39 @@ function beurteilungYear(y, m) {
   }
   return best;
 }
-
 function offset(y, m) {
   const c = beurteilungYear(y, m);
   return (y - c) * 12 + (m - 10);
 }
-
-function addMonths(y, m, n) {
-  const zero = y * 12 + (m - 1) + n;
-  return { y: Math.floor(zero / 12), m: (zero % 12) + 1 };
-}
-
-function diffMonths(from, to) {
-  return (to.y * 12 + (to.m - 1)) - (from.y * 12 + (from.m - 1));
-}
-
-function cmpMonth(a, b) {
-  return diffMonths(b, a);
-}
-
 function warteMonate(gu) {
   if (WARTEZEIT[gu]) return WARTEZEIT[gu];
   if (gu >= 5 && gu <= 8) return 84;
   return null;
 }
-
-function formatDE(dt) {
-  return "01." + String(dt.m).padStart(2, "0") + "." + dt.y;
-}
-
-function formatLong(dt) {
-  return "1. " + MONATE[dt.m - 1] + " " + dt.y;
-}
-
-function formatZahl(n) {
-  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-function formatDauer(months) {
-  if (months < 0) return "0 Monate";
-  const y = Math.floor(months / 12);
-  const m = months % 12;
-  const ys = y === 1 ? "1 Jahr" : y + " Jahre";
-  const ms = m === 1 ? "1 Monat" : m + " Monate";
-  if (y && m) return ys + " und " + ms + " (" + months + " Monate)";
-  if (y) return ys + " (" + months + " Monate)";
-  return ms;
-}
-
 function sonstigeText(rule) {
   if (rule.t === "none") return "Keine weiteren Einschränkungen";
   if (rule.t === "a9") return "Schwerbehindert oder mindestens " + rule.a9 + " Monate im Amt A 9";
   if (rule.t === "or") return "Schwerbehindert oder mindestens " + rule.a9 + " Monate im Amt A 9 oder mindestens " + rule.allg + " Monate allgemeine Dienstzeit";
   return "Schwerbehindert oder mindestens " + rule.a9 + " Monate im Amt A 9 und mindestens " + rule.allg + " Monate allgemeine Dienstzeit";
 }
-
 function evalSonstige(person, rule) {
-  if (rule.t === "none") {
-    return { ok: true, text: "An diesem Stichtag gibt es keine weitere Einschränkung." };
-  }
+  if (rule.t === "none") return { ok: true, text: "An diesem Stichtag gibt es keine weitere Einschränkung." };
   const a9ok = person.a9Months >= rule.a9;
   const allgok = person.allgMonths >= rule.allg;
   const haben = "Vorhanden sind " + person.a9Months + " Monate im Amt A 9 und " + person.allgMonths + " Monate allgemeine Dienstzeit.";
-  if (rule.t === "a9") {
-    return { ok: a9ok, text: "Nötig sind mindestens " + rule.a9 + " Monate im Amt A 9. " + haben };
-  }
-  if (rule.t === "or") {
-    return { ok: a9ok || allgok, text: "Es genügt eine der beiden Dienstzeiten: mindestens " + rule.a9 + " Monate im Amt A 9 oder mindestens " + rule.allg + " Monate allgemeine Dienstzeit. " + haben };
-  }
+  if (rule.t === "a9") return { ok: a9ok, text: "Nötig sind mindestens " + rule.a9 + " Monate im Amt A 9. " + haben };
+  if (rule.t === "or") return { ok: a9ok || allgok, text: "Es genügt eine der beiden Dienstzeiten: mindestens " + rule.a9 + " Monate im Amt A 9 oder mindestens " + rule.allg + " Monate allgemeine Dienstzeit. " + haben };
   return { ok: a9ok && allgok, text: "Nötig sind mindestens " + rule.a9 + " Monate im Amt A 9 und mindestens " + rule.allg + " Monate allgemeine Dienstzeit. " + haben };
 }
-
 function explain(person, cut) {
   const steps = [];
   const done = (ok) => ({ ok, steps });
   if (!person.inA9) {
-    steps.push({
-      title: "Beurteilung im Statusamt A 9",
-      state: "below",
-      text: "Die Beförderungswahl verwendet die letzte Beurteilung nur, wenn sie im Statusamt A 9 erstellt wurde."
-    });
+    steps.push({ title: "Beurteilung im Statusamt A 9", state: "below", text: "Die Beförderungswahl verwendet die letzte Beurteilung nur, wenn sie im Statusamt A 9 erstellt wurde." });
     return done(false);
   }
   const guState = person.gu > cut.gu ? "above" : person.gu < cut.gu ? "below" : "equal";
-  steps.push({
-    title: "Gesamturteil der letzten Beurteilung",
-    state: guState,
-    text: "Vorhanden: " + person.gu + " Punkte. Grenze an diesem Stichtag: " + cut.gu + " Punkte."
-  });
+  steps.push({ title: "Gesamturteil der letzten Beurteilung", state: guState, text: "Vorhanden: " + person.gu + " Punkte. Grenze an diesem Stichtag: " + cut.gu + " Punkte." });
   if (guState === "above") {
     steps.push({ title: "Weitere Kriterien", state: "skipped", text: "Nicht geprüft. Sie gelten nur bei exakt " + cut.gu + " Punkten Gesamturteil." });
     return done(true);
@@ -555,11 +1168,7 @@ function explain(person, cut) {
     return done(false);
   }
   const ezState = person.einzel > cut.einzel ? "above" : person.einzel < cut.einzel ? "below" : "equal";
-  steps.push({
-    title: "Summe der fünf doppelt gewichteten Einzelmerkmale",
-    state: ezState,
-    text: "Vorhanden: " + person.einzel + " Punkte. Grenze: " + cut.einzel + " Punkte."
-  });
+  steps.push({ title: "Summe der fünf doppelt gewichteten Einzelmerkmale", state: ezState, text: "Vorhanden: " + person.einzel + " Punkte. Grenze: " + cut.einzel + " Punkte." });
   if (ezState === "above") {
     steps.push({ title: "Weitere Kriterien", state: "skipped", text: "Nicht geprüft, weil die Summe über " + cut.einzel + " Punkten liegt." });
     return done(true);
@@ -569,11 +1178,7 @@ function explain(person, cut) {
     return done(false);
   }
   const rwState = person.rw > cut.rw ? "above" : person.rw < cut.rw ? "below" : "equal";
-  steps.push({
-    title: "Gesamturteil der vorletzten Beurteilung",
-    state: rwState,
-    text: "Vorhanden: " + person.rw + " Punkte. Grenze: " + cut.rw + " Punkte."
-  });
+  steps.push({ title: "Gesamturteil der vorletzten Beurteilung", state: rwState, text: "Vorhanden: " + person.rw + " Punkte. Grenze: " + cut.rw + " Punkte." });
   if (rwState === "above") {
     steps.push({ title: "Sonstige Voraussetzung", state: "skipped", text: "Nicht geprüft, weil das Gesamturteil der vorletzten Beurteilung über " + cut.rw + " Punkten liegt." });
     return done(true);
@@ -587,14 +1192,9 @@ function explain(person, cut) {
     return done(true);
   }
   const sonst = evalSonstige(person, cut.rule);
-  steps.push({
-    title: "Sonstige Voraussetzung",
-    state: sonst.ok ? "above" : "below",
-    text: sonst.text + " Schwerbehinderung nach § 2 Abs. 2 SGB IX liegt nicht vor."
-  });
+  steps.push({ title: "Sonstige Voraussetzung", state: sonst.ok ? "above" : "below", text: sonst.text + " Schwerbehinderung nach § 2 Abs. 2 SGB IX liegt nicht vor." });
   return done(sonst.ok);
 }
-
 function referenceFor(y, m) {
   const off = offset(y, m);
   const key = y * 12 + m;
@@ -606,7 +1206,9 @@ function referenceFor(y, m) {
   }
   return best;
 }
-
+function publishedFor(y, m) {
+  return CUTOFFS.find((row) => row.y === y && row.m === m) || null;
+}
 function scoresAt(input, y, m) {
   const letzteYear = beurteilungYear(y, m);
   const vorletzteYear = letzteYear - 3;
@@ -639,16 +1241,13 @@ function scoresAt(input, y, m) {
   }
   const at = { y, m };
   return {
-    y, m, letzteYear, vorletzteYear,
-    gu, einzel, rw,
-    assumed, rwAssumed, inA9,
+    y, m, letzteYear, vorletzteYear, gu, einzel, rw, assumed, rwAssumed, inA9,
     known: gu !== null && rw !== null,
     disabled: input.disabled,
     a9Months: diffMonths(input.a9, at),
     allgMonths: diffMonths(input.einstieg, at)
   };
 }
-
 function wartezeitErfuellt(input, y, m) {
   const profile = scoresAt(input, y, m);
   if (profile.gu === null) return { ok: false, profile, need: null };
@@ -656,7 +1255,6 @@ function wartezeitErfuellt(input, y, m) {
   if (need === null) return { ok: false, profile, need: null };
   return { ok: profile.a9Months >= need, profile, need };
 }
-
 function nextMonth(today) {
   let y = today.getFullYear();
   let m = today.getMonth() + 1;
@@ -666,14 +1264,12 @@ function nextMonth(today) {
   }
   return { y, m };
 }
-
 function firstWarte(input) {
   const need = warteMonate(input.gu);
   if (need === null) return null;
   const dt = addMonths(input.a9.y, input.a9.m, need);
   return { ...dt, need, gu: input.gu, assumed: false };
 }
-
 function findPrognose(input, today) {
   const start = nextMonth(today);
   const horizonEnd = addMonths(start.y, start.m, 15 * 12);
@@ -684,7 +1280,8 @@ function findPrognose(input, today) {
   for (let i = 0; i <= 15 * 12; i++) {
     const dt = addMonths(start.y, start.m, i);
     const warte = wartezeitErfuellt(input, dt.y, dt.m);
-    const ref = referenceFor(dt.y, dt.m);
+    const published = publishedFor(dt.y, dt.m);
+    const ref = published || referenceFor(dt.y, dt.m);
     let analogOk = false;
     let detail = null;
     if (warte.ok && warte.profile.known && ref) {
@@ -697,14 +1294,10 @@ function findPrognose(input, today) {
         if (explain(warte.profile, row).ok) anyRef = row;
       }
     }
-    if (!analog && analogOk) analog = { ...dt, ref, detail, profile: warte.profile };
+    if (!analog && analogOk) analog = { ...dt, ref, detail, profile: warte.profile, published: !!published };
     if (!optimistic && anyRef) optimistic = { ...dt, ref: anyRef, profile: warte.profile };
-    if (timeline.length < 36) {
-      timeline.push({ ...dt, warteOk: warte.ok, known: warte.profile.known, analogOk, isPick: false });
-    }
-    if (!input.carry && warte.profile.gu === null && !cycleEndWithoutCarry) {
-      cycleEndWithoutCarry = dt;
-    }
+    if (timeline.length < 36) timeline.push({ ...dt, warteOk: warte.ok, known: warte.profile.known, analogOk, isPick: false });
+    if (!input.carry && warte.profile.gu === null && !cycleEndWithoutCarry) cycleEndWithoutCarry = dt;
     if (cmpMonth(dt, horizonEnd) >= 0) break;
   }
   if (analog) {
@@ -714,19 +1307,18 @@ function findPrognose(input, today) {
   }
   return { analog, optimistic, timeline, cycleEndWithoutCarry };
 }
-
 function readInput() {
-  const einstiegsMonat = Number(document.getElementById("einstieg-monat").value);
-  const einstiegsJahr = Number(document.getElementById("einstieg-jahr").value);
+  const einstiegsMonat = Number($("einstieg-monat").value);
+  const einstiegsJahr = Number($("einstieg-jahr").value);
   const einstieg = einstiegsMonat && einstiegsJahr ? { y: einstiegsJahr, m: einstiegsMonat } : null;
-  const a9Monat = Number(document.getElementById("a9-monat").value);
-  const a9Jahr = Number(document.getElementById("a9-jahr").value);
+  const a9Monat = Number($("a9-monat").value);
+  const a9Jahr = Number($("a9-jahr").value);
   const a9 = a9Monat && a9Jahr ? { y: a9Jahr, m: a9Monat } : null;
   const sb = document.querySelector("input[name=sb]:checked");
   const letzteYear = 2026;
-  const gu = Number(document.getElementById("gu").value);
-  const rw = Number(document.getElementById("rw").value);
-  const einzelRoh = document.getElementById("einzel").value;
+  const gu = Number($("gu").value);
+  const rw = Number($("rw").value);
+  const einzelRoh = $("einzel").value;
   const einzel = Number(einzelRoh);
   const missing = [];
   if (!einstieg) missing.push("allgemeiner Dienstzeitbeginn");
@@ -736,48 +1328,40 @@ function readInput() {
   if (einzelRoh === "" || !Number.isInteger(einzel) || einzel < 5 || einzel > 80) missing.push("Summe der Einzelmerkmale (5 bis 80)");
   if (!rw) missing.push("Gesamturteil der Beurteilung 2023");
   return {
-    missing,
-    einstieg, a9,
+    missing, einstieg, a9,
     disabled: sb ? sb.value === "ja" : false,
     letzteYear, gu, rw,
     einzel: Number.isInteger(einzel) ? einzel : 0,
-    inA9: document.getElementById("in-a9").checked,
-    carry: document.getElementById("fortschreiben").checked
+    inA9: $("in-a9").checked,
+    carry: $("fortschreiben").checked
   };
 }
-
 function stepHtml(steps) {
   return "<ul class='steps'>" + steps.map((step) =>
     "<li><span class='dot " + step.state + "'></span><div><b>" + step.title + "</b><div>" + step.text + "</div></div></li>"
   ).join("") + "</ul>";
 }
-
 function render() {
   const input = readInput();
-  const zeitWarn = document.getElementById("zeit-warn");
-  const a9Hint = document.getElementById("a9-hint");
+  const zeitWarn = $("zeit-warn");
+  const a9Hint = $("a9-hint");
   if (input.einstieg && input.a9 && diffMonths(input.einstieg, input.a9) < 0) {
     zeitWarn.hidden = false;
     zeitWarn.textContent = "Das Amt A 9 liegt vor dem allgemeinen Dienstzeitbeginn. Bitte die Monate prüfen.";
-  } else {
-    zeitWarn.hidden = true;
-  }
+  } else zeitWarn.hidden = true;
   if (input.a9 && input.letzteYear && diffMonths(input.a9, { y: input.letzteYear, m: 10 }) < 0) {
     a9Hint.hidden = false;
     a9Hint.textContent = "Der Beginn in A 9 liegt nach dem Oktober " + input.letzteYear + ". Diese Beurteilung ist dann voraussichtlich nicht im Statusamt A 9 entstanden.";
-  } else {
-    a9Hint.hidden = true;
-  }
+  } else a9Hint.hidden = true;
 
-  const box = document.getElementById("ergebnis");
-  const historie = document.getElementById("historie");
+  const box = $("ergebnis");
+  const historie = $("historie");
   if (input.missing.length) {
     box.innerHTML = "<h2>Prognose</h2><p class='lede'>Noch offen: " + input.missing.join(", ") + ".</p>";
     historie.innerHTML = "";
     drawChart(null);
     return;
   }
-
   const today = new Date();
   const warte = firstWarte(input);
   const forecast = findPrognose(input, today);
@@ -785,7 +1369,6 @@ function render() {
   const todayProfile = scoresAt(input, todayDt.y, todayDt.m);
   const last = CUTOFFS[CUTOFFS.length - 1];
   const lastCheck = todayProfile.known ? explain(todayProfile, last) : null;
-
   let hits = 0;
   historie.innerHTML = CUTOFFS.map((row) => {
     const check = todayProfile.known ? explain(todayProfile, row) : { ok: false };
@@ -795,66 +1378,60 @@ function render() {
       "</td><td>" + (check.ok ? "erfüllt" : "nicht erfüllt") + "</td></tr>";
   }).join("");
   drawChart(input.gu);
-
   const parts = [];
   parts.push("<h2>Prognose</h2>");
   if (!warte) {
     parts.push("<p class='when'>Keine Wartezeit ableitbar</p>");
     parts.push("<p>Für das Gesamturteil " + input.gu + " ist in der Wartezeittabelle kein Wert hinterlegt. Die Tabelle reicht von 16 bis 5 Punkte.</p>");
   } else if (forecast.analog) {
-    parts.push("<p class='lede'>Voraussichtlicher Termin nach dem Muster des vorherigen Beurteilungszyklus</p>");
-    parts.push("<p class='when'>" + formatLong(forecast.analog) + "</p>");
-    parts.push("<p>Vergleichsmonat ist der <b>" + formatDE(forecast.analog.ref) + "</b>. Damals wurden " + formatZahl(forecast.analog.ref.befoerdert) + " von " + formatZahl(forecast.analog.ref.faehig) + " beförderungsfähigen Personen befördert. " + begruendung(input, warte, forecast, todayProfile, hits) + "</p>");
+    if (forecast.analog.published) {
+      parts.push("<p class='lede'>Voraussichtlicher Termin nach der veröffentlichten Beförderungsauswahl</p>");
+      parts.push("<p class='when'>" + formatLong(forecast.analog) + "</p>");
+      parts.push("<p>Für den <b>" + formatDE(forecast.analog) + "</b> liegt eine veröffentlichte Auswahl vor. Befördert wurden " + formatZahl(forecast.analog.ref.befoerdert) + " von " + formatZahl(forecast.analog.ref.faehig) + " beförderungsfähigen Personen. " + begruendung(input, warte, forecast, todayProfile, hits) + "</p>");
+    } else {
+      parts.push("<p class='lede'>Voraussichtlicher Termin nach dem Muster des vorherigen Beurteilungszyklus</p>");
+      parts.push("<p class='when'>" + formatLong(forecast.analog) + "</p>");
+      parts.push("<p>Vergleichsmonat ist der <b>" + formatDE(forecast.analog.ref) + "</b>. Damals wurden " + formatZahl(forecast.analog.ref.befoerdert) + " von " + formatZahl(forecast.analog.ref.faehig) + " beförderungsfähigen Personen befördert. " + begruendung(input, warte, forecast, todayProfile, hits) + "</p>");
+    }
   } else {
     parts.push("<p class='when'>Kein Termin aus dem bisherigen Muster</p>");
     parts.push("<p>" + begruendung(input, warte, forecast, todayProfile, hits) + "</p>");
   }
-
   const warteOk = !!(warte && cmpMonth(warte, nextMonth(today)) < 0);
   const auswahlOk = !!(lastCheck && lastCheck.ok);
   parts.push("<div class='facts'>");
-  parts.push(factHtml("1. Bewährungszeit", warteOk, warteSatz(input, warte, today)));
-  parts.push(factHtml("2. Beförderungsauswahl", auswahlOk, letzterSatz(last, lastCheck, todayProfile)));
+  parts.push(factHtml("1. Bewährungszeit", warteOk, warteSatz(input, warte, today), warteOk ? "met" : "open"));
+  parts.push(factHtml("2. Beförderungsauswahl", auswahlOk, letzterSatz(last, lastCheck, todayProfile), auswahlOk ? "met" : "open"));
   parts.push("</div>");
-
   if (forecast.analog) {
-    parts.push("<h3 style='margin-top:16px'>Warum dieser Vergleichsmonat</h3>");
+    parts.push("<h3 style='margin-top:16px'>" + (forecast.analog.published ? "Prüfung der veröffentlichten Auswahl" : "Warum dieser Vergleichsmonat") + "</h3>");
     parts.push(stepHtml(forecast.analog.detail.steps));
     if (forecast.analog.profile.assumed) {
       parts.push("<p class='hint'>Die Punktzahlen für die dann wirksame Beurteilung " + forecast.analog.profile.letzteYear + " sind fortgeschrieben, nicht bekannt.</p>");
     }
   }
-
   parts.push("<h3 style='margin-top:16px'>Die nächsten Monate</h3>");
-  parts.push("<p class='hint'>Grün: Bewährungszeit erfüllt und Vergleichsmonat des vorherigen Zyklus würde passen. Rot: Wartezeit erfüllt, Auswahl nach diesem Muster nicht. Grau: Bewährungszeit noch nicht erfüllt.</p>");
+  parts.push("<p class='hint'>Grün: Bewährungszeit erfüllt und die Auswahl passt, entweder die veröffentlichte Zeile dieses Monats oder, wenn noch keine vorliegt, der Vergleichsmonat des vorherigen Zyklus. Rot: Wartezeit erfüllt, Auswahl nach diesem Maßstab nicht. Grau: Bewährungszeit noch nicht erfüllt.</p>");
   parts.push("<div class='timeline'>" + forecast.timeline.map((cell) => {
     const cls = !cell.warteOk || !cell.known ? "wait" : cell.analogOk ? "yes" : "no";
     const mark = cell.isPick ? " mark" : "";
     return "<div class='chip " + cls + mark + "' title='" + formatLong(cell) + "'>" + MONATE[cell.m - 1].slice(0, 3) + "<br>" + cell.y + "</div>";
   }).join("") + "</div>");
-
   parts.push("<p class='hint' style='margin-top:12px'>Mit der heutigen Dienstzeit erfüllen Sie " + hits + " von " + CUTOFFS.length + " bekannten Auswahlgrenzen. Die Berechnung bleibt eine Orientierung an der Vergangenheit.</p>");
   box.innerHTML = parts.join("");
 }
-
-function factHtml(title, met, text) {
-  return "<div class='fact " + (met ? "met" : "open") + "'><span class='badge'>" + (met ? "Erfüllt" : "Nicht erfüllt") + "</span><b>" + title + "</b>" + text + "</div>";
-}
-
 function warteSatz(input, warte, today) {
   if (!warte) return "Nicht aus der Tabelle ableitbar.";
   const kern = "Bei " + warte.gu + " Punkten sind es " + warte.need + " Monate ab dem " + formatDE(input.a9) + ". Erfüllt zum " + formatDE(warte) + ".";
   if (cmpMonth(warte, nextMonth(today)) < 0) return kern + " Das liegt bereits zurück. Damit entscheidet die Beförderungsauswahl.";
   return kern + " Frühester Termin ist der " + formatLong(warte) + ".";
 }
-
 function letzterSatz(last, check, profile) {
   if (!profile.known) return "Für den heutigen Beurteilungszeitraum fehlen Punktzahlen.";
   if (!check) return "";
   const kopf = "Letzter bekannter Stichtag " + formatDE(last) + ": Gesamturteil " + last.gu + ", Einzelmerkmale " + last.einzel + ", Gesamturteil der vorletzten Beurteilung " + last.rw + ". " + sonstigeText(last.rule) + ". ";
   return kopf + (check.ok ? "<span class='ok'>Mit der heutigen Lage wäre diese Hürde erfüllt.</span>" : "<span class='bad'>Mit der heutigen Lage wäre diese Hürde nicht erfüllt.</span>");
 }
-
 function begruendung(input, warte, forecast, todayProfile, hits) {
   const saetze = [];
   if (warte && warte.assumed) saetze.push("Die Wartezeit verwendet fortgeschriebene Punkte.");
@@ -863,23 +1440,14 @@ function begruendung(input, warte, forecast, todayProfile, hits) {
   } else if (forecast.optimistic && !forecast.analog) {
     saetze.push("Ein Termin ergäbe sich nur, wenn ein günstiger historischer Monat wiederkehrt, zum Beispiel der Stand vom " + formatDE(forecast.optimistic.ref) + ". Das wäre frühestens am " + formatLong(forecast.optimistic) + ".");
   }
-  if (!todayProfile.known) {
-    saetze.push("Seit Oktober " + todayProfile.letzteYear + " ist eine neue Beurteilung wirksam. Ohne diese Punkte rechnet die Auswahl nicht weiter, es sei denn, Sie lassen die eingetragenen Punkte fortschreiben.");
-  }
-  if (!forecast.analog && hits === 0) {
-    saetze.push("Mit diesem Gesamturteil lag seit September 2023 keine veröffentlichte Grenze niedrig genug. Längere Dienstzeit hat ein zu niedriges Gesamturteil in der bisherigen Auswahl nicht ausgeglichen.");
-  }
-  if (forecast.cycleEndWithoutCarry && !input.carry) {
-    saetze.push("Ohne fortgeschriebene Punkte endet die seriöse Schätzung vor der nächsten Beurteilung.");
-  }
-  if (!todayProfile.inA9 && todayProfile.gu !== null) {
-    saetze.push("Die aktuelle Beurteilung ist nicht im Statusamt A 9 markiert. Bis zu einer Beurteilung in A 9 greift die Beförderungswahl nicht.");
-  }
+  if (!todayProfile.known) saetze.push("Seit Oktober " + todayProfile.letzteYear + " ist eine neue Beurteilung wirksam. Ohne diese Punkte rechnet die Auswahl nicht weiter, es sei denn, Sie lassen die eingetragenen Punkte fortschreiben.");
+  if (!forecast.analog && hits === 0) saetze.push("Mit diesem Gesamturteil lag seit September 2023 keine veröffentlichte Grenze niedrig genug. Längere Dienstzeit hat ein zu niedriges Gesamturteil in der bisherigen Auswahl nicht ausgeglichen.");
+  if (forecast.cycleEndWithoutCarry && !input.carry) saetze.push("Ohne fortgeschriebene Punkte endet die seriöse Schätzung vor der nächsten Beurteilung.");
+  if (!todayProfile.inA9 && todayProfile.gu !== null) saetze.push("Die aktuelle Beurteilung ist nicht im Statusamt A 9 markiert. Bis zu einer Beurteilung in A 9 greift die Beförderungswahl nicht.");
   return saetze.join(" ");
 }
-
 function drawChart(userGu) {
-  const svg = document.getElementById("chart");
+  const svg = $("chart");
   const w = 760, h = 180, left = 28, right = 10, top = 16, bottom = 28;
   const min = 9, max = 15;
   const n = CUTOFFS.length;
@@ -893,32 +1461,34 @@ function drawChart(userGu) {
     grids += "<text x='2' y='" + (y(g) + 4) + "' font-size='11' fill='#5d6b7a'>" + g + "</text>";
   }
   let user = "";
-  if (userGu) {
-    user = "<line x1='" + left + "' y1='" + y(userGu) + "' x2='" + (w - right) + "' y2='" + y(userGu) + "' stroke='#0e6844' stroke-dasharray='4 3'/>";
-  }
-  const labels = [0, 12, 24, 37].filter((i) => i < n).map((i) =>
+  if (userGu) user = "<line x1='" + left + "' y1='" + y(userGu) + "' x2='" + (w - right) + "' y2='" + y(userGu) + "' stroke='#0e6844' stroke-dasharray='4 3'/>";
+  const labels = [0, 12, 25, n - 1].filter((i) => i < n).map((i) =>
     "<text x='" + x(i) + "' y='" + (h - 8) + "' font-size='11' fill='#5d6b7a'>" + formatDE(CUTOFFS[i]).slice(3) + "</text>"
   ).join("");
-  svg.innerHTML = grids + user + "<path d='" + d + "' fill='none' stroke='#1e4f78' stroke-width='2'/>" + labels;
+  svg.innerHTML = grids + user + "<path d='" + d + "' fill='none' stroke='#1b3a4b' stroke-width='2'/>" + labels;
 }
-
 function fillPunktSelect(select, min, max) {
   select.innerHTML = "<option value=''>–</option>";
   for (let n = max; n >= min; n--) {
     const opt = document.createElement("option");
     opt.value = String(n);
-    opt.textContent = String(n);
+    opt.textContent = n === 1 ? "1 Punkt" : n + " Punkte";
     select.appendChild(opt);
   }
 }
 
 function init() {
-  const today = new Date();
-  fillPunktSelect(document.getElementById("gu"), 5, 16);
-  fillPunktSelect(document.getElementById("rw"), 1, 16);
-  const diesesJahr = today.getFullYear();
+  buildSelection();
+  fillMonthYear("s-monat", "s-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+  fillPunktSelect($("s-gu"), 1, 16);
+  $("s-fuenftel").innerHTML = "<option value=''>–</option>" + FUENFTEL.map((f) =>
+    "<option value='" + f.id + "'>" + f.label + "</option>"
+  ).join("");
+  fillPunktSelect($("gu"), 5, 16);
+  fillPunktSelect($("rw"), 1, 16);
+  const diesesJahr = new Date().getFullYear();
   for (const id of ["einstieg-jahr", "a9-jahr"]) {
-    const select = document.getElementById(id);
+    const select = $(id);
     for (let y = diesesJahr; y >= 1970; y--) {
       const opt = document.createElement("option");
       opt.value = String(y);
@@ -926,39 +1496,63 @@ function init() {
       select.appendChild(opt);
     }
   }
-
-  document.getElementById("warte-tabelle").innerHTML = [
+  $("warte-tabelle").innerHTML = [
     [16, 36], [15, 39], [14, 42], [13, 45], [12, 48], [11, 54], [10, 60], [9, 72], ["8 bis 5", 84]
   ].map(([p, m]) => "<tr><td>" + p + "</td><td>" + m + "</td></tr>").join("");
 
-  document.getElementById("form").addEventListener("input", render);
-  document.getElementById("form").addEventListener("change", render);
-  document.getElementById("form").addEventListener("submit", (event) => {
+  $("form").addEventListener("input", render);
+  $("form").addEventListener("change", render);
+  $("form").addEventListener("submit", (event) => {
     event.preventDefault();
     render();
-    document.getElementById("ergebnis").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("ergebnis").scrollIntoView({ behavior: "smooth", block: "start" });
   });
-  document.getElementById("beispiel").addEventListener("click", () => {
-    document.getElementById("einstieg-monat").value = "9";
-    document.getElementById("einstieg-jahr").value = "2014";
-    document.getElementById("a9-monat").value = "10";
-    document.getElementById("a9-jahr").value = "2021";
+  $("beispiel").addEventListener("click", () => {
+    $("einstieg-monat").value = "9";
+    $("einstieg-jahr").value = "2014";
+    $("a9-monat").value = "10";
+    $("a9-jahr").value = "2021";
     document.querySelector("input[name=sb][value=nein]").checked = true;
-    document.getElementById("gu").value = "13";
-    document.getElementById("einzel").value = "66";
-    document.getElementById("rw").value = "10";
-    document.getElementById("in-a9").checked = true;
-    document.getElementById("fortschreiben").checked = true;
+    $("gu").value = "13";
+    $("einzel").value = "66";
+    $("rw").value = "10";
+    $("in-a9").checked = true;
+    $("fortschreiben").checked = true;
     render();
   });
-  document.getElementById("leeren").addEventListener("click", () => {
-    document.getElementById("form").reset();
+  $("leeren").addEventListener("click", () => {
+    $("form").reset();
     render();
   });
-  render();
-  try {
-    selfTest();
-  } catch (err) {
+  $("simple-form").addEventListener("input", renderSimple);
+  $("simple-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    renderSimple();
+    $("s-ergebnis").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  $("s-beispiel").addEventListener("click", () => {
+    const ex = currentPath && currentPath.example;
+    if (!ex) return;
+    $("s-monat").value = String(ex.m);
+    $("s-jahr").value = String(ex.y);
+    $("s-gu").value = String(ex.gu);
+    $("s-fuenftel").value = ex.fuenftel || "";
+    $("s-status").checked = !!ex.status;
+    $("s-scope").checked = !!ex.scope;
+    $("s-posten").checked = !!ex.posten;
+    renderSimple();
+  });
+  $("s-leeren").addEventListener("click", () => {
+    $("simple-form").reset();
+    renderSimple();
+  });
+  document.querySelectorAll("[data-back]").forEach((btn) => {
+    btn.addEventListener("click", () => { location.hash = "auswahl"; });
+  });
+  window.addEventListener("hashchange", () => show(fromHash(), true));
+  show(fromHash(), false);
+  try { selfTest(); }
+  catch (err) {
     const banner = document.createElement("div");
     banner.className = "disclaimer";
     banner.textContent = "Interner Rechenfehler: " + err.message;
@@ -967,11 +1561,12 @@ function init() {
 }
 
 function selfTest() {
+  const assert = (cond, msg) => { if (!cond) throw new Error(msg); };
   const oct2026 = CUTOFFS.find((c) => c.date === "2026-10-01");
   const oct2024 = CUTOFFS.find((c) => c.date === "2024-10-01");
   const sep2026 = CUTOFFS.find((c) => c.date === "2026-09-01");
+  const nov2026 = CUTOFFS.find((c) => c.date === "2026-11-01");
   const person = (gu, einzel, rw, disabled, a9, allg) => ({ gu, einzel, rw, disabled, a9Months: a9, allgMonths: allg, inA9: true });
-  const assert = (cond, msg) => { if (!cond) throw new Error(msg); };
   assert(explain(person(14, 50, 1, false, 0, 0), oct2026).ok, "über GU");
   assert(!explain(person(12, 80, 16, true, 200, 300), oct2026).ok, "unter GU");
   assert(explain(person(13, 67, 1, false, 0, 0), oct2026).ok, "über Einzel");
@@ -984,6 +1579,13 @@ function selfTest() {
   assert(explain(person(12, 60, 12, false, 48, 121), oct2024).ok, "und erfüllt");
   assert(explain(person(12, 61, 0, false, 0, 0), oct2024).ok, "Einzel überspringt und");
   assert(explain(person(11, 53, 9, false, 0, 0), sep2026).ok, "keine sonstige");
+  assert(nov2026 && nov2026.gu === 12 && nov2026.einzel === 62 && nov2026.rw === 10 && nov2026.rule.t === "a9" && nov2026.rule.a9 === 87, "Nov 2026 Grenze");
+  assert(nov2026.faehig === 1966 && nov2026.befoerdert === 116, "Nov 2026 Zahlen");
+  assert(explain(person(13, 1, 1, false, 0, 0), nov2026).ok, "nov über GU");
+  assert(!explain(person(12, 61, 16, true, 200, 300), nov2026).ok, "nov unter Einzel");
+  assert(explain(person(12, 62, 10, false, 87, 0), nov2026).ok, "nov A9");
+  assert(!explain(person(12, 62, 10, false, 86, 400), nov2026).ok, "nov A9 fehlt");
+  assert(referenceFor(2026, 11).date === "2023-11-01", "Vergleich November");
   assert(warteMonate(16) === 36 && warteMonate(11) === 54 && warteMonate(9) === 72 && warteMonate(5) === 84, "Wartezeit");
   assert(beurteilungYear(2023, 9) === 2020 && beurteilungYear(2023, 10) === 2023 && beurteilungYear(2026, 10) === 2026, "Zyklus");
   assert(offset(2026, 9) === 35 && offset(2023, 11) === 1, "Abstand");
@@ -992,7 +1594,20 @@ function selfTest() {
     letzteYear: 2026, gu: 13, einzel: 66, rw: 10, inA9: true, carry: true
   };
   const prognose = findPrognose(beispiel, new Date(2026, 9, 3));
-  assert(prognose.analog && prognose.analog.y === 2027 && prognose.analog.m === 1, "Beispiel Januar 2027, ist " + (prognose.analog && formatDE(prognose.analog)));
+  assert(prognose.analog && prognose.analog.published && prognose.analog.y === 2026 && prognose.analog.m === 11, "Beispiel November 2026, ist " + (prognose.analog && formatDE(prognose.analog)));
+  const knapp = { ...beispiel, gu: 12, einzel: 62, rw: 10 };
+  const prognoseKnapp = findPrognose(knapp, new Date(2026, 9, 3));
+  assert(!(prognoseKnapp.analog && prognoseKnapp.analog.y === 2026 && prognoseKnapp.analog.m === 11), "ohne 87 Monate nicht November 2026");
+  const byId = (id) => PATHS.find((p) => p.id === id);
+  assert(waitOf(byId("qe2-a8"), 3, "1").months === 24 && waitOf(byId("qe2-a8"), 2, "1").ok === false && waitOf(byId("qe2-a8"), 16, "5").months === 36, "A8");
+  assert(waitOf(byId("qe2-a9"), 16, null).months === 39 && waitOf(byId("qe2-a9"), 12, null).months === 42 && waitOf(byId("qe2-a9"), 6, null).months === 72 && waitOf(byId("qe2-a9"), 5, null).ok === false, "A9");
+  assert(waitOf(byId("qe2-a10"), 9, null).months === 72 && waitOf(byId("qe2-a10"), 16, null).months === 36 && waitOf(byId("qe2-a10"), 8, null).ok === false, "A10 zweite");
+  assert(waitOf(byId("qe2-a11"), 12, null).months === 60 && waitOf(byId("qe2-a11"), 9, null).months === 66 && waitOf(byId("qe2-a11"), 6, null).months === 72 && waitOf(byId("qe2-a11"), 5, null).ok === false, "A11 zweite");
+  assert(waitOf(byId("qe3-a10"), 3, null).months === 36 && waitOf(byId("qe3-a10"), 16, null).months === 36 && waitOf(byId("qe3-a10"), 2, null).ok === false, "A10 dritte");
+  assert(waitOf(byId("qe3-a11"), 16, null).months === 36 && waitOf(byId("qe3-a11"), 9, null).months === 39 && waitOf(byId("qe3-a11"), 6, null).months === 45 && waitOf(byId("qe3-a11"), 3, null).months === 66 && waitOf(byId("qe3-a11"), 2, null).ok === false, "A11 dritte");
+  assert(formatDE(addMonths(2024, 9, 24)) === "01.09.2026", "24 Monate");
+  assert(formatDE(addMonths(2023, 10, 48)) === "01.10.2027", "48 Monate");
+  assert(formatDE(addMonths(2021, 10, 45)) === "01.07.2025", "45 Monate");
 }
 
 init();

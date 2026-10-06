@@ -1,11 +1,11 @@
-# Veröffentlicht die statische Seite. Die Excel-Datei bleibt im Repository und geht nicht online.
+# Veröffentlicht die statische Seite. Excel-Liste und BefRPolVS bleiben im Repository und gehen nicht online.
 image: busybox
 
 create-pages:
   stage: deploy
   script:
     - mkdir -p public
-    - cp index.html polizeistern.png public/
+    - cp index.html public/
   pages: true
   artifacts:
     paths:

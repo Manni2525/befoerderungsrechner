@@ -59,9 +59,17 @@
     padding: 18px 0 16px;
   }
   .brandmark {
+    display: block;
     color: var(--navy);
     text-align: center;
     width: 100%;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .brandmark:hover { opacity: 0.82; }
+  .brandmark:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 4px;
   }
   .brand-xl {
     margin: 1px 0;
@@ -379,7 +387,7 @@
 <a class="skip" href="#inhalt">Zum Inhalt</a>
 <header class="top">
   <div class="wrap head">
-    <div class="brandmark" role="img" aria-label="Dein Personalrat Schwaben Nord informiert">
+    <a class="brandmark" href="#auswahl" aria-label="Dein Personalrat Schwaben Nord informiert, zur Startseite">
       <div class="brand-rule" aria-hidden="true"><span class="rule"></span><span class="info-i">i</span><span class="rule"></span></div>
       <div class="brand-xl">Dein Personalrat</div>
       <div class="brand-sub">
@@ -426,7 +434,7 @@
         </svg>
         <span class="rule"></span>
       </div>
-    </div>
+    </a>
     <div class="titles">
       <h1>Beförderungsrechner</h1>
       <p>Für Beamtinnen und Beamte der Bayerischen Polizei.</p>
@@ -644,6 +652,16 @@
             <p class="hint">Platzziffer der Qualifikationsprüfung, als Fünftel der Prüfungsteilnehmenden.</p>
           </fieldset>
         </div>
+        <fieldset id="s-second-box" hidden>
+          <legend id="s-second-legend"></legend>
+          <label class="field"><span class="lbl" id="s-second-label"></span>
+            <span class="pair">
+              <select id="s-monat-2"></select>
+              <select id="s-jahr-2"></select>
+            </span>
+          </label>
+          <p class="hint" id="s-second-hint"></p>
+        </fieldset>
         <fieldset id="s-gu-box">
           <legend>Letzte dienstliche Beurteilung</legend>
           <label class="field" style="max-width:280px">Gesamturteil
@@ -830,25 +848,28 @@ const PATHS = [
     group: "qe3",
     rank: "Polizeioberkommissar/in",
     title: "A 10",
-    card: "Nach dem Fünftel des bestandenen Studiums",
-    lede: "Für den Einstieg in der dritten Qualifikationsebene. Nicht nach einem Fünftel abgestuft.",
-    kind: "flat",
+    card: "Nach dem Fünftel der bestandenen Qualifikationsprüfung",
+    lede: "Die Monate hängen vom Fünftel der Qualifikationsprüfung ab, der Abschlussprüfung des Studiums. Zusätzlich 36 Monate in einem Amt mindestens A 9.",
+    kind: "fuenftel",
+    askAssessment: false,
     board: { stars: 2, tone: "white" },
-    flatMonths: 36,
-    flatLabel: "36 Monate, sobald mindestens drei Punkte vorliegen",
-    minPoints: 3,
-    startLegend: "Allgemeiner Dienstzeitbeginn",
-    startLabel: "Allgemeiner Dienstzeitbeginn",
-    startHint: "36 Monate seit dem allgemeinen Dienstzeitbeginn. Das Studium allein setzt die Frist nicht in Gang.",
-    startShort: "allgemeiner Dienstzeitbeginn",
-    guHint: "Mindestens drei Punkte. Darüber bleibt es bei 36 Monaten.",
+    startLegend: "Qualifikationsprüfung",
+    startLabel: "Qualifikationsprüfung bestanden",
+    startHint: "Monat, in dem die Qualifikationsprüfung bestanden wurde. Das ist die Abschlussprüfung des Studiums. Die nach dem Fünftel abgestufte Bewährungszeit läuft ab dem Ersten dieses Monats.",
+    startShort: "bestandene Qualifikationsprüfung",
+    second: {
+      legend: "Amt mindestens A 9",
+      label: "Übertragung eines Amtes mindestens der Besoldungsgruppe A 9",
+      hint: "Zusätzlich sind 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9 nötig. Gerechnet wird ab dem Ersten des Monats der Übertragung.",
+      short: "Amt mindestens A 9",
+      months: 36
+    },
     notes: [
-      "Beim Einstieg in der dritten Qualifikationsebene gibt es keine Abstufung nach dem Fünftel des Studiums. Es genügen mindestens drei Punkte und 36 Monate seit dem allgemeinen Dienstzeitbeginn."
+      "Die Qualifikationsprüfung ist die Abschlussprüfung des Studiums.",
+      "Nicht für die Übertragung von A 10 im fachlichen Schwerpunkt Technischer Polizeivollzugsdienst."
     ],
-    method: "Einstieg in der dritten Qualifikationsebene: mindestens drei Punkte und 36 Monate seit dem allgemeinen Dienstzeitbeginn.",
-    col: "Voraussetzung",
-    rows: [{ key: "flat", label: "mindestens drei Punkte", months: 36 }],
-    minMessage: (gu) => "Nötig sind mindestens drei Punkte. Eingetragen sind " + gu + " Punkte."
+    method: "Seit dem Bestehen der Qualifikationsprüfung, der Abschlussprüfung des Studiums, abgestuft nach dem Fünftel. Zusätzlich 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9.",
+    col: "Fünftel der Qualifikationsprüfung"
   },
   {
     id: "qe3-a11",
@@ -1004,6 +1025,12 @@ function applyPath(path) {
   $("s-start-hint").textContent = path.startHint;
   $("s-gu-hint").textContent = path.guHint || "";
   $("s-gu-box").hidden = path.askAssessment === false;
+  $("s-second-box").hidden = !path.second;
+  if (path.second) {
+    $("s-second-legend").textContent = path.second.legend;
+    $("s-second-label").textContent = path.second.label;
+    $("s-second-hint").textContent = path.second.hint;
+  }
   $("s-method").textContent = path.method;
   $("s-col-a").textContent = path.col;
   $("s-fuenftel-box").hidden = path.kind !== "fuenftel";
@@ -1053,7 +1080,14 @@ function readSimple() {
   if (path.statusLabel && !$("s-status").checked) missing.push(path.statusMissing);
   if (path.scopeLabel && !$("s-scope").checked) missing.push(path.scopeMissing);
   if (path.postenLabel && !$("s-posten").checked) missing.push(path.postenMissing);
-  return { missing, start, gu, fuenftel };
+  let second = null;
+  if (path.second) {
+    const monat2 = Number($("s-monat-2").value);
+    const jahr2 = Number($("s-jahr-2").value);
+    second = monat2 && jahr2 ? { y: jahr2, m: monat2 } : null;
+    if (!second) missing.push(path.second.label);
+  }
+  return { missing, start, gu, fuenftel, second };
 }
 
 function renderSimple() {
@@ -1075,21 +1109,34 @@ function renderSimple() {
       factWrap(factHtml("Gesamturteil", false, esc(text), "open"));
     return;
   }
-  const when = addMonths(input.start.y, input.start.m, wait.months);
+  const whenFuenftel = addMonths(input.start.y, input.start.m, wait.months);
+  let when = whenFuenftel;
+  let amtFact = "";
+  if (currentPath.second && input.second) {
+    const whenAmt = addMonths(input.second.y, input.second.m, currentPath.second.months);
+    when = cmpMonth(whenFuenftel, whenAmt) >= 0 ? whenFuenftel : whenAmt;
+    const relAmt = relation(whenAmt, new Date());
+    const amtClass = relAmt === "future" ? "wait" : "met";
+    const amtText = currentPath.second.months + " Monate seit dem " + formatLong(input.second) + ". Erreicht am " + formatLong(whenAmt) + ".";
+    amtFact = factHtml("36 Monate im Amt mindestens A 9", true, esc(amtText), amtClass);
+  }
   const rel = relation(when, new Date());
+  const relFuenftel = relation(whenFuenftel, new Date());
   const lede = rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit";
-  const factClass = rel === "future" ? "wait" : "met";
-  const factBadge = rel === "future" ? "Noch nicht" : "Erfüllt";
+  const factClass = relFuenftel === "future" ? "wait" : "met";
   const kern = wait.months + " Monate (" + wait.label + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
-    (rel === "future"
-      ? "Frühester Monatserste ist der " + formatLong(when) + "."
-      : "Erreicht am " + formatLong(when) + ".");
+    (relFuenftel === "future"
+      ? "Frühester Monatserste ist der " + formatLong(whenFuenftel) + "."
+      : "Erreicht am " + formatLong(whenFuenftel) + ".");
   const kopf = esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1)) + ": " + esc(formatLong(input.start)) + ".";
+  const zweit = input.second ? " " + esc(currentPath.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
+  const spaeter = input.second ? " Maßgeblich ist der spätere der beiden Zeitpunkte." : "";
   box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
-    kopf + punkte + "</p>" +
+    kopf + zweit + punkte + spaeter + "</p>" +
     factWrap(
       factHtml("Bewährungszeit", factClass !== "open", esc(kern), factClass) +
+      amtFact +
       (input.gu ? factHtml("Gesamturteil", true, esc(wait.label + "."), "met") : "")
     ) +
     "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
@@ -1560,6 +1607,7 @@ function init() {
   buildSelection();
   $("a9z-board").innerHTML = boardMarkup({ stars: 4, tone: "blue" });
   fillMonthYear("s-monat", "s-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+  fillMonthYear("s-monat-2", "s-jahr-2", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillPunktSelect($("s-gu"), 1, 16);
   $("s-fuenftel").innerHTML = "<option value=''>–</option>" + FUENFTEL.map((f) =>
     "<option value='" + f.id + "'>" + f.label + "</option>"
@@ -1621,6 +1669,10 @@ function init() {
     $("s-jahr").value = String(randInt(2008, jahr));
     if (path.askAssessment !== false) $("s-gu").value = String(randInt(1, 16));
     if (path.kind === "fuenftel") $("s-fuenftel").value = String(randInt(1, 5));
+    if (path.second) {
+      $("s-monat-2").value = String(randInt(1, 12));
+      $("s-jahr-2").value = String(randInt(2008, jahr));
+    }
     if (path.statusLabel) $("s-status").checked = true;
     if (path.scopeLabel) $("s-scope").checked = true;
     if (path.postenLabel) $("s-posten").checked = true;
@@ -1687,7 +1739,10 @@ function selfTest() {
   assert(waitOf(byId("qe2-a9"), 16, null).months === 39 && waitOf(byId("qe2-a9"), 12, null).months === 42 && waitOf(byId("qe2-a9"), 6, null).months === 72 && waitOf(byId("qe2-a9"), 5, null).ok === false, "A9");
   assert(waitOf(byId("qe2-a10"), 9, null).months === 72 && waitOf(byId("qe2-a10"), 16, null).months === 36 && waitOf(byId("qe2-a10"), 8, null).ok === false, "A10 zweite");
   assert(waitOf(byId("qe2-a11"), 12, null).months === 60 && waitOf(byId("qe2-a11"), 9, null).months === 66 && waitOf(byId("qe2-a11"), 6, null).months === 72 && waitOf(byId("qe2-a11"), 5, null).ok === false, "A11 zweite");
-  assert(waitOf(byId("qe3-a10"), 3, null).months === 36 && waitOf(byId("qe3-a10"), 16, null).months === 36 && waitOf(byId("qe3-a10"), 2, null).ok === false, "A10 dritte");
+  assert(waitOf(byId("qe3-a10"), 0, "1").months === 24 && waitOf(byId("qe3-a10"), 0, "5").months === 36 && byId("qe3-a10").second.months === 36, "A10 dritte");
+  const pruefung = addMonths(2022, 3, 24);
+  const amtA9 = addMonths(2022, 10, 36);
+  assert(formatDE(cmpMonth(pruefung, amtA9) >= 0 ? pruefung : amtA9) === "01.10.2025", "A10 dritte später");
   assert(waitOf(byId("qe3-a11"), 16, null).months === 36 && waitOf(byId("qe3-a11"), 9, null).months === 39 && waitOf(byId("qe3-a11"), 6, null).months === 45 && waitOf(byId("qe3-a11"), 3, null).months === 66 && waitOf(byId("qe3-a11"), 2, null).ok === false, "A11 dritte");
   assert(formatDE(addMonths(2024, 9, 24)) === "01.09.2026", "24 Monate");
   assert(formatDE(addMonths(2023, 10, 48)) === "01.10.2027", "48 Monate");

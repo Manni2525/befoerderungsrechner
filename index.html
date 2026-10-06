@@ -554,7 +554,7 @@
           <span>Dieselben Punktzahlen auch nach der nächsten Beurteilung weiterverwenden. Die Punkte von 2029 und später kennt heute niemand. Ohne diesen Haken endet die Prognose mit dem September vor der nächsten Beurteilung.</span>
         </label>
         <div class="actions" style="margin-top:14px">
-          <button class="primary" type="submit">Prognose anzeigen</button>
+          <button class="primary" type="submit">Prognose</button>
           <button class="ghost" type="button" id="beispiel">Beispiel eintragen</button>
           <button class="ghost" type="button" id="leeren">Felder leeren</button>
         </div>
@@ -644,7 +644,7 @@
             <p class="hint">Platzziffer der Qualifikationsprüfung, als Fünftel der Prüfungsteilnehmenden.</p>
           </fieldset>
         </div>
-        <fieldset>
+        <fieldset id="s-gu-box">
           <legend>Letzte dienstliche Beurteilung</legend>
           <label class="field" style="max-width:280px">Gesamturteil
             <select id="s-gu"></select>
@@ -671,7 +671,7 @@
           <p class="hint">Nötig ist ein Dienstposten der Bewertung A&nbsp;9/11, A&nbsp;11/00 oder höher.</p>
         </fieldset>
         <div class="actions">
-          <button class="primary" type="submit">Beförderungsfähigkeit anzeigen</button>
+          <button class="primary" type="submit">Prognose</button>
           <button class="ghost" type="button" id="s-beispiel">Beispiel eintragen</button>
           <button class="ghost" type="button" id="s-leeren">Felder leeren</button>
         </div>
@@ -716,22 +716,16 @@ const PATHS = [
     rank: "Polizeiobermeister/in",
     title: "A 8",
     card: "Nach dem Fünftel der bestandenen Ausbildung",
-    lede: "Die Monate hängen vom Fünftel ab, nicht vom Gesamturteil. Mindestens drei Punkte.",
+    lede: "Die Monate hängen vom Fünftel der bestandenen Ausbildung ab.",
     kind: "fuenftel",
+    askAssessment: false,
     board: { stars: 3, tone: "blue" },
-    minPoints: 3,
     startLegend: "Ausbildungsabschluss",
     startLabel: "Ausbildung erfolgreich beendet",
     startHint: "Monat, in dem die Ausbildung der zweiten Qualifikationsebene erfolgreich beendet wurde. Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
     startShort: "Ausbildungsabschluss",
-    guHint: "Mindestens drei Punkte. Das Gesamturteil stuft die Monate nicht ab.",
-    notes: [
-      "Gilt für die Fachlaufbahn Polizei und Verfassungsschutz."
-    ],
-    method: "Seit dem erfolgreichen Abschluss der Ausbildung, abgestuft nach dem Fünftel der Qualifikationsprüfung. Mindestens drei Punkte.",
-    col: "Fünftel der Qualifikationsprüfung",
-    minMessage: (gu) => "Nötig sind mindestens drei Punkte. Eingetragen sind " + gu + " Punkte.",
-    example: { m: 9, y: 2024, gu: 8, fuenftel: "1" }
+    method: "Seit dem erfolgreichen Abschluss der Ausbildung, abgestuft nach dem Fünftel der Qualifikationsprüfung.",
+    col: "Fünftel der Qualifikationsprüfung"
   },
   {
     id: "qe2-a9",
@@ -762,8 +756,7 @@ const PATHS = [
     ],
     method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten.",
-    example: { m: 3, y: 2023, gu: 14, status: true }
+    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten."
   },
   {
     id: "a9z",
@@ -800,8 +793,7 @@ const PATHS = [
     ],
     method: "Seit A 9 mit Amtszulage, abgestuft nach dem Gesamturteil. Mindestens neun Punkte.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Nötig sind mindestens neun Punkte. Eingetragen sind " + gu + " Punkte.",
-    example: { m: 10, y: 2023, gu: 12, status: true, scope: true }
+    bandMessage: (gu) => "Nötig sind mindestens neun Punkte. Eingetragen sind " + gu + " Punkte."
   },
   {
     id: "qe2-a11",
@@ -831,8 +823,7 @@ const PATHS = [
     ],
     method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten.",
-    example: { m: 1, y: 2022, gu: 11, status: true, scope: true }
+    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten."
   },
   {
     id: "qe3-a10",
@@ -857,8 +848,7 @@ const PATHS = [
     method: "Einstieg in der dritten Qualifikationsebene: mindestens drei Punkte und 36 Monate seit dem allgemeinen Dienstzeitbeginn.",
     col: "Voraussetzung",
     rows: [{ key: "flat", label: "mindestens drei Punkte", months: 36 }],
-    minMessage: (gu) => "Nötig sind mindestens drei Punkte. Eingetragen sind " + gu + " Punkte.",
-    example: { m: 9, y: 2024, gu: 10 }
+    minMessage: (gu) => "Nötig sind mindestens drei Punkte. Eingetragen sind " + gu + " Punkte."
   },
   {
     id: "qe3-a11",
@@ -889,8 +879,7 @@ const PATHS = [
     ],
     method: "Eingangsamt A 9 oder niedriger, Dienstposten A 9/11, A 11/00 oder höher. Bewährungszeit seit der letzten Beförderung, nach dem Gesamturteil.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle beginnt bei drei Punkten.",
-    example: { m: 10, y: 2023, gu: 12, status: true, posten: true }
+    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle beginnt bei drei Punkten."
   }
 ];
 
@@ -1013,7 +1002,8 @@ function applyPath(path) {
   $("s-start-legend").textContent = path.startLegend;
   $("s-start-label").textContent = path.startLabel;
   $("s-start-hint").textContent = path.startHint;
-  $("s-gu-hint").textContent = path.guHint;
+  $("s-gu-hint").textContent = path.guHint || "";
+  $("s-gu-box").hidden = path.askAssessment === false;
   $("s-method").textContent = path.method;
   $("s-col-a").textContent = path.col;
   $("s-fuenftel-box").hidden = path.kind !== "fuenftel";
@@ -1053,12 +1043,13 @@ function readSimple() {
   const monat = Number($("s-monat").value);
   const jahr = Number($("s-jahr").value);
   const start = monat && jahr ? { y: jahr, m: monat } : null;
-  const gu = Number($("s-gu").value);
+  const askAssessment = path.askAssessment !== false;
+  const gu = askAssessment ? Number($("s-gu").value) : 0;
   const fuenftel = $("s-fuenftel").value;
   const missing = [];
   if (!start) missing.push(path.startLabel);
   if (path.kind === "fuenftel" && !fuenftel) missing.push("Fünftel der Qualifikationsprüfung");
-  if (!gu) missing.push("Gesamturteil der letzten dienstlichen Beurteilung");
+  if (askAssessment && !gu) missing.push("Gesamturteil der letzten dienstlichen Beurteilung");
   if (path.statusLabel && !$("s-status").checked) missing.push(path.statusMissing);
   if (path.scopeLabel && !$("s-scope").checked) missing.push(path.scopeMissing);
   if (path.postenLabel && !$("s-posten").checked) missing.push(path.postenMissing);
@@ -1069,7 +1060,9 @@ function renderSimple() {
   const box = $("s-ergebnis");
   if (!currentPath) return;
   const input = readSimple();
-  const preview = input.gu ? waitOf(currentPath, input.gu, input.fuenftel) : null;
+  const preview = (currentPath.askAssessment === false ? input.fuenftel : input.gu)
+    ? waitOf(currentPath, input.gu, input.fuenftel)
+    : null;
   renderSimpleTable(preview && preview.ok ? preview.key : null);
   if (input.missing.length) {
     box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
@@ -1091,11 +1084,13 @@ function renderSimple() {
     (rel === "future"
       ? "Frühester Monatserste ist der " + formatLong(when) + "."
       : "Erreicht am " + formatLong(when) + ".");
+  const kopf = esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1)) + ": " + esc(formatLong(input.start)) + ".";
+  const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
   box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
-    esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1)) + ": " + esc(formatLong(input.start)) + ". Gesamturteil: " + input.gu + " Punkte.</p>" +
+    kopf + punkte + "</p>" +
     factWrap(
       factHtml("Bewährungszeit", factClass !== "open", esc(kern), factClass) +
-      factHtml("Gesamturteil", true, esc(wait.label + "."), "met")
+      (input.gu ? factHtml("Gesamturteil", true, esc(wait.label + "."), "met") : "")
     ) +
     "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
 }
@@ -1554,6 +1549,13 @@ function fillPunktSelect(select, min, max) {
   }
 }
 
+function randInt(min, max) {
+  return min + Math.floor(Math.random() * (max - min + 1));
+}
+function pick(list) {
+  return list[randInt(0, list.length - 1)];
+}
+
 function init() {
   buildSelection();
   $("a9z-board").innerHTML = boardMarkup({ stars: 4, tone: "blue" });
@@ -1586,16 +1588,19 @@ function init() {
     $("ergebnis").scrollIntoView({ behavior: "smooth", block: "start" });
   });
   $("beispiel").addEventListener("click", () => {
-    $("einstieg-monat").value = "9";
-    $("einstieg-jahr").value = "2014";
-    $("a9-monat").value = "10";
-    $("a9-jahr").value = "2021";
-    document.querySelector("input[name=sb][value=nein]").checked = true;
-    $("gu").value = "13";
-    $("einzel").value = "66";
-    $("rw").value = "10";
-    $("in-a9").checked = true;
-    $("fortschreiben").checked = true;
+    const jahr = new Date().getFullYear();
+    const einstiegJahr = randInt(1998, jahr - 4);
+    const a9Jahr = randInt(einstiegJahr + 2, Math.min(jahr, einstiegJahr + 18));
+    $("einstieg-monat").value = pick(["3", "9"]);
+    $("einstieg-jahr").value = String(einstiegJahr);
+    $("a9-monat").value = String(randInt(1, 12));
+    $("a9-jahr").value = String(a9Jahr);
+    document.querySelector("input[name=sb][value=" + pick(["ja", "nein"]) + "]").checked = true;
+    $("gu").value = String(randInt(5, 16));
+    $("einzel").value = String(randInt(5, 80));
+    $("rw").value = String(randInt(1, 16));
+    $("in-a9").checked = Math.random() < 0.8;
+    $("fortschreiben").checked = Math.random() < 0.8;
     render();
   });
   $("leeren").addEventListener("click", () => {
@@ -1609,15 +1614,16 @@ function init() {
     $("s-ergebnis").scrollIntoView({ behavior: "smooth", block: "start" });
   });
   $("s-beispiel").addEventListener("click", () => {
-    const ex = currentPath && currentPath.example;
-    if (!ex) return;
-    $("s-monat").value = String(ex.m);
-    $("s-jahr").value = String(ex.y);
-    $("s-gu").value = String(ex.gu);
-    $("s-fuenftel").value = ex.fuenftel || "";
-    $("s-status").checked = !!ex.status;
-    $("s-scope").checked = !!ex.scope;
-    $("s-posten").checked = !!ex.posten;
+    const path = currentPath;
+    if (!path) return;
+    const jahr = new Date().getFullYear();
+    $("s-monat").value = String(randInt(1, 12));
+    $("s-jahr").value = String(randInt(2008, jahr));
+    if (path.askAssessment !== false) $("s-gu").value = String(randInt(1, 16));
+    if (path.kind === "fuenftel") $("s-fuenftel").value = String(randInt(1, 5));
+    if (path.statusLabel) $("s-status").checked = true;
+    if (path.scopeLabel) $("s-scope").checked = true;
+    if (path.postenLabel) $("s-posten").checked = true;
     renderSimple();
   });
   $("s-leeren").addEventListener("click", () => {
@@ -1677,7 +1683,7 @@ function selfTest() {
   const prognoseKnapp = findPrognose(knapp, new Date(2026, 9, 3));
   assert(!(prognoseKnapp.analog && prognoseKnapp.analog.y === 2026 && prognoseKnapp.analog.m === 11), "ohne 87 Monate nicht November 2026");
   const byId = (id) => PATHS.find((p) => p.id === id);
-  assert(waitOf(byId("qe2-a8"), 3, "1").months === 24 && waitOf(byId("qe2-a8"), 2, "1").ok === false && waitOf(byId("qe2-a8"), 16, "5").months === 36, "A8");
+  assert(waitOf(byId("qe2-a8"), 3, "1").months === 24 && waitOf(byId("qe2-a8"), 2, "1").months === 24 && waitOf(byId("qe2-a8"), 16, "5").months === 36, "A8");
   assert(waitOf(byId("qe2-a9"), 16, null).months === 39 && waitOf(byId("qe2-a9"), 12, null).months === 42 && waitOf(byId("qe2-a9"), 6, null).months === 72 && waitOf(byId("qe2-a9"), 5, null).ok === false, "A9");
   assert(waitOf(byId("qe2-a10"), 9, null).months === 72 && waitOf(byId("qe2-a10"), 16, null).months === 36 && waitOf(byId("qe2-a10"), 8, null).ok === false, "A10 zweite");
   assert(waitOf(byId("qe2-a11"), 12, null).months === 60 && waitOf(byId("qe2-a11"), 9, null).months === 66 && waitOf(byId("qe2-a11"), 6, null).months === 72 && waitOf(byId("qe2-a11"), 5, null).ok === false, "A11 zweite");

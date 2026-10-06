@@ -53,10 +53,10 @@
   .wrap { max-width: 1080px; margin: 0 auto; }
   .head {
     display: grid;
-    grid-template-columns: minmax(280px, 460px) 1fr;
-    gap: 40px;
+    grid-template-columns: minmax(240px, 380px) 1fr;
+    gap: 32px;
     align-items: center;
-    padding: 26px 0 24px;
+    padding: 18px 0 16px;
   }
   .brandmark {
     color: var(--navy);
@@ -66,7 +66,7 @@
   .brand-xl {
     margin: 1px 0;
     font-weight: 700;
-    font-size: clamp(1.55rem, 2.5vw, 2.05rem);
+    font-size: clamp(1.35rem, 2.1vw, 1.72rem);
     letter-spacing: -0.035em;
     line-height: 1.05;
     white-space: nowrap;
@@ -151,33 +151,53 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
-  .question { font-size: 1.35rem; margin: 0 0 6px; }
+  .question { font-size: 1.45rem; margin: 0 0 6px; letter-spacing: -0.03em; }
+  .quiet { margin: 0 0 8px; color: var(--muted); font-size: 0.95rem; }
   .lede { margin: 0 0 14px; color: var(--muted); }
-  .group { margin: 22px 0 10px; }
-  .group-lead { margin: 0 0 12px; color: var(--muted); }
-  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .group { margin: 26px 0 12px; display: flex; align-items: center; gap: 10px; }
+  .group::before {
+    content: "";
+    width: 18px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--chip, #4eb6e8);
+    flex: none;
+  }
+  .group.silver::before { background: #e7ebf0; box-shadow: inset 0 0 0 1px #c9d1d9; }
+  .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   button.pick {
     text-align: left;
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 14px;
-    padding: 16px 16px 14px;
+    padding: 12px 14px;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-height: 132px;
+    display: grid;
+    grid-template-columns: 128px 1fr;
+    gap: 14px;
+    align-items: center;
     box-shadow: 0 1px 2px rgba(27, 58, 75, 0.04);
   }
-  button.pick:hover { border-color: #b7c6d2; box-shadow: 0 8px 22px rgba(27, 58, 75, 0.06); }
+  button.pick:hover { border-color: #c5d0da; box-shadow: 0 10px 24px rgba(12, 33, 68, 0.07); }
+  .board { width: 128px; height: auto; display: block; }
+  .view-head { display: flex; gap: 16px; align-items: center; margin-bottom: 14px; }
+  .view-head .board { width: 148px; flex: none; }
+  .view-head h2, .view-head .lede, .view-head .kicker { margin-bottom: 2px; }
+  .view-head .kicker {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
   button.pick:focus-visible, button.back:focus-visible, button.primary:focus-visible, button.ghost:focus-visible, .tip-btn:focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
-  button.pick.mark { box-shadow: inset 3px 0 0 var(--navy); }
-  .pick-kicker { font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
-  .pick-title { font-size: 1.05rem; font-weight: 700; color: var(--navy); letter-spacing: -0.02em; }
-  .pick-text { color: var(--muted); font-size: 0.92rem; }
+  .pick-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .pick-title { font-size: 1.12rem; font-weight: 700; color: var(--navy); letter-spacing: -0.03em; line-height: 1.2; }
+  .pick-rank { color: var(--ink); font-size: 0.92rem; }
+  .pick-text { color: var(--muted); font-size: 0.86rem; }
   button.back {
     background: none;
     border: 0;
@@ -333,13 +353,17 @@
   @media (max-width: 860px) {
     .head { grid-template-columns: 1fr; gap: 18px; }
     .brandmark { margin: 0 auto; }
-    .grid-2, .facts, .picks { grid-template-columns: 1fr 1fr; }
+    .grid-2, .facts { grid-template-columns: 1fr 1fr; }
+    .picks { grid-template-columns: 1fr; }
+    .view-head { align-items: flex-start; }
     .answer .when { font-size: 1.6rem; }
     .tip-box { left: 0; top: 28px; }
     .brand-sub .rule { width: 36px; }
   }
   @media (max-width: 640px) {
-    .grid-2, .facts, .picks, .pair { grid-template-columns: 1fr; }
+    .grid-2, .facts, .pair { grid-template-columns: 1fr; }
+    button.pick { grid-template-columns: 108px 1fr; gap: 12px; }
+    .board, .view-head .board { width: 108px; }
     .brand-xl { white-space: normal; }
     .titles h1 { font-size: 1.55rem; }
   }
@@ -390,27 +414,28 @@
     </div>
     <div class="titles">
       <h1>Beförderungsrechner</h1>
-      <p>Für Beamtinnen und Beamte der Bayerischen Polizei. Die Wartezeiten folgen den Beförderungsrichtlinien (BefRPolVS) vom 21. Juli 2026.</p>
+      <p>Für Beamtinnen und Beamte der Bayerischen Polizei.</p>
     </div>
   </div>
 </header>
 <main id="inhalt">
   <div class="wrap">
     <section id="view-auswahl">
-      <div class="disclaimer">
-        <strong>Keine rechtsverbindliche Auskunft.</strong>
-        Eine Beförderung setzt eine freie und besetzbare Planstelle voraus. Ein Anspruch auf Beförderung besteht nicht (Nr. 2.1 BefRPolVS). Für das Amt der Besoldungsgruppe A&nbsp;9 mit Amtszulage kommt die veröffentlichte Beförderungsauswahl hinzu. Unterbrechungen, Teilzeit, Nachteilsausgleich und Erziehungszeiten sind nicht eingerechnet.
-      </div>
-      <h2 class="question">Welche Beförderung soll berechnet werden?</h2>
-      <p class="lede">Zuerst die Qualifikationsebene und das Amt wählen. Danach folgt der Rechner nur für diese Beförderung. Rechtsgrundlage ist die BefRPolVS vom 21. Juli 2026, in Kraft seit dem 1. Oktober 2026.</p>
+      <h2 class="question">Welche Beförderung?</h2>
+      <p class="quiet">Unverbindliche Orientierung. Eine freie Planstelle bleibt Voraussetzung, ein Anspruch besteht nicht.</p>
       <div id="groups"></div>
     </section>
 
     <section id="view-a9z" hidden>
       <button class="back" type="button" data-back>← Zur Auswahl</button>
-      <p class="kicker">Zweite Qualifikationsebene · Nr. 4.4</p>
-      <h2>Amt der Besoldungsgruppe A&nbsp;9 mit Amtszulage</h2>
-      <p class="lede">Ungefähre Prognose, wann die Amtszulage erreicht wird. Hier bleiben zwei Kriterien: die Bewährungszeit und die Beförderungsauswahl.</p>
+      <div class="view-head">
+        <div id="a9z-board"></div>
+        <div>
+          <p class="kicker">Polizeihauptmeister/in mit Amtszulage</p>
+          <h2>A&nbsp;9 mit Amtszulage</h2>
+          <p class="lede">Zwei Kriterien: die Bewährungszeit und die Beförderungsauswahl.</p>
+        </div>
+      </div>
       <div class="disclaimer">
         <strong>Keine rechtsverbindliche Auskunft.</strong>
         Das Ergebnis ist eine ungefähre Prognose aus der historischen Beförderungsauswahl seit September 2023. Künftige Stichtage hängen von Haushalt und freien Stellen ab. Eine neue Beurteilung kann Wartezeit und Auswahl verändern. Daraus folgt kein Anspruch auf eine Beförderung oder auf einen Termin.
@@ -531,7 +556,7 @@
         <div class="grid-2">
           <div>
             <h3>1. Bewährungszeit</h3>
-            <p>Seit der letzten Beförderung muss diese Wartezeit zurückgelegt sein. Sie richtet sich nach dem Gesamturteil der Beurteilung 2026 (Nr. 4.4):</p>
+            <p>Seit der letzten Beförderung muss diese Wartezeit zurückgelegt sein. Sie richtet sich nach dem Gesamturteil der Beurteilung 2026:</p>
             <table>
               <thead><tr><th>Gesamturteil</th><th>Monate</th></tr></thead>
               <tbody id="warte-tabelle"></tbody>
@@ -569,12 +594,17 @@
 
     <section id="view-simple" hidden>
       <button class="back" type="button" data-back>← Zur Auswahl</button>
-      <p class="kicker" id="s-kicker"></p>
-      <h2 id="s-title"></h2>
-      <p class="lede" id="s-lede"></p>
+      <div class="view-head">
+        <div id="s-board"></div>
+        <div>
+          <p class="kicker" id="s-kicker"></p>
+          <h2 id="s-title"></h2>
+          <p class="lede" id="s-lede"></p>
+        </div>
+      </div>
       <div class="disclaimer">
         <strong>Keine rechtsverbindliche Auskunft.</strong>
-        Angezeigt wird der Monatserste, an dem die Bewährungszeit der BefRPolVS erfüllt ist. Eine freie und besetzbare Planstelle bleibt Voraussetzung, ein Anspruch besteht nicht (Nr. 2.1). Bei zu wenigen Stellen gilt zusätzlich die Beförderungsreihenfolge nach Nr. 6; ihre Mindestwerte sind hier nicht prognostiziert. Unterbrechungen, Teilzeit, Nachteilsausgleich und Erziehungszeiten (Nrn. 3.2 bis 3.5) sind nicht eingerechnet. Bei Teilzeit ist die Beförderung zum Ersten des folgenden Monats vorzunehmen (Nr. 3.3 Satz 2).
+        Angezeigt wird der Monatserste, an dem die Bewährungszeit erfüllt ist. Eine freie Planstelle bleibt Voraussetzung. Unterbrechungen, Teilzeit, Nachteilsausgleich und Erziehungszeiten sind nicht eingerechnet.
       </div>
       <form id="simple-form" class="card" autocomplete="off">
         <h3>Ihre Angaben</h3>
@@ -596,7 +626,7 @@
             <label class="field">Fünftel
               <select id="s-fuenftel"></select>
             </label>
-            <p class="hint">Platzziffer der Qualifikationsprüfung, ausgedrückt als Fünftel der Zahl der Prüfungsteilnehmerinnen und Prüfungsteilnehmer (Nr. 4.2.1).</p>
+            <p class="hint">Platzziffer der Qualifikationsprüfung, als Fünftel der Prüfungsteilnehmenden.</p>
           </fieldset>
         </div>
         <fieldset>
@@ -623,7 +653,7 @@
             <input type="checkbox" id="s-posten">
             <span id="s-posten-label"></span>
           </label>
-          <p class="hint">Nr. 4.6.1 verlangt die Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A&nbsp;9/11, A&nbsp;11/00 oder höher.</p>
+          <p class="hint">Nötig ist ein Dienstposten der Bewertung A&nbsp;9/11, A&nbsp;11/00 oder höher.</p>
         </fieldset>
         <div class="actions">
           <button class="primary" type="submit">Beförderungsfähigkeit anzeigen</button>
@@ -644,12 +674,12 @@
             <tbody id="s-table"></tbody>
           </table>
         </div>
-        <p class="hint">Dienstzeiten werden in Monaten gerechnet. Zum Zeitpunkt der Ernennung beträgt die Dienstzeit null (Nr. 6.2.2). Die Beförderung wird auf dem Monatsersten angezeigt, an dem diese Zahl erreicht ist (Nr. 3.6). Eingetragen wird der Monat; gerechnet wird ab dessen Erstem. Wer mitten im Monat ernannt wurde, rundet nach Nr. 6.2.2 auf volle Monate auf und kann dafür den Vormonat eintragen.</p>
+        <p class="hint">Dienstzeiten werden in Monaten gerechnet. Zum Zeitpunkt der Ernennung beträgt die Dienstzeit null. Angezeigt wird der Monatserste, an dem die geforderte Zahl erreicht ist. Eingetragen wird der Monat, gerechnet wird ab dessen Erstem.</p>
       </details>
     </section>
   </div>
 </main>
-<footer class="site">Personalrat Schwaben Nord. Erstellt von © Nowadnick. Grundlage: Beförderungsrichtlinien für die Beamten und Beamtinnen der Bayerischen Polizei und des Landesamts für Verfassungsschutz (BefRPolVS) vom 21. Juli 2026, Az. C22-0406-2-86, in Kraft seit dem 1. Oktober 2026. Beförderungsauswahl für das Amt A&nbsp;9 mit Amtszulage: September 2023 bis November 2026.</footer>
+<footer class="site">Personalrat Schwaben Nord. Erstellt von © Nowadnick. Grundlage: Beförderungsrichtlinien vom 21. Juli 2026. Beförderungsauswahl für A&nbsp;9 mit Amtszulage: September 2023 bis November 2026.</footer>
 
 <script>
 const $ = (id) => document.getElementById(id);
@@ -668,32 +698,34 @@ const PATHS = [
   {
     id: "qe2-a8",
     group: "qe2",
-    kicker: "Nr. 4.2.1",
-    title: "Beförderung zum Amt der Besoldungsgruppe A 8",
-    card: "Bewährungszeit nach dem Fünftel der Qualifikationsprüfung, seit dem allgemeinen Dienstzeitbeginn.",
-    lede: "Für die Fachlaufbahn Polizei und Verfassungsschutz. Die Bewährungszeit hängt vom Fünftel ab, nicht vom Gesamturteil. Das Gesamturteil muss mindestens drei Punkte betragen.",
+    rank: "Polizeiobermeister/in",
+    title: "A 8",
+    card: "Nach dem Fünftel der bestandenen Ausbildung",
+    lede: "Die Monate hängen vom Fünftel ab, nicht vom Gesamturteil. Mindestens drei Punkte.",
     kind: "fuenftel",
+    board: { stars: 3, tone: "blue" },
     minPoints: 3,
-    startLegend: "Allgemeiner Dienstzeitbeginn",
-    startLabel: "Allgemeiner Dienstzeitbeginn",
-    startHint: "Die Bewährungszeit nach Nr. 4.2.1 läuft seit dem allgemeinen Dienstzeitbeginn (Nr. 3.1.1). In der zweiten Qualifikationsebene liegt die Einstellung regelmäßig im März oder September. Ein vorverlegter Beginn, etwa durch Nachteilsausgleich (Nr. 3.4), kann in jedem Monat liegen.",
-    startShort: "allgemeiner Dienstzeitbeginn",
-    guHint: "Mindestens „drei Punkte“. Das Gesamturteil stuft die Monate nicht ab. Maßgeblich ist die letzte dienstliche Beurteilung im aktuellen Statusamt (Nr. 2.1), auch eine Probezeitbeurteilung (Nr. 6.2.1).",
+    startLegend: "Ausbildungsabschluss",
+    startLabel: "Ausbildung erfolgreich beendet",
+    startHint: "Monat, in dem die Ausbildung der zweiten Qualifikationsebene erfolgreich beendet wurde. Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
+    startShort: "Ausbildungsabschluss",
+    guHint: "Mindestens drei Punkte. Das Gesamturteil stuft die Monate nicht ab.",
     notes: [
-      "Gilt für die Fachlaufbahn Polizei und Verfassungsschutz. In den übrigen Fachlaufbahnen gelten die Nrn. 4.2.2 und 4.2.3."
+      "Gilt für die Fachlaufbahn Polizei und Verfassungsschutz."
     ],
-    method: "Nr. 4.2.1: seit dem allgemeinen Dienstzeitbeginn, abgestuft nach der Platzziffer der Qualifikationsprüfung.",
+    method: "Seit dem erfolgreichen Abschluss der Ausbildung, abgestuft nach dem Fünftel der Qualifikationsprüfung. Mindestens drei Punkte.",
     col: "Fünftel der Qualifikationsprüfung",
-    minMessage: (gu) => "Nr. 4.2.1 verlangt in der letzten dienstlichen Beurteilung mindestens „drei Punkte“. Eingetragen sind " + gu + " Punkte.",
+    minMessage: (gu) => "Nötig sind mindestens drei Punkte. Eingetragen sind " + gu + " Punkte.",
     example: { m: 9, y: 2024, gu: 8, fuenftel: "1" }
   },
   {
     id: "qe2-a9",
     group: "qe2",
-    kicker: "Nr. 4.3",
-    title: "Beförderung zum Amt der Besoldungsgruppe A 9",
-    card: "Bewährungszeit nach der letzten dienstlichen Beurteilung im Statusamt A 8.",
-    lede: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten dienstlichen Beurteilung im Statusamt A 8.",
+    rank: "Polizeihauptmeister/in",
+    title: "A 9",
+    card: "Nach der letzten Beurteilung in A 8",
+    lede: "Seit der Beförderung nach A 8, abgestuft nach dem Gesamturteil der letzten Beurteilung im Statusamt A 8.",
+    board: { stars: 4, tone: "blue" },
     kind: "points",
     bands: [
       { min: 13, max: 16, months: 39, label: "16 bis 13 Punkte" },
@@ -705,63 +737,65 @@ const PATHS = [
     ],
     startLegend: "Letzte Beförderung",
     startLabel: "Übertragung des Amtes der Besoldungsgruppe A 8",
-    startHint: "Die Bewährungszeit nach Nr. 4.3 läuft seit der letzten Beförderung.",
-    startShort: "Übertragung des Amtes A 8",
+    startHint: "Die Bewährungszeit läuft seit der Beförderung nach A 8.",
+    startShort: "Beförderung nach A 8",
     statusLabel: "Diese Beurteilung ist im Statusamt A 8 erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 8 erstellt wurde",
-    guHint: "Gesamturteil der letzten dienstlichen Beurteilung im aktuellen Statusamt (Nr. 2.1). Für die Beförderung nach A 9 ist das das Statusamt A 8.",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 8.",
     notes: [
-      "Nr. 4.3 gilt nicht für die Übertragung eines Amtes der Besoldungsgruppe A 9 im Wege der Ausbildungsqualifizierung für Ämter ab der dritten Qualifikationsebene."
+      "Gilt nicht, wenn A 9 im Wege der Ausbildungsqualifizierung übertragen wird."
     ],
-    method: "Nr. 4.3: seit der letzten Beförderung, abgestuft nach dem Ergebnis der letzten dienstlichen Beurteilung.",
+    method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Für " + gu + " Punkte bestimmt Nr. 4.3 keine Bewährungszeit. Die Tabelle endet bei „06 Punkte“.",
+    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten.",
     example: { m: 3, y: 2023, gu: 14, status: true }
   },
   {
     id: "a9z",
     group: "qe2",
-    kicker: "Nr. 4.4",
-    title: "Beförderung zum Amt der Besoldungsgruppe A 9 mit Amtszulage",
-    card: "Bewährungszeit nach dem Gesamturteil und zusätzlich die veröffentlichte Beförderungsauswahl.",
+    rank: "Polizeihauptmeister/in mit Amtszulage",
+    title: "A 9 mit Amtszulage",
+    card: "Nach Bewährungszeit und Beförderungsauswahl",
     kind: "a9z",
-    mark: true
+    board: { stars: 4, tone: "blue" }
   },
   {
     id: "qe2-a10",
     group: "qe2",
-    kicker: "Nr. 4.5.5",
-    title: "Beförderung zum Amt der Besoldungsgruppe A 10",
-    card: "Bewährungszeit nach der letzten dienstlichen Beurteilung im Statusamt A 9 mit Amtszulage. Mindestens neun Punkte.",
-    lede: "Für den Einstieg in der zweiten Qualifikationsebene ohne erfolgreiche Ausbildungsqualifizierung. Die Bewährungszeit läuft seit der Übertragung des Amtes A 9 mit Amtszulage.",
+    rank: "Zweite Qualifikationsebene",
+    title: "A 10",
+    card: "Nach der letzten Beurteilung in A 9 mit Amtszulage",
+    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Die Bewährungszeit läuft seit A 9 mit Amtszulage. Mindestens neun Punkte.",
+    board: { stars: 2, tone: "white" },
     kind: "points",
     bands: [16, 15, 14, 13, 12, 11, 10, 9].map((p, i) => ({
       min: p, max: p, months: [36, 39, 42, 45, 48, 54, 60, 72][i], label: String(p).padStart(2, "0") + " Punkte"
     })),
     startLegend: "Beginn der Bewährungszeit",
     startLabel: "Übertragung des Amtes der Besoldungsgruppe A 9 mit Amtszulage",
-    startHint: "Nr. 4.5.5 lässt die Bewährungszeit seit der Übertragung eines Amtes der Besoldungsgruppe A 9 mit Amtszulage laufen.",
+    startHint: "Die Bewährungszeit läuft seit der Übertragung von A 9 mit Amtszulage.",
     startShort: "Übertragung A 9 mit Amtszulage",
     statusLabel: "Diese Beurteilung ist im Statusamt A 9 mit Amtszulage erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 9 mit Amtszulage erstellt wurde",
     scopeLabel: SCOPE_QE2,
     scopeMissing: "Bestätigung zum Einstieg in der zweiten Qualifikationsebene ohne Ausbildungsqualifizierung",
-    guHint: "Mindestens „neun Punkte“ (Nr. 4.5.5). Maßgeblich ist die letzte dienstliche Beurteilung im Statusamt A 9 mit Amtszulage.",
+    guHint: "Mindestens neun Punkte, letzte Beurteilung im Statusamt A 9 mit Amtszulage.",
     notes: [
-      "Nach Nr. 5 haben bei Beförderungen nach A 10 diejenigen Vorrang, die in der dritten Qualifikationsebene eingestiegen sind oder die Qualifikation durch Ausbildungsqualifizierung oder modulare Qualifizierung erworben haben."
+      "Bei A 10 haben Personen der dritten Qualifikationsebene sowie nach Ausbildungsqualifizierung oder modularer Qualifizierung Vorrang."
     ],
-    method: "Nr. 4.5.5: seit der Übertragung eines Amtes der Besoldungsgruppe A 9 mit Amtszulage, abgestuft nach dem Ergebnis der letzten dienstlichen Beurteilung. Mindestens „neun Punkte“.",
+    method: "Seit A 9 mit Amtszulage, abgestuft nach dem Gesamturteil. Mindestens neun Punkte.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Nr. 4.5.5 verlangt mindestens „neun Punkte“. Eingetragen sind " + gu + " Punkte. Darunter ist keine Bewährungszeit bestimmt.",
+    bandMessage: (gu) => "Nötig sind mindestens neun Punkte. Eingetragen sind " + gu + " Punkte.",
     example: { m: 10, y: 2023, gu: 12, status: true, scope: true }
   },
   {
     id: "qe2-a11",
     group: "qe2",
-    kicker: "Nr. 4.6.3",
-    title: "Beförderung zum Amt der Besoldungsgruppe A 11",
-    card: "Bewährungszeit nach der letzten dienstlichen Beurteilung, seit der letzten Beförderung.",
-    lede: "Für den Einstieg in der zweiten Qualifikationsebene ohne erfolgreiche Ausbildungsqualifizierung. Die letzte dienstliche Beurteilung muss im aktuellen Statusamt liegen, vor dieser Beförderung im Statusamt A 10.",
+    rank: "Zweite Qualifikationsebene",
+    title: "A 11",
+    card: "Nach der letzten Beurteilung in A 10",
+    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Die letzte Beurteilung muss im Statusamt A 10 liegen.",
+    board: { stars: 3, tone: "white" },
     kind: "points",
     bands: [
       { min: 12, max: 16, months: 60, label: "16 bis 12 Punkte" },
@@ -770,54 +804,55 @@ const PATHS = [
     ],
     startLegend: "Letzte Beförderung",
     startLabel: "Letzte Beförderung",
-    startHint: "Die Bewährungszeit nach Nr. 4.6.3 läuft seit der letzten Beförderung. Das ist in diesem Werdegang die Übertragung des Amtes A 10.",
+    startHint: "Die Bewährungszeit läuft seit der letzten Beförderung, in der Regel der Übertragung von A 10.",
     startShort: "letzte Beförderung",
     statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
     scopeLabel: SCOPE_QE2,
     scopeMissing: "Bestätigung zum Einstieg in der zweiten Qualifikationsebene ohne Ausbildungsqualifizierung",
-    guHint: "Gesamturteil der letzten dienstlichen Beurteilung im aktuellen Statusamt (Nr. 2.1).",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10.",
     notes: [
-      "Nach Nr. 5 haben bei Beförderungen nach A 11 diejenigen Vorrang, die in der dritten Qualifikationsebene eingestiegen sind oder die Qualifikation durch Ausbildungsqualifizierung oder modulare Qualifizierung erworben haben."
+      "Bei A 11 haben Personen der dritten Qualifikationsebene sowie nach Ausbildungsqualifizierung oder modularer Qualifizierung Vorrang."
     ],
-    method: "Nr. 4.6.3: seit der letzten Beförderung, abgestuft nach dem Ergebnis der letzten dienstlichen Beurteilung.",
+    method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Für " + gu + " Punkte bestimmt Nr. 4.6.3 keine Bewährungszeit. Die Tabelle endet bei „08 bis 06 Punkte“.",
+    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten.",
     example: { m: 1, y: 2022, gu: 11, status: true, scope: true }
   },
   {
     id: "qe3-a10",
     group: "qe3",
-    kicker: "Nr. 4.5.1",
-    title: "Beförderung zum Amt der Besoldungsgruppe A 10",
-    card: "Mindestens 36 Monate seit dem allgemeinen Dienstzeitbeginn und mindestens drei Punkte.",
-    lede: "Für den Einstieg in der dritten Qualifikationsebene in der Fachlaufbahn Polizei und Verfassungsschutz.",
+    rank: "Polizeioberkommissar/in",
+    title: "A 10",
+    card: "Nach dem Fünftel des bestandenen Studiums",
+    lede: "Für den Einstieg in der dritten Qualifikationsebene. Nicht nach einem Fünftel abgestuft.",
     kind: "flat",
+    board: { stars: 2, tone: "white" },
     flatMonths: 36,
-    flatLabel: "mindestens 36 Monate, unabhängig vom Fünftel und vom weiteren Gesamturteil",
+    flatLabel: "36 Monate, sobald mindestens drei Punkte vorliegen",
     minPoints: 3,
     startLegend: "Allgemeiner Dienstzeitbeginn",
     startLabel: "Allgemeiner Dienstzeitbeginn",
-    startHint: "Die Bewährungszeit nach Nr. 4.5.1 beträgt mindestens 36 Monate seit dem allgemeinen Dienstzeitbeginn.",
+    startHint: "36 Monate seit dem allgemeinen Dienstzeitbeginn. Das Studium allein setzt die Frist nicht in Gang.",
     startShort: "allgemeiner Dienstzeitbeginn",
-    guHint: "Mindestens „drei Punkte“ (Nr. 4.5.1). Darüber bleibt die Bewährungszeit 36 Monate. Maßgeblich ist die letzte dienstliche Beurteilung im aktuellen Statusamt (Nr. 2.1).",
+    guHint: "Mindestens drei Punkte. Darüber bleibt es bei 36 Monaten.",
     notes: [
-      "Nr. 4.5.1 stuft die Bewährungszeit nicht nach einem Fünftel der Qualifikationsprüfung ab. Für den Einstieg in der dritten Qualifikationsebene genügen mindestens „drei Punkte“ und mindestens 36 Monate seit dem allgemeinen Dienstzeitbeginn.",
-      "Ein Fünftel gilt nach Nr. 4.5.2 nur für die Ausbildungsqualifizierung für Ämter ab der dritten Qualifikationsebene. Diesen Weg rechnet das Tool derzeit nicht."
+      "Beim Einstieg in der dritten Qualifikationsebene gibt es keine Abstufung nach dem Fünftel des Studiums. Es genügen mindestens drei Punkte und 36 Monate seit dem allgemeinen Dienstzeitbeginn."
     ],
-    method: "Nr. 4.5.1: Einstieg in der dritten Qualifikationsebene, letzte dienstliche Beurteilung mindestens „drei Punkte“, Bewährungszeit von mindestens 36 Monaten seit dem allgemeinen Dienstzeitbeginn.",
+    method: "Einstieg in der dritten Qualifikationsebene: mindestens drei Punkte und 36 Monate seit dem allgemeinen Dienstzeitbeginn.",
     col: "Voraussetzung",
-    rows: [{ key: "flat", label: "mindestens drei Punkte, ohne Abstufung nach Fünfteln", months: 36 }],
-    minMessage: (gu) => "Nr. 4.5.1 verlangt in der letzten dienstlichen Beurteilung mindestens „drei Punkte“. Eingetragen sind " + gu + " Punkte.",
+    rows: [{ key: "flat", label: "mindestens drei Punkte", months: 36 }],
+    minMessage: (gu) => "Nötig sind mindestens drei Punkte. Eingetragen sind " + gu + " Punkte.",
     example: { m: 9, y: 2024, gu: 10 }
   },
   {
     id: "qe3-a11",
     group: "qe3",
-    kicker: "Nr. 4.6.1",
-    title: "Beförderung zum Amt der Besoldungsgruppe A 11",
-    card: "Bewährungszeit nach der letzten dienstlichen Beurteilung im Statusamt A 10, auf einem Dienstposten A 9/11, A 11/00 oder höher.",
-    lede: "Für Beamtinnen und Beamte, die im Eingangsamt A 9 oder niedriger eingestellt wurden. Beim Einstieg in der dritten Qualifikationsebene ist das der Weg nach dem Amt A 10.",
+    rank: "Polizeihauptkommissar/in",
+    title: "A 11",
+    card: "Nach der letzten Beurteilung in A 10",
+    lede: "Seit der Beförderung nach A 10, auf einem Dienstposten A 9/11, A 11/00 oder höher.",
+    board: { stars: 3, tone: "white" },
     kind: "points",
     bands: [
       { min: 12, max: 16, months: 36, label: "16 bis 12 Punkte" },
@@ -827,34 +862,26 @@ const PATHS = [
     ],
     startLegend: "Letzte Beförderung",
     startLabel: "Letzte Beförderung",
-    startHint: "Die Bewährungszeit nach Nr. 4.6.1 läuft seit der letzten Beförderung. Das ist hier die Übertragung des Amtes A 10.",
+    startHint: "Die Bewährungszeit läuft seit der Beförderung nach A 10.",
     startShort: "letzte Beförderung",
     statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
     postenLabel: "Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A 9/11, A 11/00 oder höher.",
     postenMissing: "Bestätigung zum Dienstposten A 9/11, A 11/00 oder höher",
-    guHint: "Gesamturteil der letzten dienstlichen Beurteilung im Statusamt A 10 (Nr. 2.1, Nr. 4.6.1).",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10.",
     notes: [
-      "Nr. 4.6.2 betrifft den Einstieg im Eingangsamt A 10 und rechnet seit dem allgemeinen Dienstzeitbeginn. Diesen Fall bildet dieser Rechner nicht ab."
+      "Der Einstieg im Eingangsamt A 10, gerechnet seit dem allgemeinen Dienstzeitbeginn, ist hier nicht abgebildet."
     ],
-    method: "Nr. 4.6.1: Eingangsamt A 9 oder niedriger, Dienstposten der Bewertung A 9/11, A 11/00 oder höher, Bewährungszeit seit der letzten Beförderung nach dem Gesamturteil.",
+    method: "Eingangsamt A 9 oder niedriger, Dienstposten A 9/11, A 11/00 oder höher. Bewährungszeit seit der letzten Beförderung, nach dem Gesamturteil.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Für " + gu + " Punkte bestimmt Nr. 4.6.1 keine Bewährungszeit. Die Tabelle beginnt bei „05 bis 03 Punkte“.",
+    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle beginnt bei drei Punkten.",
     example: { m: 10, y: 2023, gu: 12, status: true, posten: true }
   }
 ];
 
 const GROUPS = [
-  {
-    id: "qe2",
-    title: "Zweite Qualifikationsebene",
-    lead: "Die Ämter bauen aufeinander auf. Nur beim Amt A 9 mit Amtszulage rechnet das Tool zusätzlich die Beförderungsauswahl."
-  },
-  {
-    id: "qe3",
-    title: "Dritte Qualifikationsebene",
-    lead: "Für den Einstieg in der dritten Qualifikationsebene genügt die Bewährungszeit. Eine monatliche Beförderungsauswahl wie bei A 9 mit Amtszulage ist hier nicht hinterlegt."
-  }
+  { id: "qe2", title: "Zweite Qualifikationsebene", tone: "" },
+  { id: "qe3", title: "Dritte Qualifikationsebene", tone: " silver" }
 ];
 
 function addMonths(y, m, n) {
@@ -909,15 +936,49 @@ function esc(s) {
   return String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 }
 
+function rankStar(cx, cy, fill, seam) {
+  const R = 33.1;
+  const sx = 1.07;
+  function tri(offset) {
+    const pts = [];
+    for (let i = 0; i < 3; i++) {
+      const a = offset + i * (2 * Math.PI / 3);
+      pts.push((cx + sx * R * Math.cos(a)).toFixed(1) + "," + (cy + R * Math.sin(a)).toFixed(1));
+    }
+    return "<polygon points='" + pts.join(" ") + "' fill='" + fill + "'/>";
+  }
+  let lines = "";
+  const inner = R * 0.58;
+  for (let i = 0; i < 6; i++) {
+    const a = Math.PI / 6 + i * (Math.PI / 3);
+    const x2 = (cx + sx * inner * Math.cos(a)).toFixed(1);
+    const y2 = (cy + inner * Math.sin(a)).toFixed(1);
+    lines += "<line x1='" + cx.toFixed(1) + "' y1='" + cy.toFixed(1) + "' x2='" + x2 + "' y2='" + y2 + "' stroke='" + seam + "' stroke-width='1' stroke-linecap='round' vector-effect='non-scaling-stroke'/>";
+  }
+  return tri(0) + tri(Math.PI / 3) + lines;
+}
+
+function boardMarkup(spec) {
+  if (!spec || !spec.stars) return "";
+  const w = 334;
+  const h = 133;
+  const fill = spec.tone === "white" ? "#f4f6f8" : "#0490cb";
+  const seam = "#001f46";
+  let inner = "";
+  for (let i = 0; i < spec.stars; i++) inner += rankStar(51.4 + i * 77.6, 67.4, fill, seam);
+  return "<svg class='board' viewBox='0 0 " + w + " " + h + "' aria-hidden='true'><rect width='" + w + "' height='" + h + "' fill='#001f46'/>" + inner + "</svg>";
+}
+
 function buildSelection() {
   $("groups").innerHTML = GROUPS.map((group) => {
     const cards = PATHS.filter((p) => p.group === group.id).map((p) =>
-      "<button type='button' class='pick" + (p.mark ? " mark" : "") + "' data-open='" + p.id + "'>" +
-      "<span class='pick-kicker'>" + esc(p.kicker) + "</span>" +
-      "<span class='pick-title'>" + esc(p.title) + "</span>" +
-      "<span class='pick-text'>" + esc(p.card) + "</span></button>"
+      "<button type='button' class='pick' data-open='" + p.id + "'>" +
+      boardMarkup(p.board) +
+      "<span class='pick-copy'><span class='pick-title'>" + esc(p.title) + "</span>" +
+      "<span class='pick-rank'>" + esc(p.rank || "") + "</span>" +
+      "<span class='pick-text'>" + esc(p.card) + "</span></span></button>"
     ).join("");
-    return "<h2 class='group'>" + esc(group.title) + "</h2><p class='group-lead'>" + esc(group.lead) + "</p><div class='picks'>" + cards + "</div>";
+    return "<h2 class='group" + group.tone + "'>" + esc(group.title) + "</h2><div class='picks'>" + cards + "</div>";
   }).join("");
   $("groups").addEventListener("click", (event) => {
     const btn = event.target.closest("[data-open]");
@@ -930,7 +991,8 @@ let currentPath = null;
 
 function applyPath(path) {
   currentPath = path;
-  $("s-kicker").textContent = path.group === "qe2" ? "Zweite Qualifikationsebene · " + path.kicker : "Dritte Qualifikationsebene · " + path.kicker;
+  $("s-board").innerHTML = boardMarkup(path.board);
+  $("s-kicker").textContent = path.rank || "";
   $("s-title").textContent = path.title;
   $("s-lede").textContent = path.lede;
   $("s-start-legend").textContent = path.startLegend;
@@ -1001,7 +1063,7 @@ function renderSimple() {
   const wait = waitOf(currentPath, input.gu, input.fuenftel);
   if (!wait.ok) {
     const text = wait.reason === "min" ? currentPath.minMessage(input.gu) : currentPath.bandMessage(input.gu);
-    box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='when'>Nach dieser Nummer nicht vorgesehen</p><p>" + esc(text) + "</p>" +
+    box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='when'>Mit diesem Gesamturteil nicht vorgesehen</p><p>" + esc(text) + "</p>" +
       factWrap(factHtml("Gesamturteil", false, esc(text), "open"));
     return;
   }
@@ -1010,7 +1072,7 @@ function renderSimple() {
   const lede = rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit";
   const factClass = rel === "future" ? "wait" : "met";
   const factBadge = rel === "future" ? "Noch nicht" : "Erfüllt";
-  const kern = wait.months + " Monate (" + wait.label + ", " + currentPath.kicker + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
+  const kern = wait.months + " Monate (" + wait.label + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
     (rel === "future"
       ? "Frühester Monatserste ist der " + formatLong(when) + "."
       : "Erreicht am " + formatLong(when) + ".");
@@ -1018,9 +1080,9 @@ function renderSimple() {
     esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1)) + ": " + esc(formatLong(input.start)) + ". Gesamturteil: " + input.gu + " Punkte.</p>" +
     factWrap(
       factHtml("Bewährungszeit", factClass !== "open", esc(kern), factClass) +
-      factHtml("Gesamturteil", true, esc(wait.label + ". " + currentPath.kicker + "."), "met")
+      factHtml("Gesamturteil", true, esc(wait.label + "."), "met")
     ) +
-    "<p class='hint'>Ob eine freie und besetzbare Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht (Nr. 2.1).</p>";
+    "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
 }
 
 function factWrap(inner) {
@@ -1062,7 +1124,7 @@ function show(id, scroll) {
   if (simple) applyPath(simple);
   if (id === "a9z" && typeof render === "function") render();
   const path = PATHS.find((p) => p.id === id);
-  document.title = path ? "Beförderungsrechner – " + path.title.replace("Beförderung zum ", "") : "Beförderungsrechner";
+  document.title = path ? "Beförderungsrechner – " + path.title : "Beförderungsrechner";
   if (scroll) window.scrollTo(0, 0);
 }
 
@@ -1479,6 +1541,7 @@ function fillPunktSelect(select, min, max) {
 
 function init() {
   buildSelection();
+  $("a9z-board").innerHTML = boardMarkup({ stars: 4, tone: "blue" });
   fillMonthYear("s-monat", "s-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillPunktSelect($("s-gu"), 1, 16);
   $("s-fuenftel").innerHTML = "<option value=''>–</option>" + FUENFTEL.map((f) =>

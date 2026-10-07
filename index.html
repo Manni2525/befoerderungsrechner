@@ -930,10 +930,6 @@ const PATHS = [
       short: "Amt mindestens A 9",
       months: 36
     },
-    notes: [
-      "Die Qualifikationsprüfung ist die Abschlussprüfung des Studiums.",
-      "Nicht für die Übertragung von A 10 im fachlichen Schwerpunkt Technischer Polizeivollzugsdienst."
-    ],
     method: "Seit dem Bestehen der Qualifikationsprüfung, der Abschlussprüfung des Studiums, abgestuft nach dem Fünftel. Zusätzlich 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9.",
     col: "Fünftel der Qualifikationsprüfung"
   },
@@ -1676,12 +1672,12 @@ function init() {
   $("a9z-board").innerHTML = boardMarkup({ stars: 4, tone: "blue" });
   fillMonthYear("s-monat", "s-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillMonthYear("s-monat-2", "s-jahr-2", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
-  fillPunktSelect($("s-gu"), 1, 16);
+  fillPunktSelect($("s-gu"), 4, 16);
   $("s-fuenftel").innerHTML = "<option value=''>–</option>" + FUENFTEL.map((f) =>
     "<option value='" + f.id + "'>" + f.label + "</option>"
   ).join("");
-  fillPunktSelect($("gu"), 5, 16);
-  fillPunktSelect($("rw"), 1, 16);
+  fillPunktSelect($("gu"), 4, 16);
+  fillPunktSelect($("rw"), 4, 16);
   const diesesJahr = new Date().getFullYear();
   for (const id of ["einstieg-jahr", "a9-jahr"]) {
     const select = $(id);
@@ -1712,9 +1708,9 @@ function init() {
     $("a9-monat").value = String(randInt(1, 12));
     $("a9-jahr").value = String(a9Jahr);
     document.querySelector("input[name=sb][value=" + pick(["ja", "nein"]) + "]").checked = true;
-    $("gu").value = String(randInt(5, 16));
+    $("gu").value = String(randInt(4, 16));
     $("einzel").value = String(randInt(5, 80));
-    $("rw").value = String(randInt(1, 16));
+    $("rw").value = String(randInt(4, 16));
     $("in-a9").checked = Math.random() < 0.8;
     $("fortschreiben").checked = Math.random() < 0.8;
     render();
@@ -1735,7 +1731,7 @@ function init() {
     const jahr = new Date().getFullYear();
     $("s-monat").value = String(randInt(1, 12));
     $("s-jahr").value = String(randInt(2008, jahr));
-    if (path.askAssessment !== false) $("s-gu").value = String(randInt(1, 16));
+    if (path.askAssessment !== false) $("s-gu").value = String(randInt(4, 16));
     if (path.kind === "fuenftel") $("s-fuenftel").value = String(randInt(1, 5));
     if (path.second) {
       $("s-monat-2").value = String(randInt(1, 12));

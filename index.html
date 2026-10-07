@@ -354,10 +354,20 @@
   footer.site {
     max-width: 1080px;
     margin: 0 auto;
-    padding: 0 20px 28px;
+    padding: 8px 20px 28px;
     color: var(--muted);
     font-size: 0.78rem;
   }
+  footer.site p { margin: 0 0 8px; }
+  footer.site a, .legal a { color: var(--navy); }
+  .legal { max-width: 44rem; }
+  .legal h2 { font-size: 1.55rem; margin-bottom: 18px; }
+  .legal h3 { margin: 28px 0 8px; font-size: 1.12rem; color: var(--navy); }
+  .legal h4 { margin: 18px 0 6px; font-size: 1rem; }
+  .legal p { margin: 0 0 12px; }
+  .legal ul { margin: 0 0 14px; padding-left: 1.25rem; }
+  .legal li { margin: 0 0 8px; }
+  .legal address { font-style: normal; margin: 0 0 16px; line-height: 1.45; }
   @media (max-width: 860px) {
     .head { grid-template-columns: 1fr; gap: 18px; }
     .brandmark { margin: 0 auto; }
@@ -461,7 +471,7 @@
       </div>
       <div class="disclaimer">
         <strong>Keine rechtsverbindliche Auskunft.</strong>
-        Das Ergebnis ist eine ungefähre Prognose aus der historischen Beförderungsauswahl seit September 2023. Künftige Stichtage hängen von Haushalt und freien Stellen ab. Eine neue Beurteilung kann Wartezeit und Auswahl verändern. Daraus folgt kein Anspruch auf eine Beförderung oder auf einen Termin.
+        Das Ergebnis ist eine ungefähre Prognose aus der historischen Beförderungsauswahl seit September 2023. Künftige Stichtage hängen von Haushalt und freien Stellen ab. Eine neue Beurteilung (Wirksamkeit ab dem 01.10.) kann die persönliche Bewährungszeit und Beförderungsauswahl verändern. Daraus folgt kein Anspruch auf eine Beförderung oder auf einen Beförderungszeitpunkt.
       </div>
 
       <form id="form" class="card" autocomplete="off">
@@ -546,7 +556,7 @@
           <p class="hint">Für alle gilt die periodische Beurteilung 2026, wirksam seit Oktober 2026. Die Summe der fünf Einzelmerkmale liegt zwischen 5 und 80.</p>
           <label class="check">
             <input type="checkbox" id="in-a9" checked>
-            <span>Diese Beurteilung ist im Statusamt A&nbsp;9 erstellt worden. Die Beförderungswahl verlangt das ausdrücklich.</span>
+            <span>Diese Beurteilung ist im Statusamt A&nbsp;9 erstellt worden. Die Beförderungsauswahl verlangt das ausdrücklich.</span>
           </label>
           <p id="a9-hint" class="warn-inline" hidden></p>
         </fieldset>
@@ -587,9 +597,9 @@
           </div>
           <div>
             <h3>2. Beförderungsauswahl</h3>
-            <p>Das Innenministerium veröffentlicht jeden Monat, wer bei zu wenigen Stellen noch zum Zug kommt. Auch wer die Bewährungszeit schon erfüllt hat, wird nur befördert, wenn diese Auswahl passt. Das jeweils nächste Kriterium gilt nur für diejenigen, die exakt die Mindestpunktzahl des vorherigen Kriteriums erreicht haben. Wer darüber liegt, muss die weiteren Hürden nicht nehmen. Wer darunter liegt, kommt auch mit langer Dienstzeit nicht darüber.</p>
+            <p>Das Innenministerium veröffentlicht jeden Monat, wer bei zu wenigen freien Haushaltsstellen noch zum Zug kommt. Auch wer die Bewährungszeit schon erfüllt hat, wird nur befördert, wenn er die Auswahlkriterien erfüllt. Das jeweils nächste Kriterium gilt nur für diejenigen, die exakt die Mindestpunktzahl des vorherigen Kriteriums erreicht haben. Wer darüber liegt, muss die weiteren Hürden nicht nehmen. Wer darunter liegt, kann auch beim Erfüllen der restlichen Kriterien nicht befördert werden.</p>
             <p>Die Reihenfolge ist: Gesamturteil der Beurteilung 2026, Summe der fünf doppelt gewichteten Einzelmerkmale, Gesamturteil der Beurteilung 2023, dann die sonstige Voraussetzung. Schwerbehinderung oder die in der Tabelle genannte Dienstzeit ersetzen einander. Steht dort ein Plus, müssen beide Dienstzeiten erreicht sein. Steht „oder“, genügt eine davon.</p>
-            <p>Liegt für einen Monat bereits eine veröffentlichte Beförderungsauswahl vor, gilt diese Zeile. Für spätere Monate ohne eigene Zeile nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Dezember 2026 wird also an Dezember 2023 gemessen, Oktober 2027 an Oktober 2024. Der November 2026 ist der letzte eingetragene Stichtag.</p>
+            <p>Für künftige Monate nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Oktober 2027 wird also an Oktober 2024 gemessen, November 2026 an November 2023. Der November (wird stetig aktualisiert) 2026 ist der letzte eingetragene Stichtag.</p>
           </div>
         </div>
         <h3 style="margin-top:16px">Gesamturteil der bekannten Stichtage</h3>
@@ -710,9 +720,68 @@
         <p class="hint">Dienstzeiten werden in Monaten gerechnet. Zum Zeitpunkt der Ernennung beträgt die Dienstzeit null. Angezeigt wird der Monatserste, an dem die geforderte Zahl erreicht ist. Eingetragen wird der Monat, gerechnet wird ab dessen Erstem.</p>
       </details>
     </section>
+
+    <section id="view-impressum" class="legal" hidden>
+      <button class="back" type="button" data-back>← Zur Auswahl</button>
+      <article class="card">
+        <h2>Impressum und Datenschutzhinweise</h2>
+        <h3>Angaben gemäß §&nbsp;5 TMG / Verantwortlichkeit</h3>
+        <h4>Inhaltlich verantwortlich</h4>
+        <address>
+          Personalrat Schwaben Nord<br>
+          Gögginger Straße 43<br>
+          86152 Augsburg
+        </address>
+        <h4>Ansprechpartner und Entwicklung</h4>
+        <address>
+          Florian Nowadnick<br>
+          E-Mail: <a href="mailto:florian.nowadnick@polizei.bayern.de">florian.nowadnick@polizei.bayern.de</a>
+        </address>
+
+        <h3>1. Haftungsausschluss und wichtige rechtliche Hinweise zur Nutzung</h3>
+        <h4>Keine rechtsverbindliche Auskunft</h4>
+        <p>Die Inhalte und Berechnungen dieses Tools („Beförderungsrechner“) wurden mit größtmöglicher Sorgfalt erstellt. Es wird jedoch ausdrücklich darauf hingewiesen, dass die Nutzung des Tools keine rechtsverbindliche Auskunft oder verbindliche behördliche Zusicherung darstellt.</p>
+        <h4>Prognosecharakter und Variablen</h4>
+        <p>Das angezeigte Ergebnis ist eine ungefähre Prognose, die auf der historischen Beförderungsauswahl seit September 2023 basiert. Künftige Stichtage, Beförderungstermine sowie Wartezeiten sind von zahlreichen externen und variablen Faktoren abhängig, insbesondere von den jeweils aktuellen Haushaltsmitteln und den tatsächlich zur Verfügung stehenden freien Planstellen.</p>
+        <h4>Auswirkungen von Beurteilungen</h4>
+        <p>Eine neue Regel- oder Anlassbeurteilung kann die berechnete Wartezeit sowie die Auswahlentscheidung maßgeblich verändern. Aus den Ergebnissen dieses Tools lässt sich zu keinem Zeitpunkt ein Rechtsanspruch auf eine Beförderung oder auf einen bestimmten Beförderungstermin ableiten.</p>
+        <h4>Fehlermeldung und Haftungsbeschränkung</h4>
+        <p>Trotz sorgfältiger Prüfung und Testung können in der Programmierung oder in den zugrundeliegenden Berechnungslogiken Fehler nicht vollständig ausgeschlossen werden. Der Anbieter übernimmt keine Gewähr für die Richtigkeit, Vollständigkeit und Aktualität der bereitgestellten Informationen. Nutzer werden ausdrücklich gebeten, vermutete Fehler, abweichende Ergebnisse oder technische Störungen an den oben genannten Ansprechpartner (Florian Nowadnick) zu melden, um eine kontinuierliche Verbesserung zu ermöglichen.</p>
+
+        <h3>2. Urheberrecht und Nutzungsbedingungen</h3>
+        <p>Die durch den Entwickler erstellten Inhalte, Quellcodes und Werke (insbesondere die Berechnungslogik, Algorithmen und das Design des Tools) unterliegen dem deutschen Urheberrecht.</p>
+        <h4>Vervielfältigung, Verbreitung und Urhebernennung</h4>
+        <p>Jegliche Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der engen Grenzen des Urheberrechtes bedürfen der vorherigen ausdrücklichen und schriftlichen Zustimmung des Urhebers (Florian Nowadnick). Es ist insbesondere strengstens untersagt:</p>
+        <ul>
+          <li>Das Tool oder dessen Quellcode zu kopieren, zu klonen oder auf eigenen oder fremden Servern und Websites ohne Erlaubnis neu zu hosten.</li>
+          <li>Das Tool unter falschem Namen, ohne Nennung des Urhebers oder als eigene Entwicklung auszugeben.</li>
+          <li>Die Berechnungslogik zu extrahieren, um sie für eigenständige andere Projekte zu verwenden.</li>
+        </ul>
+        <p>Die bloße Weitergabe des Links zum Tool an berechtigte Personenkreise ist gestattet und erwünscht, sofern der Bezug zum ursprünglichen Urheber und den verantwortlichen Stellen unangetastet bleibt.</p>
+
+        <h3>3. Datenschutzerklärung</h3>
+        <p>Der Schutz Ihrer Daten hat für uns höchste Priorität. Die Nutzung dieses Tools ist auf maximale Datensparsamkeit ausgelegt.</p>
+        <h4>Lokale Datenverarbeitung (keine Datenübertragung)</h4>
+        <p>Dieser Beförderungsrechner ist als rein clientseitige Anwendung konzipiert. Das bedeutet: Alle Eingaben, die Sie in das Tool tätigen (zum Beispiel Beurteilungsnoten, Datumsangaben, Laufbahndaten), werden ausschließlich lokal im Arbeitsspeicher Ihres Endgeräts (Browser) verarbeitet. Es findet keine Übertragung dieser sensiblen personenbezogenen Eingabedaten an Server, an den Entwickler, an den Personalrat oder an Dritte statt. Die von Ihnen eingegebenen Parameter werden nirgendwo gespeichert oder protokolliert.</p>
+        <h4>Server-Logfiles und Bereitstellung der Anwendung</h4>
+        <p>Bei der bloßen Aufrufung der Website erfasst der jeweilige Server, auf dem das Tool gehostet wird (unabhängig davon, ob es sich um einen Webhoster oder einen internen Intranet-Server handelt), technisch bedingt Daten, die Ihr Browser automatisch übermittelt (sogenannte Server-Logfiles). Dazu gehören in der Regel:</p>
+        <ul>
+          <li>IP-Adresse des zugreifenden Geräts</li>
+          <li>Datum und Uhrzeit des Zugriffs</li>
+          <li>Aufgerufene URL und Dateipfad</li>
+          <li>Verwendeter Browsertyp und Betriebssystem</li>
+        </ul>
+        <p>Diese Daten sind technisch notwendig, um die Anwendung fehlerfrei auszuliefern und die Stabilität sowie Sicherheit der IT-Systeme zu gewährleisten. Eine Zusammenführung dieser Verbindungsdaten mit den von Ihnen im Tool eingegebenen Beförderungsparametern ist technisch ausgeschlossen und findet nicht statt.</p>
+        <h4>Kontaktaufnahme</h4>
+        <p>Treten Sie (beispielsweise zur Fehlermeldung) per E-Mail mit dem Ansprechpartner in Kontakt, werden die von Ihnen gemachten Angaben zwecks Bearbeitung der Anfrage sowie für mögliche Anschlussfragen gespeichert. Eine Weitergabe dieser Daten erfolgt nicht ohne Ihre Einwilligung.</p>
+      </article>
+    </section>
   </div>
 </main>
-<footer class="site">Personalrat Schwaben Nord. Erstellt von © Nowadnick. Grundlage: Beförderungsrichtlinien vom 21. Juli 2026. Beförderungsauswahl für A&nbsp;9 mit Amtszulage: September 2023 bis November 2026.</footer>
+<footer class="site">
+  <p>Personalrat Schwaben Nord. Erstellt von © Nowadnick. Grundlage: Beförderungsrichtlinien vom 21. Juli 2026. Beförderungsauswahl für A&nbsp;9 mit Amtszulage: September 2023 bis November 2026.</p>
+  <p><a href="#impressum">Impressum und Datenschutz</a></p>
+</footer>
 
 <script>
 const $ = (id) => document.getElementById(id);
@@ -769,9 +838,6 @@ const PATHS = [
     statusLabel: "Diese Beurteilung ist im Statusamt A 8 erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 8 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 8.",
-    notes: [
-      "Gilt nicht, wenn A 9 im Wege der Ausbildungsqualifizierung übertragen wird."
-    ],
     method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
     col: "Gesamturteil",
     bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten."
@@ -1168,6 +1234,7 @@ function fillMonthYear(monthId, yearId, months) {
 
 function fromHash() {
   const id = (location.hash || "").slice(1);
+  if (id === "impressum") return "impressum";
   if (id === "a9z" || PATHS.some((p) => p.id === id && p.kind !== "a9z")) return id;
   if (id === "auswahl" || id === "") return "auswahl";
   return "auswahl";
@@ -1176,12 +1243,13 @@ function fromHash() {
 function show(id, scroll) {
   $("view-auswahl").hidden = id !== "auswahl";
   $("view-a9z").hidden = id !== "a9z";
+  $("view-impressum").hidden = id !== "impressum";
   const simple = PATHS.find((p) => p.id === id && p.kind !== "a9z");
   $("view-simple").hidden = !simple;
   if (simple) applyPath(simple);
   if (id === "a9z" && typeof render === "function") render();
   const path = PATHS.find((p) => p.id === id);
-  document.title = path ? "Beförderungsrechner – " + path.title : "Beförderungsrechner";
+  document.title = id === "impressum" ? "Beförderungsrechner – Impressum" : path ? "Beförderungsrechner – " + path.title : "Beförderungsrechner";
   if (scroll) window.scrollTo(0, 0);
 }
 

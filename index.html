@@ -714,7 +714,6 @@
             <li>Bei A&nbsp;9 mit Amtszulage entfällt der Haken zum Fortschreiben der Punktzahlen. Die Prognose rechnet weiter mit den eingetragenen Werten.</li>
             <li>Alle Änderungen eines Tages stehen in einer Versionsnummer.</li>
             <li>Auf der Startseite entfällt der Hinweis „Unverbindliche Orientierung“.</li>
-            <li>In der Übersicht steht vor der Besoldungsgruppe ein „zu“, zum Beispiel „zu A&nbsp;8“.</li>
           </ul>
         </section>
 
@@ -1027,7 +1026,7 @@ function buildSelection() {
     const cards = PATHS.filter((p) => p.group === group.id).map((p) =>
       "<button type='button' class='pick' data-open='" + p.id + "'>" +
       boardMarkup(p.board) +
-      "<span class='pick-copy'><span class='pick-title'>" + esc("zu " + p.title) + "</span>" +
+      "<span class='pick-copy'><span class='pick-title'>" + esc(p.title) + "</span>" +
       "<span class='pick-rank'>" + esc(p.rank || "") + "</span>" +
       "<span class='pick-text'>" + esc(p.card) + "</span></span></button>"
     ).join("");

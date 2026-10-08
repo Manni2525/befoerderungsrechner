@@ -6,23 +6,24 @@ Betrifft Verhalten, Texte, Daten und Layout in `index.html`. Reine Agent- oder R
 
 ## Versionsseite
 
-In `index.html`, neueste Fassung zuerst:
+In `index.html`, neueste Fassung zuerst. Pro Kalendertag höchstens eine Versionsnummer. Mehrere Änderungen desselben Tages in den Stichpunkten dieses einen Blocks zusammenfassen. Überholte Zwischenschritte desselben Tages nicht einzeln stehen lassen, sondern den Stand am Ende des Tages beschreiben.
 
-1. Neuen Block oben in `#view-versionen` einfügen.
-2. Die Versionsnummer um 0.1 erhöhen. Dieselbe Nummer steht an drei Stellen: im neuen Block, im Satz „Aktuelle Fassung“ und im Footer-Link `Version x.y`.
-3. Datum ist der Tag der Änderung, zum Beispiel `8. Oktober 2026`. Im Satz „Aktuelle Fassung“ steht nach dem Tag ein geschütztes Leerzeichen: `8.&nbsp;Oktober 2026`.
-4. Kurze deutsche Stichpunkte: was sich bei der Nutzung ändert.
+1. Liegt der oberste Block schon auf dem Tag der Änderung, die Nummer nicht erhöhen. Neue Stichpunkte in diesen Block einfügen.
+2. Nur wenn der oberste Block ein anderes Datum trägt, einen neuen Block darüber setzen und die Versionsnummer um 0.1 erhöhen.
+3. Dieselbe Nummer steht an drei Stellen: im Block des Tages, im Satz „Aktuelle Fassung“ und im Footer-Link `Version x.y`.
+4. Datum ist der Tag der Änderung, zum Beispiel `9. Oktober 2026`. Im Satz „Aktuelle Fassung“ steht nach dem Tag ein geschütztes Leerzeichen: `9.&nbsp;Oktober 2026`.
+5. Kurze deutsche Stichpunkte: was sich bei der Nutzung ändert.
 
 ```html
 <section class="version">
-  <p class="version-meta"><span class="num">Version 1.8</span><span class="since">seit dem 9. Oktober 2026</span></p>
+  <p class="version-meta"><span class="num">Version 1.4</span><span class="since">seit dem 9. Oktober 2026</span></p>
   <ul>
     <li>Kurze Zusammenfassung der Änderung.</li>
   </ul>
 </section>
 ```
 
-Aktueller Stand zum Anlegen dieser Vorgabe: **Version 1.7** seit dem 8. Oktober 2026. Die nächste sichtbare Änderung ist Version 1.8.
+Aktueller Stand: **Version 1.4** seit dem 9. Oktober 2026. Eine weitere sichtbare Änderung an diesem Tag ergänzt die Stichpunkte von 1.4. Die nächste Nummer ist 1.5, am ersten späteren Tag mit einer sichtbaren Änderung.
 
 ## Veröffentlichen
 

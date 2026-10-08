@@ -1,0 +1,24 @@
+---
+description: Nach jeder Änderung am Beförderungsrechner die Versionsseite fortschreiben
+alwaysApply: true
+---
+
+# Versionsseite fortschreiben
+
+Nach jeder Änderung am Tool (`index.html` oder Verhalten, Texte, Daten, Layout) die Versionsseite in derselben Änderung mitaktualisieren.
+
+In `index.html`:
+
+1. Neue Fassung oben in `#view-versionen` einfügen, neueste zuerst.
+2. Versionsnummer um 0.1 erhöhen (aus 1.3 wird 1.4). Dieselbe Nummer in den Satz „Aktuelle Fassung“ und in den Footer-Link `Version x.y` schreiben.
+3. Datum ist der Tag der Änderung, Format `8. Oktober 2026`, im Kopf mit geschütztem Leerzeichen nach dem Tag (`8.&nbsp;Oktober 2026`).
+4. Kurze deutsche Stichpunkte: was sich für die Nutzung ändert. Keine internen Umbauten, die nichts Sichtbares ändern.
+
+```html
+<section class="version">
+  <p class="version-meta"><span class="num">Version 1.4</span><span class="since">seit dem 9. Oktober 2026</span></p>
+  <ul>
+    <li>Kurze Zusammenfassung der Änderung.</li>
+  </ul>
+</section>
+```

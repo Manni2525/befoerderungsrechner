@@ -368,6 +368,17 @@
   .legal ul { margin: 0 0 14px; padding-left: 1.25rem; }
   .legal li { margin: 0 0 8px; }
   .legal address { font-style: normal; margin: 0 0 16px; line-height: 1.45; }
+  .version-now {
+    margin: 0 0 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .version-now strong { color: var(--navy); }
+  .version { margin: 0 0 18px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .version:last-child { border-bottom: 0; margin-bottom: 0; }
+  .version-meta { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; margin: 0 0 8px; }
+  .version-meta .num { font-weight: 700; color: var(--navy); font-size: 1.05rem; }
+  .version-meta .since { color: var(--muted); font-size: 0.92rem; }
   @media (max-width: 860px) {
     .head { grid-template-columns: 1fr; gap: 18px; }
     .brandmark { margin: 0 auto; }
@@ -776,11 +787,75 @@
         <p>Treten Sie (beispielsweise zur Fehlermeldung) per E-Mail mit dem Ansprechpartner in Kontakt, werden die von Ihnen gemachten Angaben zwecks Bearbeitung der Anfrage sowie für mögliche Anschlussfragen gespeichert. Eine Weitergabe dieser Daten erfolgt nicht ohne Ihre Einwilligung.</p>
       </article>
     </section>
+
+    <section id="view-versionen" class="legal" hidden>
+      <button class="back" type="button" data-back>← Zur Auswahl</button>
+      <article class="card">
+        <h2>Versionen</h2>
+        <p class="version-now">Aktuelle Fassung: <strong>Version 1.6</strong>, gültig seit dem 8.&nbsp;Oktober 2026.</p>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.6</span><span class="since">seit dem 8. Oktober 2026</span></p>
+          <ul>
+            <li>Bei A&nbsp;10 der zweiten Qualifikationsebene entfällt der Hinweis zum Vorrang der dritten Qualifikationsebene sowie nach Ausbildungsqualifizierung oder modularer Qualifizierung.</li>
+          </ul>
+        </section>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.5</span><span class="since">seit dem 8. Oktober 2026</span></p>
+          <ul>
+            <li>Bei A&nbsp;10 der zweiten Qualifikationsebene entfällt der Kasten „Persönlicher Geltungsbereich“.</li>
+          </ul>
+        </section>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.4</span><span class="since">seit dem 8. Oktober 2026</span></p>
+          <ul>
+            <li>Bei A&nbsp;11 der zweiten Qualifikationsebene entfällt der Kasten „Persönlicher Geltungsbereich“. Wer diese Beförderung wählt, ist bereits in der zweiten Qualifikationsebene.</li>
+          </ul>
+        </section>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.3</span><span class="since">seit dem 8. Oktober 2026</span></p>
+          <ul>
+            <li>Eigene Seite „Versionen“ neben dem Impressum. Jede Änderung steht hier mit Versionsnummer, Datum und kurzer Zusammenfassung.</li>
+          </ul>
+        </section>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.2</span><span class="since">seit dem 7. Oktober 2026</span></p>
+          <ul>
+            <li>Schulterklappen auf der Übersicht. Das Signet zeigt das Schwabenwappen und führt zur Startseite.</li>
+            <li>A&nbsp;8 hängt nur noch vom Fünftel der bestandenen Ausbildung ab. Der Beispielbutton setzt jedes Mal neue Angaben.</li>
+            <li>A&nbsp;10 der dritten Qualifikationsebene richtet sich nach dem Fünftel der Qualifikationsprüfung.</li>
+            <li>Impressum und Datenschutzhinweise ergänzt, Adresse des Personalrats Schwaben Nord eingetragen.</li>
+            <li>Untertitel von A&nbsp;9 mit Amtszulage auf die letzte Beurteilung umgestellt. Hinweise zur Beförderungsauswahl klarer formuliert.</li>
+            <li>Vier Punkte als Untergrenze für Beurteilungen. Der Hinweis zum Einstieg im Eingangsamt A&nbsp;10 bei A&nbsp;11 der dritten Qualifikationsebene entfällt.</li>
+          </ul>
+        </section>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.1</span><span class="since">seit dem 6. Oktober 2026</span></p>
+          <ul>
+            <li>Weitere Ämter der zweiten und dritten Qualifikationsebene ergänzt.</li>
+            <li>Beförderungsauswahl für November 2026 eingetragen.</li>
+          </ul>
+        </section>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.0</span><span class="since">seit dem 4. Oktober 2026</span></p>
+          <ul>
+            <li>Beförderungsrechner für A&nbsp;9 mit Amtszulage bereitgestellt.</li>
+            <li>Die Prognose setzt Bewährungszeit und die veröffentlichte Beförderungsauswahl seit September 2023 nebeneinander.</li>
+          </ul>
+        </section>
+      </article>
+    </section>
   </div>
 </main>
 <footer class="site">
   <p>Personalrat Schwaben Nord. Erstellt von © Nowadnick. Grundlage: Beförderungsrichtlinien vom 21. Juli 2026. Beförderungsauswahl für A&nbsp;9 mit Amtszulage: September 2023 bis November 2026.</p>
-  <p><a href="#impressum">Impressum und Datenschutz</a></p>
+  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.6</a></p>
 </footer>
 
 <script>
@@ -793,8 +868,6 @@ const FUENFTEL = [
   { id: "4", label: "viertes Fünftel", months: 33 },
   { id: "5", label: "fünftes Fünftel", months: 36 }
 ];
-
-const SCOPE_QE2 = "Ich bin in der zweiten Qualifikationsebene eingestiegen und habe an der Ausbildungsqualifizierung für Ämter ab der dritten Qualifikationsebene nicht erfolgreich teilgenommen.";
 
 const PATHS = [
   {
@@ -869,12 +942,7 @@ const PATHS = [
     startShort: "Übertragung A 9 mit Amtszulage",
     statusLabel: "Diese Beurteilung ist im Statusamt A 9 mit Amtszulage erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 9 mit Amtszulage erstellt wurde",
-    scopeLabel: SCOPE_QE2,
-    scopeMissing: "Bestätigung zum Einstieg in der zweiten Qualifikationsebene ohne Ausbildungsqualifizierung",
     guHint: "Mindestens neun Punkte, letzte Beurteilung im Statusamt A 9 mit Amtszulage.",
-    notes: [
-      "Bei A 10 haben Personen der dritten Qualifikationsebene sowie nach Ausbildungsqualifizierung oder modularer Qualifizierung Vorrang."
-    ],
     method: "Seit A 9 mit Amtszulage, abgestuft nach dem Gesamturteil. Mindestens neun Punkte.",
     col: "Gesamturteil",
     bandMessage: (gu) => "Nötig sind mindestens neun Punkte. Eingetragen sind " + gu + " Punkte."
@@ -899,8 +967,6 @@ const PATHS = [
     startShort: "letzte Beförderung",
     statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
-    scopeLabel: SCOPE_QE2,
-    scopeMissing: "Bestätigung zum Einstieg in der zweiten Qualifikationsebene ohne Ausbildungsqualifizierung",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10.",
     notes: [
       "Bei A 11 haben Personen der dritten Qualifikationsebene sowie nach Ausbildungsqualifizierung oder modularer Qualifizierung Vorrang."
@@ -1228,6 +1294,7 @@ function fillMonthYear(monthId, yearId, months) {
 function fromHash() {
   const id = (location.hash || "").slice(1);
   if (id === "impressum") return "impressum";
+  if (id === "versionen") return "versionen";
   if (id === "a9z" || PATHS.some((p) => p.id === id && p.kind !== "a9z")) return id;
   if (id === "auswahl" || id === "") return "auswahl";
   return "auswahl";
@@ -1237,12 +1304,14 @@ function show(id, scroll) {
   $("view-auswahl").hidden = id !== "auswahl";
   $("view-a9z").hidden = id !== "a9z";
   $("view-impressum").hidden = id !== "impressum";
+  $("view-versionen").hidden = id !== "versionen";
   const simple = PATHS.find((p) => p.id === id && p.kind !== "a9z");
   $("view-simple").hidden = !simple;
   if (simple) applyPath(simple);
   if (id === "a9z" && typeof render === "function") render();
   const path = PATHS.find((p) => p.id === id);
-  document.title = id === "impressum" ? "Beförderungsrechner – Impressum" : path ? "Beförderungsrechner – " + path.title : "Beförderungsrechner";
+  const pageTitle = id === "impressum" ? "Impressum" : id === "versionen" ? "Versionen" : path ? path.title : "";
+  document.title = pageTitle ? "Beförderungsrechner – " + pageTitle : "Beförderungsrechner";
   if (scroll) window.scrollTo(0, 0);
 }
 

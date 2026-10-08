@@ -23,3 +23,17 @@ In `index.html`, neueste Fassung zuerst:
 ```
 
 Aktueller Stand zum Anlegen dieser Vorgabe: **Version 1.7** seit dem 8. Oktober 2026. Die nächste sichtbare Änderung ist Version 1.8.
+
+## Veröffentlichen
+
+Jeder Push von `main` geht an beide Remotes. Die öffentliche Seite https://manni2525.github.io/befoerderungsrechner/ liest `main` aus `befoerderungsrechner`. Ein Push nur nach `origin` aktualisiert diese Seite nicht.
+
+- `origin`: https://github.com/Manni2525/wann-endlich-a9z.git
+- `befoerderungsrechner`: https://github.com/Manni2525/befoerderungsrechner.git
+
+```
+git push origin main
+git push befoerderungsrechner main
+```
+
+Kein Force-Push. Fehlt das Remote lokal, einmal anlegen: `git remote add befoerderungsrechner https://github.com/Manni2525/befoerderungsrechner.git`

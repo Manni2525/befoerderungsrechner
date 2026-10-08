@@ -1,0 +1,20 @@
+---
+description: main immer auch ins Repository befoerderungsrechner pushen
+alwaysApply: true
+---
+
+# Beide Remotes pushen
+
+Steht auch in `AGENTS.md`. Wenn der Nutzer einen Push will, `main` an beide Remotes schicken. Die Seite https://manni2525.github.io/befoerderungsrechner/ bleibt sonst stehen.
+
+- `origin`: https://github.com/Manni2525/wann-endlich-a9z.git
+- `befoerderungsrechner`: https://github.com/Manni2525/befoerderungsrechner.git
+
+```
+git push origin main
+git push befoerderungsrechner main
+```
+
+Fehlt das Remote: `git remote add befoerderungsrechner https://github.com/Manni2525/befoerderungsrechner.git`
+
+Kein Force-Push.

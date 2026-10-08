@@ -35,4 +35,4 @@ Die öffentliche Seite ist https://manni2525.github.io/befoerderungsrechner/
 git push origin main
 ```
 
-Kein Force-Push.
+Kein Force-Push. Das alte Repository `wann-endlich-a9z` bleibt bestehen und leitet nur noch auf https://manni2525.github.io/befoerderungsrechner/ weiter. Nicht löschen.

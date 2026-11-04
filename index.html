@@ -186,7 +186,7 @@
   .notes p { margin: 0 0 8px; }
   .notes p:last-child { margin: 0; }
   label.field { display: flex; flex-direction: column; gap: 4px; font-size: 0.92rem; }
-  label.field span.lbl { font-weight: 600; }
+  label.field span.lbl { font-weight: 600; display: inline-flex; align-items: center; white-space: nowrap; }
   input[type="number"], select {
     width: 100%;
     height: 42px;
@@ -279,7 +279,7 @@
   .chart { width: 100%; height: auto; display: block; }
   details summary { cursor: pointer; font-weight: 650; }
   .both { background: #f4f7fa; border-left: 3px solid var(--navy); border-radius: 8px; padding: 10px 14px; margin: 0 0 14px; }
-  .tip { position: relative; display: inline-block; margin-left: 6px; vertical-align: middle; }
+  .tip { position: relative; display: inline-flex; align-items: center; margin-left: 6px; }
   .tip-btn {
     width: 22px; height: 22px; border-radius: 50%;
     border: 1px solid #b7c3cf; background: #fff; cursor: help;
@@ -447,7 +447,7 @@
               <select id="gu" name="gu" required></select>
             </label>
             <label class="field">
-              <span class="lbl">Summe der Einzelmerkmale
+              <span class="lbl">Einzelmerkmale
                 <span class="tip">
                   <button type="button" class="tip-btn" aria-describedby="tip-merkmale">i</button>
                   <span id="tip-merkmale" class="tip-box" role="tooltip">
@@ -463,7 +463,7 @@
                   </span>
                 </span>
               </span>
-              <input type="number" id="einzel" name="einzel" min="5" max="80" step="1" inputmode="numeric" required>
+              <input type="number" id="einzel" name="einzel" min="5" max="80" step="1" inputmode="numeric" placeholder="Summe 5 bis 80" required>
             </label>
           </div>
           <p class="hint">Für alle gilt die periodische Beurteilung 2026, wirksam seit Oktober 2026. Die Summe der fünf Einzelmerkmale liegt zwischen 5 und 80.</p>
@@ -765,7 +765,7 @@
             <li>Tabelle aller Stichtage unter „So rechnet das Tool“ bei A&nbsp;9 mit Amtszulage ist auch vor Ausfüllen des Formulars sichtbar.</li>
             <li>Für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene wird die Beförderungsauswahl zweistufig neben der Bewährungszeit berechnet; die Dienstzeit in A&nbsp;9 mit Amtszulage wird automatisch aus dem Beförderungsdatum ermittelt.</li>
             <li>Die Abfrage der Schwerbehinderung bei A&nbsp;9 mit Amtszulage steht nun als eigene Box am Ende des Formulars nach der vorletzten Beurteilung.</li>
-            <li>Einheitliche, kompakte Breiten für alle Eingabefelder zur besseren visuellen Lesbarkeit und Übersichtlichkeit.</li>
+            <li>Einheitliche, kompakte Breiten und bündige Ausrichtung aller Eingabefelder zur besseren visuellen Lesbarkeit und Übersichtlichkeit.</li>
           </ul>
         </section>
 

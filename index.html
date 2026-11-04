@@ -187,10 +187,11 @@
     border-radius: 10px;
     margin: 0 0 14px;
     padding: 12px 14px 14px;
+    min-width: 0;
   }
   legend { padding: 0 6px; font-weight: 650; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 440px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 440px; min-width: 0; }
   .pair select, .pair input { min-width: 0; }
   .field-short { max-width: 216px; }
   .notes {
@@ -202,8 +203,8 @@
   }
   .notes p { margin: 0 0 8px; }
   .notes p:last-child { margin: 0; }
-  label.field { display: flex; flex-direction: column; gap: 4px; font-size: 0.92rem; }
-  label.field span.lbl { font-weight: 600; display: inline-flex; align-items: center; white-space: nowrap; }
+  label.field { display: flex; flex-direction: column; gap: 4px; font-size: 0.92rem; min-width: 0; }
+  label.field span.lbl { font-weight: 600; display: inline-flex; align-items: center; flex-wrap: wrap; white-space: normal; }
   input[type="number"], select {
     width: 100%;
     height: 42px;
@@ -888,6 +889,7 @@
             <li>Deutlicher, interaktiver Button zum Auf- und Zuklappen von „Maßgebliche Regelung“ und „So rechnet das Tool“.</li>
             <li>Interaktiver Mouse-Hover in der Stichtagsgrafik: Anzeige von Datum und Detailwerten per Mauszeiger oder Antippen sowie erweiterte Monatsmarkierungen auf der Zeitachse.</li>
             <li>Dezenter Pfeil-Indikator beim Überfahren der Dienstgrad-Auswahlkarten auf der Startseite sowie dunkelblaue obere Trennlinie für den Prognosebereich.</li>
+            <li>Korrektur des mobilen Layouts: Lange Bezeichnungen wie bei der letzten Beförderung zu A&nbsp;9 brechen auf kleinen Bildschirmen sauber um, sodass Auswahlboxen nicht mehr über den Rand hinausragen.</li>
           </ul>
         </section>
 

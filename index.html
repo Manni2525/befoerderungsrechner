@@ -277,7 +277,78 @@
   tr.is-you td { background: #f4f7fa; font-weight: 650; }
   .scroll { overflow-x: auto; }
   .chart { width: 100%; height: auto; display: block; }
-  details summary { cursor: pointer; font-weight: 650; }
+  details.card {
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  details.card:hover {
+    border-color: #b7c3cf;
+    box-shadow: 0 2px 8px rgba(27, 58, 75, 0.08);
+  }
+  details.card summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: var(--navy);
+    user-select: none;
+    outline: none;
+    padding: 2px 0;
+  }
+  details.card summary::-webkit-details-marker {
+    display: none;
+  }
+  details.card summary:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+  .summary-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #044b7f;
+    background: #edf5fa;
+    border: 1px solid #bdd6e8;
+    border-radius: 20px;
+    padding: 6px 14px;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  details.card:hover .summary-action {
+    background: #e2eef7;
+    border-color: #9ec3de;
+  }
+  .summary-action::after {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    margin-bottom: 2px;
+  }
+  details[open] .summary-action::after {
+    transform: rotate(-135deg);
+    margin-top: 3px;
+    margin-bottom: 0;
+  }
+  .summary-text-open { display: none; }
+  .summary-text-closed { display: inline; }
+  details[open] .summary-text-closed { display: none; }
+  details[open] .summary-text-open { display: inline; }
+  details[open] summary {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
   .both { background: #f4f7fa; border-left: 3px solid var(--navy); border-radius: 8px; padding: 10px 14px; margin: 0 0 14px; }
   .tip { position: relative; display: inline-flex; align-items: center; margin-left: 6px; }
   .tip-btn {
@@ -501,7 +572,13 @@
       </section>
 
       <details class="card">
-        <summary>So rechnet das Tool</summary>
+        <summary>
+          <span>So rechnet das Tool</span>
+          <span class="summary-action">
+            <span class="summary-text-closed">Aufklappen</span>
+            <span class="summary-text-open">Zuklappen</span>
+          </span>
+        </summary>
         <p class="both" style="margin-top:14px"><strong>Zwei Kriterien, beide nötig.</strong> A&nbsp;9 mit Amtszulage wird nur übertragen, wenn die Bewährungszeit und die Beförderungsauswahl erfüllt sind. Fehlt eines, gibt es keinen Termin.</p>
         <div class="grid-2">
           <div>
@@ -665,7 +742,13 @@
         <p class="lede">Sobald die Angaben vollständig sind, steht hier der Monatserste.</p>
       </section>
       <details class="card">
-        <summary>Maßgebliche Regelung</summary>
+        <summary>
+          <span>Maßgebliche Regelung</span>
+          <span class="summary-action">
+            <span class="summary-text-closed">Aufklappen</span>
+            <span class="summary-text-open">Zuklappen</span>
+          </span>
+        </summary>
         <p class="lede" id="s-method" style="margin-top:14px"></p>
         <div class="scroll">
           <table>
@@ -775,6 +858,7 @@
             <li>Für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene wird die Beförderungsauswahl zweistufig neben der Bewährungszeit berechnet; die Dienstzeit in A&nbsp;9 mit Amtszulage wird automatisch aus dem Beförderungsdatum ermittelt und das Gesamturteil der Vorbeurteilung vor den Einzelmerkmalen abgefragt.</li>
             <li>Die Abfrage der Schwerbehinderung steht nun einheitlich als Checkbox am Ende der Angaben.</li>
             <li>Einheitliche, kompakte Breiten, identische Tooltips und bündige Ausrichtung aller Eingabefelder im gesamten Tool.</li>
+            <li>Deutlicher, interaktiver Button zum Auf- und Zuklappen von „Maßgebliche Regelung“ und „So rechnet das Tool“.</li>
           </ul>
         </section>
 

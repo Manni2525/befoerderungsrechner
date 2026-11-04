@@ -124,6 +124,7 @@
   .group.silver::before { background: #e7ebf0; box-shadow: inset 0 0 0 1px #c9d1d9; }
   .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   button.pick {
+    position: relative;
     text-align: left;
     background: #fff;
     border: 1px solid var(--line);
@@ -137,6 +138,22 @@
     box-shadow: 0 1px 2px rgba(27, 58, 75, 0.04);
   }
   button.pick:hover { border-color: #c5d0da; box-shadow: 0 10px 24px rgba(12, 33, 68, 0.07); }
+  button.pick::after {
+    content: "→";
+    position: absolute;
+    right: 18px;
+    color: var(--navy);
+    font-size: 1.25rem;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  button.pick:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
   .board { width: 128px; height: auto; display: block; }
   .view-head { display: flex; gap: 16px; align-items: center; margin-bottom: 14px; }
   .view-head .board { width: 148px; flex: none; }
@@ -211,7 +228,10 @@
   button.primary { background: var(--navy); color: #fff; border: 0; }
   button.primary:hover { background: var(--navy-2); }
   button.ghost { background: #fff; border: 1px solid #b7c3cf; }
-  .answer { border-color: #d5e0e8; }
+  .answer {
+    border-color: #d5e0e8;
+    border-top: 3px solid var(--navy);
+  }
   .answer .when {
     margin: 6px 0 8px;
     font-size: 2rem;
@@ -867,6 +887,7 @@
             <li>Einheitliche, kompakte Breiten, identische Tooltips und bündige Ausrichtung aller Eingabefelder im gesamten Tool.</li>
             <li>Deutlicher, interaktiver Button zum Auf- und Zuklappen von „Maßgebliche Regelung“ und „So rechnet das Tool“.</li>
             <li>Interaktiver Mouse-Hover in der Stichtagsgrafik: Anzeige von Datum und Detailwerten per Mauszeiger oder Antippen sowie erweiterte Monatsmarkierungen auf der Zeitachse.</li>
+            <li>Dezenter Pfeil-Indikator beim Überfahren der Dienstgrad-Auswahlkarten auf der Startseite sowie dunkelblaue obere Trennlinie für den Prognosebereich.</li>
           </ul>
         </section>
 

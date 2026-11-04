@@ -174,7 +174,8 @@
   legend { padding: 0 6px; font-weight: 650; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 440px; }
-  .pair select { min-width: 0; }
+  .pair select, .pair input { min-width: 0; }
+  .field-short { max-width: 216px; }
   .notes {
     background: #f4f7fa;
     border-left: 3px solid var(--navy);
@@ -340,6 +341,7 @@
   }
   @media (max-width: 640px) {
     .grid-2, .facts, .pair { grid-template-columns: 1fr; }
+    .field-short { max-width: none; }
     button.pick { grid-template-columns: 108px 1fr; gap: 12px; }
     .board, .view-head .board { width: 108px; }
     .brandmark { max-width: none; }
@@ -440,7 +442,7 @@
         </fieldset>
         <fieldset>
           <legend>Letzte Beurteilung (2026)</legend>
-          <div class="grid-2">
+          <div class="pair">
             <label class="field">Gesamturteil
               <select id="gu" name="gu" required></select>
             </label>
@@ -473,7 +475,7 @@
         </fieldset>
         <fieldset>
           <legend>Vorletzte Beurteilung (2023)</legend>
-          <label class="field" style="max-width:280px">Gesamturteil
+          <label class="field field-short">Gesamturteil
             <select id="rw" name="rw" required></select>
           </label>
           <p class="hint">Gesamturteil der Beurteilung 2023. Die Einzelmerkmale dieser Beurteilung werden nicht gebraucht.</p>
@@ -581,7 +583,7 @@
           </fieldset>
           <fieldset id="s-fuenftel-box">
             <legend>Qualifikationsprüfung</legend>
-            <label class="field">Fünftel
+            <label class="field field-short">Fünftel
               <select id="s-fuenftel"></select>
             </label>
             <p class="hint">Platzziffer der Qualifikationsprüfung, als Fünftel der Prüfungsteilnehmenden.</p>
@@ -599,7 +601,7 @@
         </fieldset>
         <fieldset id="s-gu-box">
           <legend>Letzte dienstliche Beurteilung</legend>
-          <label class="field" style="max-width:280px">Gesamturteil
+          <label class="field field-short">Gesamturteil
             <select id="s-gu"></select>
           </label>
           <p class="hint" id="s-gu-hint"></p>
@@ -611,21 +613,20 @@
         <fieldset id="s-auswahl-box" hidden>
           <legend>Beförderungsauswahl (neu seit Dezember 2026)</legend>
           <p class="hint" id="s-auswahl-desc" style="margin-top:0;margin-bottom:12px"></p>
-          <div class="grid-2">
+          <div class="pair">
             <label class="field">Einzelmerkmale (Summe)
               <input type="number" id="s-einzel" min="5" max="80" placeholder="5 bis 80">
-              <span class="hint">Summe der fünf doppelt gewichteten Einzelmerkmale der letzten Beurteilung.</span>
             </label>
             <label class="field">Vorletzte Beurteilung (2023)
               <select id="s-rw"></select>
-              <span class="hint">Gesamturteil der Beurteilung 2023.</span>
             </label>
           </div>
+          <p class="hint">Summe der fünf doppelt gewichteten Einzelmerkmale der letzten Beurteilung sowie das Gesamturteil der Beurteilung 2023.</p>
           <div id="s-a10-sonst" style="margin-top:12px" hidden>
-            <label class="field">Dienstzeit in A&nbsp;9 / A&nbsp;9 mit Zulage (Monate)
-              <input type="number" id="s-a9-monate" min="0" max="600" placeholder="z. B. 54">
-              <span class="hint">Monate im Amt A 9 bzw. A 9 mit Zulage bis zum Stichtag (mindestens 54 Monate nötig, sofern nicht schwerbehindert). Bleibt das Feld leer, wird die Zeit ab dem oben angegebenen Beginn gerechnet.</span>
+            <label class="field" style="max-width:440px">Dienstzeit in A&nbsp;9 / A&nbsp;9 mit Zulage (Monate)
+              <input type="number" id="s-a9-monate" class="field-short" min="0" max="600" placeholder="z. B. 54">
             </label>
+            <p class="hint">Monate im Amt A 9 bzw. A 9 mit Zulage bis zum Stichtag (mindestens 54 Monate nötig, sofern nicht schwerbehindert). Bleibt das Feld leer, wird die Zeit ab dem oben angegebenen Beginn gerechnet.</p>
             <label class="check" style="margin-top:8px">
               <input type="checkbox" id="s-sb">
               <span>Schwerbehinderung nach §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX (GdB mindestens 50).</span>
@@ -767,6 +768,7 @@
             <li>Tabelle aller Stichtage unter „So rechnet das Tool“ bei A&nbsp;9 mit Amtszulage ist auch vor Ausfüllen des Formulars sichtbar.</li>
             <li>Für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene wird die neu eingeführte Beförderungsauswahl (Stand Dezember 2026) zweistufig neben der Bewährungszeit berechnet und geprüft.</li>
             <li>Die Abfrage der Schwerbehinderung bei A&nbsp;9 mit Amtszulage steht nun als eigene Box am Ende des Formulars nach der vorletzten Beurteilung.</li>
+            <li>Einheitliche, kompakte Breiten für alle Eingabefelder zur besseren visuellen Lesbarkeit und Übersichtlichkeit.</li>
           </ul>
         </section>
 

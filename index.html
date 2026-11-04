@@ -611,7 +611,7 @@
           </label>
         </fieldset>
         <fieldset id="s-auswahl-box" hidden>
-          <legend>Beförderungsauswahl (neu seit Dezember 2026)</legend>
+          <legend>Beförderungsauswahl</legend>
           <p class="hint" id="s-auswahl-desc" style="margin-top:0;margin-bottom:12px"></p>
           <div class="pair">
             <label class="field">Einzelmerkmale (Summe)
@@ -623,14 +623,11 @@
           </div>
           <p class="hint">Summe der fünf doppelt gewichteten Einzelmerkmale der letzten Beurteilung sowie das Gesamturteil der Beurteilung 2023.</p>
           <div id="s-a10-sonst" style="margin-top:12px" hidden>
-            <label class="field" style="max-width:440px">Dienstzeit in A&nbsp;9 / A&nbsp;9 mit Zulage (Monate)
-              <input type="number" id="s-a9-monate" class="field-short" min="0" max="600" placeholder="z. B. 54">
-            </label>
-            <p class="hint">Monate im Amt A 9 bzw. A 9 mit Zulage bis zum Stichtag (mindestens 54 Monate nötig, sofern nicht schwerbehindert). Bleibt das Feld leer, wird die Zeit ab dem oben angegebenen Beginn gerechnet.</p>
-            <label class="check" style="margin-top:8px">
+            <label class="check">
               <input type="checkbox" id="s-sb">
               <span>Schwerbehinderung nach §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX (GdB mindestens 50).</span>
             </label>
+            <p class="hint">Die Dienstzeit im Amt A&nbsp;9 mit Amtszulage (am Stichtag mind. 54 Monate nötig, sofern nicht schwerbehindert) wird automatisch aus Ihrem oben angegebenen Beförderungsdatum berechnet.</p>
           </div>
         </fieldset>
         <fieldset id="s-scope-box">
@@ -686,7 +683,7 @@
               <tbody id="s-auswahl-table"></tbody>
             </table>
           </div>
-          <p class="hint" style="margin-top:8px">Hinweis: Die Beförderungsauswahl wurde für dieses Amt erstmalig im Dezember 2026 angewendet. Künftige Stichtage werden laufend nach Veröffentlichung ergänzt.</p>
+          <p class="hint" style="margin-top:8px">Hinweis: Die Stichtage werden laufend nach Veröffentlichung durch das Innenministerium ergänzt.</p>
         </div>
       </details>
     </section>
@@ -766,7 +763,7 @@
           <ul>
             <li>Beförderungsauswahl für Dezember 2026 eingetragen.</li>
             <li>Tabelle aller Stichtage unter „So rechnet das Tool“ bei A&nbsp;9 mit Amtszulage ist auch vor Ausfüllen des Formulars sichtbar.</li>
-            <li>Für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene wird die neu eingeführte Beförderungsauswahl (Stand Dezember 2026) zweistufig neben der Bewährungszeit berechnet und geprüft.</li>
+            <li>Für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene wird die Beförderungsauswahl zweistufig neben der Bewährungszeit berechnet; die Dienstzeit in A&nbsp;9 mit Amtszulage wird automatisch aus dem Beförderungsdatum ermittelt.</li>
             <li>Die Abfrage der Schwerbehinderung bei A&nbsp;9 mit Amtszulage steht nun als eigene Box am Ende des Formulars nach der vorletzten Beurteilung.</li>
             <li>Einheitliche, kompakte Breiten für alle Eingabefelder zur besseren visuellen Lesbarkeit und Übersichtlichkeit.</li>
           </ul>
@@ -900,19 +897,19 @@ const PATHS = [
     rank: "Zweite Qualifikationsebene",
     title: "A 10",
     card: "Nach der letzten Beurteilung in A 9 mit Amtszulage (inkl. Beförderungsauswahl)",
-    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Neben der Bewährungszeit gilt seit Dezember 2026 auch eine Beförderungsauswahl.",
+    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Neben der Bewährungszeit entscheidet bei Planstellenmangel die Beförderungsauswahl.",
     board: { stars: 2, tone: "white" },
     kind: "points",
     bands: [16, 15, 14, 13, 12, 11, 10, 9].map((p, i) => ({
       min: p, max: p, months: [36, 39, 42, 45, 48, 54, 60, 72][i], label: String(p).padStart(2, "0") + " Punkte"
     })),
-    startLegend: "Beginn der Bewährungszeit",
-    startLabel: "Übertragung des Amtes der Besoldungsgruppe A 9 mit Amtszulage",
-    startHint: "Die Bewährungszeit läuft seit der Übertragung von A 9 mit Amtszulage.",
-    startShort: "Übertragung A 9 mit Amtszulage",
+    startLegend: "Letzte Beförderung",
+    startLabel: "Beförderung nach A 9 mit Amtszulage",
+    startHint: "Monat und Jahr, in dem Ihnen das Amt A 9 mit Amtszulage übertragen wurde. Daraus errechnet das Tool sowohl die Bewährungszeit als auch die Dienstzeit für die Beförderungsauswahl.",
+    startShort: "Beförderung A 9 mit Amtszulage",
     statusLabel: "Diese Beurteilung ist im Statusamt A 9 mit Amtszulage erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 9 mit Amtszulage erstellt wurde",
-    guHint: "Mindestens neun Punkte für die Bewährungszeit (Beförderungsauswahl 12/2026: mind. 11 Punkte).",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 9 mit Amtszulage.",
     method: "Seit A 9 mit Amtszulage, abgestuft nach dem Gesamturteil. Mindestens neun Punkte.",
     col: "Gesamturteil",
     bandMessage: (gu) => "Nötig sind mindestens neun Punkte. Eingetragen sind " + gu + " Punkte.",
@@ -928,7 +925,7 @@ const PATHS = [
       befoerdert: 10,
       hasSonst: true,
       sonstMinA9Months: 54,
-      desc: "Seit Dezember 2026 gilt bei A 10 (2. QE) wegen Stellenmangels erstmals eine Beförderungsauswahl (10 Beförderungen bei 22 Bewerbern). Tragen Sie Ihre Werte ein, um Ihre Chancen zu prüfen."
+      desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien."
     }
   },
   {
@@ -937,7 +934,7 @@ const PATHS = [
     rank: "Zweite Qualifikationsebene",
     title: "A 11",
     card: "Nach der letzten Beurteilung in A 10 (inkl. Beförderungsauswahl)",
-    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Neben der Bewährungszeit gilt seit Dezember 2026 auch eine Beförderungsauswahl.",
+    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Neben der Bewährungszeit entscheidet bei Planstellenmangel die Beförderungsauswahl.",
     board: { stars: 3, tone: "white" },
     kind: "points",
     bands: [
@@ -951,7 +948,7 @@ const PATHS = [
     startShort: "letzte Beförderung",
     statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
-    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10 (Beförderungsauswahl 12/2026: mind. 11 Punkte).",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10.",
     method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
     col: "Gesamturteil",
     bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten.",
@@ -966,7 +963,7 @@ const PATHS = [
       faehig: 38,
       befoerdert: 33,
       hasSonst: false,
-      desc: "Seit Dezember 2026 gilt bei A 11 (2. QE) wegen Stellenmangels erstmals eine Beförderungsauswahl (33 Beförderungen bei 38 Bewerbern). Tragen Sie Ihre Werte ein, um Ihre Chancen zu prüfen."
+      desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien."
     }
   },
   {
@@ -1187,7 +1184,7 @@ function renderSimpleAuswahlTable(aus) {
   const tbody = $("s-auswahl-table");
   if (!tbody || !aus) return;
   const sonstText = aus.hasSonst
-    ? "Schwerbehindert (§ 2 Abs. 2 SGB IX) oder mind. " + aus.sonstMinA9Months + " Monate im Amt A 9/Z"
+    ? "Schwerbehindert (§ 2 Abs. 2 SGB IX) oder mind. " + aus.sonstMinA9Months + " Monate im Amt A 9 mit Amtszulage"
     : "Keine weiteren Einschränkungen";
   tbody.innerHTML = "<tr>" +
     "<td>" + esc(aus.dateLabel) + "</td>" +
@@ -1350,10 +1347,11 @@ function evalSimpleAuswahl(path, input) {
     };
   }
 
+  const [cy, cm] = (aus.date || "2026-12-01").split("-").map(Number);
+  const cutoffDate = { y: cy, m: cm };
   let a9Monate = input.a9Monate;
   if ((a9Monate === null || isNaN(a9Monate)) && input.start) {
-    const diff = diffMonths(input.start, { y: 2026, m: 12 });
-    if (diff > 0) a9Monate = diff;
+    a9Monate = Math.max(0, diffMonths(input.start, cutoffDate));
   }
 
   if (a9Monate === null || isNaN(a9Monate)) {
@@ -1362,7 +1360,7 @@ function evalSimpleAuswahl(path, input) {
       cls: "wait",
       badge: "Prüfung offen",
       title: title,
-      text: "Bei Gleichstand entscheidet die Schwerbehinderung oder mindestens " + aus.sonstMinA9Months + " Monate Dienstzeit im Amt " + (aus.statusAmt || "A 9 / A 9 mit Amtszulage") + ". Bitte geben Sie oben Ihre Monate ein oder markieren Sie die Schwerbehinderung."
+      text: "Bei Gleichstand entscheidet die Schwerbehinderung oder mindestens " + aus.sonstMinA9Months + " Monate Dienstzeit im Amt " + (aus.statusAmt || "A 9 mit Amtszulage") + ". Bitte geben Sie oben Ihr Beförderungsdatum an oder markieren Sie die Schwerbehinderung."
     };
   }
 
@@ -1372,7 +1370,7 @@ function evalSimpleAuswahl(path, input) {
       cls: "met",
       badge: "Erfüllt",
       title: title,
-      text: "Mit " + a9Monate + " Monaten Dienstzeit in " + (aus.statusAmt || "A 9 / A 9 mit Amtszulage") + " ist die Mindestzeit (" + aus.sonstMinA9Months + " Monate) erfüllt."
+      text: "Mit " + a9Monate + " Monaten Dienstzeit im Amt " + (aus.statusAmt || "A 9 mit Amtszulage") + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " ist die Mindestzeit (" + aus.sonstMinA9Months + " Monate) erfüllt."
     };
   }
 
@@ -1381,7 +1379,7 @@ function evalSimpleAuswahl(path, input) {
     cls: "wait",
     badge: "Warteliste",
     title: title,
-    text: "Mit " + a9Monate + " Monaten Dienstzeit in " + (aus.statusAmt || "A 9 / A 9 mit Amtszulage") + " wird die Mindestzeit von " + aus.sonstMinA9Months + " Monaten bis zum Stichtag nicht erreicht (und Schwerbehinderung liegt nicht vor)."
+    text: "Mit " + a9Monate + " Monaten Dienstzeit im Amt " + (aus.statusAmt || "A 9 mit Amtszulage") + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " wird die Mindestzeit von " + aus.sonstMinA9Months + " Monaten bis zum Stichtag nicht erreicht (und Schwerbehinderung liegt nicht vor)."
   };
 }
 
@@ -1472,7 +1470,7 @@ function renderSimple() {
         factHtml("1. Bewährungszeit", factClass !== "open", esc(kern), factClass) +
         auswahlFact
       ) +
-      "<p class='hint'><strong>Beförderungsauswahl ab Dezember 2026:</strong> Für die Beförderung nach " + esc(currentPath.title) + " gilt seit dem 1. Dezember 2026 neben der Bewährungszeit zusätzlich eine Beförderungsauswahl nach Leistungskriterien. Da dies der erste Auswahlstichtag ist, existieren noch keine historischen Trenddaten für eine langfristige Verlaufsprognose. Der Rechner gleicht Ihre Daten daher mit den Grenzwerten des aktuellen Stichtags (1. Dezember 2026) ab.</p>" +
+      "<p class='hint'><strong>Beförderungsauswahl:</strong> Für die Beförderung nach " + esc(currentPath.title) + " gilt neben der Bewährungszeit zusätzlich die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Der Rechner gleicht Ihre Daten mit den Grenzwerten des aktuellen Stichtags (" + esc(aus.dateLabel) + ") ab.</p>" +
       "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
     return;
   }
@@ -2032,7 +2030,6 @@ function init() {
       $("s-einzel").value = String(randInt(50, 75));
       $("s-rw").value = String(randInt(8, 14));
       if (path.auswahl.hasSonst) {
-        $("s-a9-monate").value = String(randInt(40, 80));
         $("s-sb").checked = Math.random() < 0.2;
       }
     }
@@ -2133,6 +2130,8 @@ function selfTest() {
   assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, true, null)).ok === true, "A10 RW gleich schwerbehindert");
   assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 54)).ok === true, "A10 RW gleich 54 Monate A9");
   assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 53)).ok === false, "A10 RW gleich 53 Monate A9 verfehlt");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2021, m: 10 })).ok === true, "A10 automatisch aus Beförderungsdatum 62 Monate erfüllt");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2022, m: 7 })).ok === false, "A10 automatisch aus Beförderungsdatum 53 Monate verfehlt");
   assert(evalSimpleAuswahl(a11Path, simpleInput(12, null, null, false, null)).ok === true, "A11 über GU");
   assert(evalSimpleAuswahl(a11Path, simpleInput(10, null, null, false, null)).ok === false, "A11 unter GU");
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 54, null, false, null)).ok === true, "A11 über Einzel");

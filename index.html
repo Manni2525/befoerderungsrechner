@@ -482,11 +482,11 @@
         </fieldset>
         <fieldset>
           <legend>Schwerbehinderung</legend>
-          <p class="hint">Nur ein Grad der Behinderung von mindestens 50 zählt, §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX. Eine Gleichstellung nach §&nbsp;2 Abs.&nbsp;3 SGB&nbsp;IX ersetzt das nicht. Schwerbehinderung hilft in der Beförderungsauswahl nur, wenn Gesamturteil, Einzelmerkmale und das Gesamturteil der vorletzten Beurteilung genau auf der veröffentlichten Grenze liegen.</p>
-          <div class="choice">
-            <label><input type="radio" name="sb" value="ja"> Ja</label>
-            <label><input type="radio" name="sb" value="nein"> Nein</label>
-          </div>
+          <label class="check">
+            <input type="checkbox" id="sb" name="sb">
+            <span>Schwerbehinderung nach §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX (GdB mindestens 50).</span>
+          </label>
+          <p class="hint">Nur ein Grad der Behinderung von mindestens 50 zählt. Eine Gleichstellung nach §&nbsp;2 Abs.&nbsp;3 SGB&nbsp;IX ersetzt das nicht. Schwerbehinderung hilft in der Beförderungsauswahl nur bei Punktegleichstand auf der Mindestgrenze.</p>
         </fieldset>
         <div class="actions" style="margin-top:14px">
           <button class="primary" type="submit">Prognose</button>
@@ -606,7 +606,7 @@
           </label>
           <p class="hint" id="s-gu-hint"></p>
           <label class="check" id="s-status-row">
-            <input type="checkbox" id="s-status">
+            <input type="checkbox" id="s-status" checked>
             <span id="s-status-label"></span>
           </label>
         </fieldset>
@@ -617,8 +617,24 @@
             <label class="field">Vorletzte Beurteilung (2023)
               <select id="s-rw"></select>
             </label>
-            <label class="field">Einzelmerkmale (Summe)
-              <input type="number" id="s-einzel" min="5" max="80" placeholder="5 bis 80">
+            <label class="field">
+              <span class="lbl">Einzelmerkmale
+                <span class="tip">
+                  <button type="button" class="tip-btn" aria-describedby="tip-s-merkmale">i</button>
+                  <span id="tip-s-merkmale" class="tip-box" role="tooltip">
+                    Die fünf doppelt gewichteten Einzelmerkmale sind:
+                    <ul>
+                      <li>Arbeitsgüte</li>
+                      <li>Eigeninitiative, Selbstständigkeit</li>
+                      <li>Teamverhalten</li>
+                      <li>Geistige Beweglichkeit</li>
+                      <li>Fachkenntnisse</li>
+                    </ul>
+                    Tragen Sie die Summe dieser fünf Punktzahlen ein, so wie sie in der Beförderungswahl steht, zum Beispiel 57. Nicht den bereits verdoppelten Wert.
+                  </span>
+                </span>
+              </span>
+              <input type="number" id="s-einzel" name="s-einzel" min="5" max="80" step="1" inputmode="numeric" placeholder="Summe 5 bis 80">
             </label>
           </div>
           <p class="hint">Gesamturteil der Beurteilung 2023 sowie die Summe der fünf doppelt gewichteten Einzelmerkmale der letzten Beurteilung.</p>
@@ -627,20 +643,13 @@
               <input type="checkbox" id="s-sb">
               <span>Schwerbehinderung nach §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX (GdB mindestens 50).</span>
             </label>
-            <p class="hint">Die Dienstzeit im Amt A&nbsp;9 mit Amtszulage (am Stichtag mind. 54 Monate nötig, sofern nicht schwerbehindert) wird automatisch aus Ihrem oben angegebenen Beförderungsdatum berechnet.</p>
+            <p class="hint">Die Dienstzeit im Amt A&nbsp;9 mit Amtszulage (sofern nicht schwerbehindert) wird automatisch aus Ihrem oben angegebenen Beförderungsdatum berechnet.</p>
           </div>
-        </fieldset>
-        <fieldset id="s-scope-box">
-          <legend>Persönlicher Geltungsbereich</legend>
-          <label class="check">
-            <input type="checkbox" id="s-scope">
-            <span id="s-scope-label"></span>
-          </label>
         </fieldset>
         <fieldset id="s-posten-box">
           <legend>Dienstposten</legend>
           <label class="check">
-            <input type="checkbox" id="s-posten">
+            <input type="checkbox" id="s-posten" checked>
             <span id="s-posten-label"></span>
           </label>
           <p class="hint">Nötig ist ein Dienstposten der Bewertung A&nbsp;9/11, A&nbsp;11/00 oder höher.</p>
@@ -764,8 +773,8 @@
             <li>Beförderungsauswahl für Dezember 2026 eingetragen.</li>
             <li>Tabelle aller Stichtage unter „So rechnet das Tool“ bei A&nbsp;9 mit Amtszulage ist auch vor Ausfüllen des Formulars sichtbar.</li>
             <li>Für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene wird die Beförderungsauswahl zweistufig neben der Bewährungszeit berechnet; die Dienstzeit in A&nbsp;9 mit Amtszulage wird automatisch aus dem Beförderungsdatum ermittelt und das Gesamturteil der Vorbeurteilung vor den Einzelmerkmalen abgefragt.</li>
-            <li>Die Abfrage der Schwerbehinderung bei A&nbsp;9 mit Amtszulage steht nun als eigene Box am Ende des Formulars nach der vorletzten Beurteilung.</li>
-            <li>Einheitliche, kompakte Breiten und bündige Ausrichtung aller Eingabefelder zur besseren visuellen Lesbarkeit und Übersichtlichkeit.</li>
+            <li>Die Abfrage der Schwerbehinderung steht nun einheitlich als Checkbox am Ende der Angaben.</li>
+            <li>Einheitliche, kompakte Breiten, identische Tooltips und bündige Ausrichtung aller Eingabefelder im gesamten Tool.</li>
           </ul>
         </section>
 
@@ -875,7 +884,7 @@ const PATHS = [
     startLabel: "Übertragung des Amtes der Besoldungsgruppe A 8",
     startHint: "Die Bewährungszeit läuft seit der Beförderung nach A 8.",
     startShort: "Beförderung nach A 8",
-    statusLabel: "Diese Beurteilung ist im Statusamt A 8 erstellt worden.",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 8 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 8 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 8.",
     method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
@@ -907,7 +916,7 @@ const PATHS = [
     startLabel: "Beförderung nach A 9 mit Amtszulage",
     startHint: "Monat und Jahr, in dem Ihnen das Amt A 9 mit Amtszulage übertragen wurde. Daraus errechnet das Tool sowohl die Bewährungszeit als auch die Dienstzeit für die Beförderungsauswahl.",
     startShort: "Beförderung A 9 mit Amtszulage",
-    statusLabel: "Diese Beurteilung ist im Statusamt A 9 mit Amtszulage erstellt worden.",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 9 mit Amtszulage erstellt worden. Die Beförderungsauswahl verlangt das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 9 mit Amtszulage erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 9 mit Amtszulage.",
     method: "Seit A 9 mit Amtszulage, abgestuft nach dem Gesamturteil. Mindestens neun Punkte.",
@@ -946,7 +955,7 @@ const PATHS = [
     startLabel: "Letzte Beförderung",
     startHint: "Die Bewährungszeit läuft seit der letzten Beförderung, in der Regel der Übertragung von A 10.",
     startShort: "letzte Beförderung",
-    statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden. Die Beförderungsauswahl verlangt das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10.",
     method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
@@ -1009,7 +1018,7 @@ const PATHS = [
     startLabel: "Letzte Beförderung",
     startHint: "Die Bewährungszeit läuft seit der Beförderung nach A 10.",
     startShort: "letzte Beförderung",
-    statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
     postenLabel: "Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A 9/11, A 11/00 oder höher.",
     postenMissing: "Bestätigung zum Dienstposten A 9/11, A 11/00 oder höher",
@@ -1161,20 +1170,16 @@ function applyPath(path) {
   $("s-grid").className = path.kind === "fuenftel" ? "grid-2" : "";
   $("s-status-row").hidden = !path.statusLabel;
   if (path.statusLabel) $("s-status-label").textContent = path.statusLabel;
-  $("s-scope-box").hidden = !path.scopeLabel;
-  if (path.scopeLabel) $("s-scope-label").textContent = path.scopeLabel;
   $("s-posten-box").hidden = !path.postenLabel;
   if (path.postenLabel) $("s-posten-label").textContent = path.postenLabel;
   const notes = $("s-notes");
   notes.innerHTML = (path.notes || []).map((t) => "<p>" + esc(t) + "</p>").join("");
   notes.hidden = !(path.notes || []).length;
   $("simple-form").reset();
-  $("s-status").checked = false;
-  $("s-scope").checked = false;
-  $("s-posten").checked = false;
+  $("s-status").checked = true;
+  $("s-posten").checked = true;
   if ($("s-einzel")) $("s-einzel").value = "";
   if ($("s-rw")) $("s-rw").value = "";
-  if ($("s-a9-monate")) $("s-a9-monate").value = "";
   if ($("s-sb")) $("s-sb").checked = false;
   renderSimpleTable(null);
   renderSimple();
@@ -1222,7 +1227,6 @@ function readSimple() {
   if (path.kind === "fuenftel" && !fuenftel) missing.push("Fünftel der Qualifikationsprüfung");
   if (askAssessment && !gu) missing.push("Gesamturteil der letzten dienstlichen Beurteilung");
   if (path.statusLabel && !$("s-status").checked) missing.push(path.statusMissing);
-  if (path.scopeLabel && !$("s-scope").checked) missing.push(path.scopeMissing);
   if (path.postenLabel && !$("s-posten").checked) missing.push(path.postenMissing);
   let second = null;
   if (path.second) {
@@ -1236,10 +1240,8 @@ function readSimple() {
   const rwEl = $("s-rw");
   const rwRaw = rwEl && rwEl.value ? Number(rwEl.value) : null;
   const sb = $("s-sb") ? $("s-sb").checked : false;
-  const a9MonateEl = $("s-a9-monate");
-  const a9Monate = a9MonateEl && a9MonateEl.value ? Number(a9MonateEl.value) : null;
   const status = $("s-status") ? $("s-status").checked : true;
-  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate, status };
+  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status };
 }
 
 function evalSimpleAuswahl(path, input) {
@@ -1783,7 +1785,7 @@ function readInput() {
   const a9Monat = Number($("a9-monat").value);
   const a9Jahr = Number($("a9-jahr").value);
   const a9 = a9Monat && a9Jahr ? { y: a9Jahr, m: a9Monat } : null;
-  const sb = document.querySelector("input[name=sb]:checked");
+  const disabled = $("sb") ? $("sb").checked : false;
   const letzteYear = 2026;
   const gu = Number($("gu").value);
   const rw = Number($("rw").value);
@@ -1792,13 +1794,12 @@ function readInput() {
   const missing = [];
   if (!einstieg) missing.push("allgemeiner Dienstzeitbeginn");
   if (!a9) missing.push("Beginn im Amt A 9");
-  if (!sb) missing.push("Angabe zur Schwerbehinderung");
   if (!gu) missing.push("Gesamturteil der Beurteilung 2026");
   if (einzelRoh === "" || !Number.isInteger(einzel) || einzel < 5 || einzel > 80) missing.push("Summe der Einzelmerkmale (5 bis 80)");
   if (!rw) missing.push("Gesamturteil der Beurteilung 2023");
   return {
     missing, einstieg, a9,
-    disabled: sb ? sb.value === "ja" : false,
+    disabled,
     letzteYear, gu, rw,
     einzel: Number.isInteger(einzel) ? einzel : 0,
     inA9: $("in-a9").checked,
@@ -1994,7 +1995,7 @@ function init() {
     $("einstieg-jahr").value = String(einstiegJahr);
     $("a9-monat").value = String(randInt(1, 12));
     $("a9-jahr").value = String(a9Jahr);
-    document.querySelector("input[name=sb][value=" + pick(["ja", "nein"]) + "]").checked = true;
+    $("sb").checked = Math.random() < 0.2;
     $("gu").value = String(randInt(4, 16));
     $("einzel").value = String(randInt(5, 80));
     $("rw").value = String(randInt(4, 16));
@@ -2024,7 +2025,6 @@ function init() {
       $("s-jahr-2").value = String(randInt(2008, jahr));
     }
     if (path.statusLabel) $("s-status").checked = true;
-    if (path.scopeLabel) $("s-scope").checked = true;
     if (path.postenLabel) $("s-posten").checked = true;
     if (path.auswahl) {
       $("s-einzel").value = String(randInt(50, 75));
@@ -2037,6 +2037,9 @@ function init() {
   });
   $("s-leeren").addEventListener("click", () => {
     $("simple-form").reset();
+    $("s-status").checked = true;
+    $("s-posten").checked = true;
+    if ($("s-sb")) $("s-sb").checked = false;
     renderSimple();
   });
   document.querySelectorAll("[data-back]").forEach((btn) => {

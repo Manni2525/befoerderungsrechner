@@ -509,7 +509,17 @@
             <p>Seit der letzten Beförderung muss diese Wartezeit zurückgelegt sein. Sie richtet sich nach dem Gesamturteil der Beurteilung 2026:</p>
             <table>
               <thead><tr><th>Gesamturteil</th><th>Monate</th></tr></thead>
-              <tbody id="warte-tabelle"></tbody>
+              <tbody id="warte-tabelle">
+                <tr><td>16</td><td>36</td></tr>
+                <tr><td>15</td><td>39</td></tr>
+                <tr><td>14</td><td>42</td></tr>
+                <tr><td>13</td><td>45</td></tr>
+                <tr><td>12</td><td>48</td></tr>
+                <tr><td>11</td><td>54</td></tr>
+                <tr><td>10</td><td>60</td></tr>
+                <tr><td>9</td><td>72</td></tr>
+                <tr><td>8 bis 5</td><td>84</td></tr>
+              </tbody>
             </table>
           </div>
           <div>
@@ -711,6 +721,7 @@
           <p class="version-meta"><span class="num">Version 1.5</span><span class="since">seit dem 4. November 2026</span></p>
           <ul>
             <li>Beförderungsauswahl für Dezember 2026 eingetragen.</li>
+            <li>Tabelle aller Stichtage unter „So rechnet das Tool“ bei A&nbsp;9 mit Amtszulage ist auch vor Ausfüllen des Formulars sichtbar.</li>
           </ul>
         </section>
 
@@ -1515,28 +1526,29 @@ function render() {
 
   const box = $("ergebnis");
   const historie = $("historie");
-  if (input.missing.length) {
-    box.innerHTML = "<h2>Prognose</h2><p class='lede'>Noch offen: " + input.missing.join(", ") + ".</p>";
-    historie.innerHTML = "";
-    drawChart(null);
-    return;
-  }
   const today = new Date();
-  const warte = firstWarte(input);
-  const forecast = findPrognose(input, today);
   const todayDt = { y: today.getFullYear(), m: today.getMonth() + 1 };
-  const todayProfile = scoresAt(input, todayDt.y, todayDt.m);
-  const last = CUTOFFS[CUTOFFS.length - 1];
-  const lastCheck = todayProfile.known ? explain(todayProfile, last) : null;
+  const todayProfile = input.missing.length ? null : scoresAt(input, todayDt.y, todayDt.m);
   let hits = 0;
   historie.innerHTML = CUTOFFS.map((row) => {
-    const check = todayProfile.known ? explain(todayProfile, row) : { ok: false };
-    if (check.ok) hits += 1;
-    return "<tr class='" + (check.ok ? "hit" : "miss") + "'><td>" + formatDE(row) + "</td><td>" + row.gu + "</td><td>" + row.einzel +
+    const check = todayProfile && todayProfile.known ? explain(todayProfile, row) : null;
+    if (check && check.ok) hits += 1;
+    const cls = check ? (check.ok ? "hit" : "miss") : "";
+    const status = check ? (check.ok ? "erfüllt" : "nicht erfüllt") : "–";
+    return "<tr class='" + cls + "'><td>" + formatDE(row) + "</td><td>" + row.gu + "</td><td>" + row.einzel +
       "</td><td>" + row.rw + " (" + row.rwYear + ")</td><td>" + sonstigeText(row.rule) + "</td><td>" + formatZahl(row.befoerdert) + " / " + formatZahl(row.faehig) +
-      "</td><td>" + (check.ok ? "erfüllt" : "nicht erfüllt") + "</td></tr>";
+      "</td><td>" + status + "</td></tr>";
   }).join("");
-  drawChart(input.gu);
+  drawChart(input.missing.length ? null : input.gu);
+
+  if (input.missing.length) {
+    box.innerHTML = "<h2>Prognose</h2><p class='lede'>Noch offen: " + input.missing.join(", ") + ".</p>";
+    return;
+  }
+  const warte = firstWarte(input);
+  const forecast = findPrognose(input, today);
+  const last = CUTOFFS[CUTOFFS.length - 1];
+  const lastCheck = todayProfile.known ? explain(todayProfile, last) : null;
   const parts = [];
   parts.push("<h2>Prognose</h2>");
   if (!warte) {
@@ -1723,6 +1735,7 @@ function init() {
   document.querySelectorAll("[data-back]").forEach((btn) => {
     btn.addEventListener("click", () => { location.hash = "auswahl"; });
   });
+  render();
   window.addEventListener("hashchange", () => show(fromHash(), true));
   show(fromHash(), false);
   try { selfTest(); }

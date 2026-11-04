@@ -398,56 +398,46 @@
       <form id="form" class="card" autocomplete="off">
         <h3>Ihre Angaben</h3>
         <p class="lede">Die Berechnung bleibt in diesem Browser. Es wird nichts gespeichert und nichts übertragen.</p>
-        <div class="grid-2">
-          <fieldset>
-            <legend>Zeiten</legend>
-            <label class="field">Allgemeiner Dienstzeitbeginn
-              <span class="pair">
-                <select id="einstieg-monat" name="einstieg-monat" required>
-                  <option value="">Monat</option>
-                  <option value="3">März</option>
-                  <option value="9">September</option>
-                </select>
-                <select id="einstieg-jahr" name="einstieg-jahr" required>
-                  <option value="">Jahr</option>
-                </select>
-              </span>
-            </label>
-            <p class="hint">Die Einstellung liegt im März oder September. Gerechnet wird ab dem 1. des Monats. Daraus ergibt sich die allgemeine Dienstzeit.</p>
-            <label class="field" style="margin-top:10px">Im Amt A&nbsp;9 seit
-              <span class="pair">
-                <select id="a9-monat" name="a9-monat" required>
-                  <option value="">Monat</option>
-                  <option value="1">Januar</option>
-                  <option value="2">Februar</option>
-                  <option value="3">März</option>
-                  <option value="4">April</option>
-                  <option value="5">Mai</option>
-                  <option value="6">Juni</option>
-                  <option value="7">Juli</option>
-                  <option value="8">August</option>
-                  <option value="9">September</option>
-                  <option value="10">Oktober</option>
-                  <option value="11">November</option>
-                  <option value="12">Dezember</option>
-                </select>
-                <select id="a9-jahr" name="a9-jahr" required>
-                  <option value="">Jahr</option>
-                </select>
-              </span>
-            </label>
-            <p class="hint">Monat, in dem Ihnen das Amt A&nbsp;9 übertragen wurde. Die Bewährungszeit läuft ab diesem Monat.</p>
-            <p id="zeit-warn" class="warn-inline" hidden></p>
-          </fieldset>
-          <fieldset>
-            <legend>Schwerbehinderung</legend>
-            <p class="hint">Nur ein Grad der Behinderung von mindestens 50 zählt, §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX. Eine Gleichstellung nach §&nbsp;2 Abs.&nbsp;3 SGB&nbsp;IX ersetzt das nicht. Schwerbehinderung hilft in der Beförderungsauswahl nur, wenn Gesamturteil, Einzelmerkmale und das Gesamturteil der vorletzten Beurteilung genau auf der veröffentlichten Grenze liegen.</p>
-            <div class="choice">
-              <label><input type="radio" name="sb" value="ja"> Ja</label>
-              <label><input type="radio" name="sb" value="nein"> Nein</label>
-            </div>
-          </fieldset>
-        </div>
+        <fieldset>
+          <legend>Zeiten</legend>
+          <label class="field">Allgemeiner Dienstzeitbeginn
+            <span class="pair">
+              <select id="einstieg-monat" name="einstieg-monat" required>
+                <option value="">Monat</option>
+                <option value="3">März</option>
+                <option value="9">September</option>
+              </select>
+              <select id="einstieg-jahr" name="einstieg-jahr" required>
+                <option value="">Jahr</option>
+              </select>
+            </span>
+          </label>
+          <p class="hint">Die Einstellung liegt im März oder September. Gerechnet wird ab dem 1. des Monats. Daraus ergibt sich die allgemeine Dienstzeit.</p>
+          <label class="field" style="margin-top:10px">Im Amt A&nbsp;9 seit
+            <span class="pair">
+              <select id="a9-monat" name="a9-monat" required>
+                <option value="">Monat</option>
+                <option value="1">Januar</option>
+                <option value="2">Februar</option>
+                <option value="3">März</option>
+                <option value="4">April</option>
+                <option value="5">Mai</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Dezember</option>
+              </select>
+              <select id="a9-jahr" name="a9-jahr" required>
+                <option value="">Jahr</option>
+              </select>
+            </span>
+          </label>
+          <p class="hint">Monat, in dem Ihnen das Amt A&nbsp;9 übertragen wurde. Die Bewährungszeit läuft ab diesem Monat.</p>
+          <p id="zeit-warn" class="warn-inline" hidden></p>
+        </fieldset>
         <fieldset>
           <legend>Letzte Beurteilung (2026)</legend>
           <div class="grid-2">
@@ -487,6 +477,14 @@
             <select id="rw" name="rw" required></select>
           </label>
           <p class="hint">Gesamturteil der Beurteilung 2023. Die Einzelmerkmale dieser Beurteilung werden nicht gebraucht.</p>
+        </fieldset>
+        <fieldset>
+          <legend>Schwerbehinderung</legend>
+          <p class="hint">Nur ein Grad der Behinderung von mindestens 50 zählt, §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX. Eine Gleichstellung nach §&nbsp;2 Abs.&nbsp;3 SGB&nbsp;IX ersetzt das nicht. Schwerbehinderung hilft in der Beförderungsauswahl nur, wenn Gesamturteil, Einzelmerkmale und das Gesamturteil der vorletzten Beurteilung genau auf der veröffentlichten Grenze liegen.</p>
+          <div class="choice">
+            <label><input type="radio" name="sb" value="ja"> Ja</label>
+            <label><input type="radio" name="sb" value="nein"> Nein</label>
+          </div>
         </fieldset>
         <div class="actions" style="margin-top:14px">
           <button class="primary" type="submit">Prognose</button>
@@ -768,6 +766,7 @@
             <li>Beförderungsauswahl für Dezember 2026 eingetragen.</li>
             <li>Tabelle aller Stichtage unter „So rechnet das Tool“ bei A&nbsp;9 mit Amtszulage ist auch vor Ausfüllen des Formulars sichtbar.</li>
             <li>Für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene wird die neu eingeführte Beförderungsauswahl (Stand Dezember 2026) zweistufig neben der Bewährungszeit berechnet und geprüft.</li>
+            <li>Die Abfrage der Schwerbehinderung bei A&nbsp;9 mit Amtszulage steht nun als eigene Box am Ende des Formulars nach der vorletzten Beurteilung.</li>
           </ul>
         </section>
 

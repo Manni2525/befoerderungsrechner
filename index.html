@@ -516,7 +516,7 @@
             <h3>2. Beförderungsauswahl</h3>
             <p>Das Innenministerium veröffentlicht jeden Monat, wer bei zu wenigen freien Haushaltsstellen noch zum Zug kommt. Auch wer die Bewährungszeit schon erfüllt hat, wird nur befördert, wenn er die Auswahlkriterien erfüllt. Das jeweils nächste Kriterium gilt nur für diejenigen, die exakt die Mindestpunktzahl des vorherigen Kriteriums erreicht haben. Wer darüber liegt, muss die weiteren Hürden nicht nehmen. Wer darunter liegt, kann auch beim Erfüllen der restlichen Kriterien nicht befördert werden.</p>
             <p>Die Reihenfolge ist: Gesamturteil der Beurteilung 2026, Summe der fünf doppelt gewichteten Einzelmerkmale, Gesamturteil der Beurteilung 2023, dann die sonstige Voraussetzung. Schwerbehinderung oder die in der Tabelle genannte Dienstzeit ersetzen einander. Steht dort ein Plus, müssen beide Dienstzeiten erreicht sein. Steht „oder“, genügt eine davon.</p>
-            <p>Für künftige Monate nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Oktober 2027 wird also an Oktober 2024 gemessen, November 2026 an November 2023. Der November (wird stetig aktualisiert) 2026 ist der letzte eingetragene Stichtag.</p>
+            <p>Für künftige Monate nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Oktober 2027 wird also an Oktober 2024 gemessen, Dezember 2026 an Dezember 2023. Der Dezember (wird stetig aktualisiert) 2026 ist der letzte eingetragene Stichtag.</p>
           </div>
         </div>
         <h3 style="margin-top:16px">Gesamturteil der bekannten Stichtage</h3>
@@ -659,7 +659,7 @@
         <p>Die Berechnungen in diesem Tool stützen sich auf diese Grundlagen:</p>
         <ul>
           <li>Beförderungsrichtlinien vom 21.&nbsp;Juli 2026, für die Bewährungszeiten.</li>
-          <li>Veröffentlichte Beförderungsauswahl für A&nbsp;9 mit Amtszulage, September 2023 bis November 2026.</li>
+          <li>Veröffentlichte Beförderungsauswahl für A&nbsp;9 mit Amtszulage, September 2023 bis Dezember 2026.</li>
         </ul>
 
         <h3>1. Haftungsausschluss und wichtige rechtliche Hinweise zur Nutzung</h3>
@@ -705,7 +705,14 @@
       <button class="back" type="button" data-back>← Zur Auswahl</button>
       <article class="card">
         <h2>Versionen</h2>
-        <p class="version-now">Aktuelle Fassung: <strong>Version 1.4</strong>, gültig seit dem 9.&nbsp;Oktober 2026.</p>
+        <p class="version-now">Aktuelle Fassung: <strong>Version 1.5</strong>, gültig seit dem 4.&nbsp;November 2026.</p>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.5</span><span class="since">seit dem 4. November 2026</span></p>
+          <ul>
+            <li>Beförderungsauswahl für Dezember 2026 eingetragen.</li>
+          </ul>
+        </section>
 
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.4</span><span class="since">seit dem 9. Oktober 2026</span></p>
@@ -760,7 +767,7 @@
 </main>
 <footer class="site">
   <p>Personalrat Schwaben Nord. Erstellt von © Nowadnick.</p>
-  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.4</a></p>
+  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.5</a></p>
 </footer>
 
 <script>
@@ -1221,7 +1228,7 @@ function show(id, scroll) {
 
 const WARTEZEIT = { 16: 36, 15: 39, 14: 42, 13: 45, 12: 48, 11: 54, 10: 60, 9: 72 };
 
-/** Stichtage September 2023 bis November 2026 aus der Tabelle Beförderungsauswahl. */
+/** Stichtage September 2023 bis Dezember 2026 aus der Tabelle Beförderungsauswahl. */
 const RAW = [
   ["2023-09-01", 10, 50, 10, 2017, ["a9", 98], 1187, 73],
   ["2023-10-01", 14, 70, 11, 2020, ["a9", 53], 1640, 94],
@@ -1261,7 +1268,8 @@ const RAW = [
   ["2026-08-01", 10, 52, 10, 2020, ["a9", 127], 1476, 27],
   ["2026-09-01", 11, 53, 9, 2020, ["none"], 1516, 41],
   ["2026-10-01", 13, 66, 10, 2023, ["or", 104, 188], 1977, 35],
-  ["2026-11-01", 12, 62, 10, 2023, ["a9", 87], 1966, 116]
+  ["2026-11-01", 12, 62, 10, 2023, ["a9", 87], 1966, 116],
+  ["2026-12-01", 12, 62, 9, 2023, ["a9", 207], 1935, 66]
 ];
 
 const CUTOFFS = RAW.map(([date, gu, einzel, rw, rwYear, sonst, faehig, befoerdert]) => {
@@ -1732,6 +1740,7 @@ function selfTest() {
   const oct2024 = CUTOFFS.find((c) => c.date === "2024-10-01");
   const sep2026 = CUTOFFS.find((c) => c.date === "2026-09-01");
   const nov2026 = CUTOFFS.find((c) => c.date === "2026-11-01");
+  const dez2026 = CUTOFFS.find((c) => c.date === "2026-12-01");
   const person = (gu, einzel, rw, disabled, a9, allg) => ({ gu, einzel, rw, disabled, a9Months: a9, allgMonths: allg, inA9: true });
   assert(explain(person(14, 50, 1, false, 0, 0), oct2026).ok, "über GU");
   assert(!explain(person(12, 80, 16, true, 200, 300), oct2026).ok, "unter GU");
@@ -1751,6 +1760,12 @@ function selfTest() {
   assert(!explain(person(12, 61, 16, true, 200, 300), nov2026).ok, "nov unter Einzel");
   assert(explain(person(12, 62, 10, false, 87, 0), nov2026).ok, "nov A9");
   assert(!explain(person(12, 62, 10, false, 86, 400), nov2026).ok, "nov A9 fehlt");
+  assert(dez2026 && dez2026.gu === 12 && dez2026.einzel === 62 && dez2026.rw === 9 && dez2026.rule.t === "a9" && dez2026.rule.a9 === 207, "Dez 2026 Grenze");
+  assert(dez2026.faehig === 1935 && dez2026.befoerdert === 66, "Dez 2026 Zahlen");
+  assert(explain(person(13, 1, 1, false, 0, 0), dez2026).ok, "dez über GU");
+  assert(!explain(person(12, 61, 16, true, 200, 300), dez2026).ok, "dez unter Einzel");
+  assert(explain(person(12, 62, 9, false, 207, 0), dez2026).ok, "dez A9");
+  assert(!explain(person(12, 62, 9, false, 206, 400), dez2026).ok, "dez A9 fehlt");
   assert(referenceFor(2026, 11).date === "2023-11-01", "Vergleich November");
   assert(warteMonate(16) === 36 && warteMonate(11) === 54 && warteMonate(9) === 72 && warteMonate(5) === 84, "Wartezeit");
   assert(beurteilungYear(2023, 9) === 2020 && beurteilungYear(2023, 10) === 2023 && beurteilungYear(2026, 10) === 2026, "Zyklus");

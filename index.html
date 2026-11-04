@@ -276,7 +276,13 @@
   tr.miss td { background: #fffafa; }
   tr.is-you td { background: #f4f7fa; font-weight: 650; }
   .scroll { overflow-x: auto; }
-  .chart { width: 100%; height: auto; display: block; }
+  .chart {
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: crosshair;
+    touch-action: none;
+  }
   details.card {
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
@@ -607,6 +613,7 @@
           </div>
         </div>
         <h3 style="margin-top:16px">Gesamturteil der bekannten Stichtage</h3>
+        <p class="hint" style="margin-top:-2px;margin-bottom:8px">Fahren Sie mit der Maus über die Punkte der Kurve oder tippen Sie darauf, um das Datum und die Grenzwerte des Stichtags einzublenden.</p>
         <svg id="chart" class="chart" viewBox="0 0 760 180" role="img" aria-label="Verlauf der Mindestpunktzahl Gesamturteil"></svg>
         <h3>Alle Stichtage, gemessen an Ihrer heutigen Lage</h3>
         <p class="hint">Grün heißt: Mit Ihren heutigen Punkten und Ihrer heutigen Dienstzeit hätten Sie diese historische Hürde genommen. Das sagt nichts darüber, ob Sie damals schon die Bewährungszeit erfüllt hatten.</p>
@@ -859,6 +866,7 @@
             <li>Die Abfrage der Schwerbehinderung steht nun einheitlich als Checkbox am Ende der Angaben.</li>
             <li>Einheitliche, kompakte Breiten, identische Tooltips und bündige Ausrichtung aller Eingabefelder im gesamten Tool.</li>
             <li>Deutlicher, interaktiver Button zum Auf- und Zuklappen von „Maßgebliche Regelung“ und „So rechnet das Tool“.</li>
+            <li>Interaktiver Mouse-Hover in der Stichtagsgrafik: Anzeige von Datum und Detailwerten per Mauszeiger oder Antippen sowie erweiterte Monatsmarkierungen auf der Zeitachse.</li>
           </ul>
         </section>
 
@@ -2000,26 +2008,100 @@ function begruendung(input, warte, forecast, todayProfile, hits) {
   if (!todayProfile.inA9 && todayProfile.gu !== null) saetze.push("Die aktuelle Beurteilung ist nicht im Statusamt A 9 markiert. Bis zu einer Beurteilung in A 9 greift die Beförderungswahl nicht.");
   return saetze.join(" ");
 }
+function renderChartHover(index) {
+  const overlay = $("chart-overlay");
+  if (!overlay) return;
+  if (index === null || index < 0 || index >= CUTOFFS.length) {
+    overlay.innerHTML = "";
+    return;
+  }
+  const row = CUTOFFS[index];
+  const w = 760, h = 180, left = 32, right = 16, top = 18, bottom = 30;
+  const min = 9, max = 15;
+  const n = CUTOFFS.length;
+  const cx = left + (index * (w - left - right)) / (n - 1);
+  const cy = top + ((max - row.gu) * (h - top - bottom)) / (max - min);
+
+  const boxW = 248;
+  const boxH = 84;
+  let boxX = cx - boxW / 2;
+  if (boxX < left) boxX = left;
+  if (boxX + boxW > w - right) boxX = w - right - boxW;
+
+  let boxY;
+  if (cy > 95) {
+    boxY = cy - boxH - 8;
+    if (boxY < top) boxY = top;
+  } else {
+    boxY = cy + 10;
+    if (boxY + boxH > h - 4) boxY = h - 4 - boxH;
+  }
+
+  const crosshair = "<line x1='" + cx + "' y1='" + top + "' x2='" + cx + "' y2='" + (h - bottom) + "' stroke='#044b7f' stroke-width='1.5' stroke-dasharray='3 3' opacity='0.7'/>";
+  const point = "<circle cx='" + cx + "' cy='" + cy + "' r='5.5' fill='#044b7f' stroke='#ffffff' stroke-width='2.5'/>";
+  const bg = "<rect x='" + boxX + "' y='" + boxY + "' width='" + boxW + "' height='" + boxH + "' rx='6' fill='#001f46' fill-opacity='0.95' stroke='#376388' stroke-width='1'/>";
+  const sonstShort = row.rule.t === "none" ? "Keine weiteren Bedingungen" : (row.rule.t === "a9" ? "Schwerbeh. oder mind. " + row.rule.a9 + " Mon. A 9" : "Schwerbeh. oder Dienstzeit");
+
+  const t1 = "<text x='" + (boxX + 10) + "' y='" + (boxY + 15) + "' fill='#ffffff' font-size='11.5' font-weight='700'>Stichtag " + formatDE(row) + "</text>";
+  const t2 = "<text x='" + (boxX + 10) + "' y='" + (boxY + 30) + "' fill='#5cc2ff' font-size='11' font-weight='650'>Mindest-Gesamturteil: " + row.gu + " Punkte</text>";
+  const t3 = "<text x='" + (boxX + 10) + "' y='" + (boxY + 45) + "' fill='#d5e5f2' font-size='10'>Einzel: mind. " + row.einzel + " · Vorbeurt.: " + row.rw + " (" + row.rwYear + ")</text>";
+  const t4 = "<text x='" + (boxX + 10) + "' y='" + (boxY + 60) + "' fill='#a8c4db' font-size='9.5'>Voraussetzung: " + esc(sonstShort) + "</text>";
+  const t5 = "<text x='" + (boxX + 10) + "' y='" + (boxY + 74) + "' fill='#7ea4c4' font-size='9.5'>Befördert: " + formatZahl(row.befoerdert) + " von " + formatZahl(row.faehig) + " Personen</text>";
+
+  overlay.innerHTML = crosshair + point + bg + t1 + t2 + t3 + t4 + t5;
+}
+
+function handleChartPointer(event) {
+  const svg = $("chart");
+  if (!svg) return;
+  const rect = svg.getBoundingClientRect();
+  const svgX = ((event.clientX - rect.left) / rect.width) * 760;
+  const left = 32, right = 16, w = 760, n = CUTOFFS.length;
+  const i = Math.max(0, Math.min(n - 1, Math.round(((svgX - left) * (n - 1)) / (w - left - right))));
+  renderChartHover(i);
+}
+
 function drawChart(userGu) {
   const svg = $("chart");
-  const w = 760, h = 180, left = 28, right = 10, top = 16, bottom = 28;
+  if (!svg) return;
+  const w = 760, h = 180, left = 32, right = 16, top = 18, bottom = 30;
   const min = 9, max = 15;
   const n = CUTOFFS.length;
   const x = (i) => left + (i * (w - left - right)) / (n - 1);
   const y = (gu) => top + ((max - gu) * (h - top - bottom)) / (max - min);
+
   let d = "";
-  CUTOFFS.forEach((row, i) => { d += (i ? "L" : "M") + x(i) + "," + y(row.gu); });
+  let dots = "";
+  CUTOFFS.forEach((row, i) => {
+    const px = x(i);
+    const py = y(row.gu);
+    d += (i ? "L" : "M") + px + "," + py;
+    dots += "<circle cx='" + px + "' cy='" + py + "' r='2.5' fill='#1b3a4b'/>";
+  });
+
   let grids = "";
   for (let g = min; g <= max; g++) {
     grids += "<line x1='" + left + "' y1='" + y(g) + "' x2='" + (w - right) + "' y2='" + y(g) + "' stroke='#e6ebf0'/>";
-    grids += "<text x='2' y='" + (y(g) + 4) + "' font-size='11' fill='#5d6b7a'>" + g + "</text>";
+    grids += "<text x='4' y='" + (y(g) + 4) + "' font-size='11' fill='#5d6b7a'>" + g + "</text>";
   }
+
   let user = "";
-  if (userGu) user = "<line x1='" + left + "' y1='" + y(userGu) + "' x2='" + (w - right) + "' y2='" + y(userGu) + "' stroke='#0e6844' stroke-dasharray='4 3'/>";
-  const labels = [0, 12, 25, n - 1].filter((i) => i < n).map((i) =>
-    "<text x='" + x(i) + "' y='" + (h - 8) + "' font-size='11' fill='#5d6b7a'>" + formatDE(CUTOFFS[i]).slice(3) + "</text>"
-  ).join("");
-  svg.innerHTML = grids + user + "<path d='" + d + "' fill='none' stroke='#1b3a4b' stroke-width='2'/>" + labels;
+  if (userGu) {
+    const uy = y(userGu);
+    user = "<line x1='" + left + "' y1='" + uy + "' x2='" + (w - right) + "' y2='" + uy + "' stroke='#0e6844' stroke-width='1.5' stroke-dasharray='4 3'/>" +
+      "<text x='" + (w - right) + "' y='" + (uy - 4) + "' font-size='10' font-weight='600' fill='#0e6844' text-anchor='end'>Ihr Gesamturteil: " + userGu + "</text>";
+  }
+
+  const markIndices = [0, 4, 10, 16, 22, 28, 34, n - 1].filter((idx, p, arr) => idx < n && arr.indexOf(idx) === p);
+  const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+  const labels = markIndices.map((i) => {
+    const row = CUTOFFS[i];
+    const txt = monthNames[row.m - 1] + " " + String(row.y).slice(2);
+    const anchor = i === 0 ? "start" : i === n - 1 ? "end" : "middle";
+    return "<text x='" + x(i) + "' y='" + (h - 8) + "' font-size='11' fill='#5d6b7a' text-anchor='" + anchor + "'>" + txt + "</text>";
+  }).join("");
+
+  svg.innerHTML = grids + user + "<path d='" + d + "' fill='none' stroke='#1b3a4b' stroke-width='2'/>" + dots + labels + "<g id='chart-overlay'></g>";
 }
 function fillPunktSelect(select, min, max) {
   select.innerHTML = "<option value=''>–</option>";
@@ -2129,6 +2211,12 @@ function init() {
   document.querySelectorAll("[data-back]").forEach((btn) => {
     btn.addEventListener("click", () => { location.hash = "auswahl"; });
   });
+  const chartSvg = $("chart");
+  if (chartSvg) {
+    chartSvg.addEventListener("pointermove", handleChartPointer);
+    chartSvg.addEventListener("pointerdown", handleChartPointer);
+    chartSvg.addEventListener("pointerleave", () => renderChartHover(null));
+  }
   render();
   window.addEventListener("hashchange", () => show(fromHash(), true));
   show(fromHash(), false);

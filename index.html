@@ -610,6 +610,30 @@
             <span id="s-status-label"></span>
           </label>
         </fieldset>
+        <fieldset id="s-auswahl-box" hidden>
+          <legend>Beförderungsauswahl (neu seit Dezember 2026)</legend>
+          <p class="hint" id="s-auswahl-desc" style="margin-top:0;margin-bottom:12px"></p>
+          <div class="grid-2">
+            <label class="field">Einzelmerkmale (Summe)
+              <input type="number" id="s-einzel" min="5" max="80" placeholder="5 bis 80">
+              <span class="hint">Summe der fünf doppelt gewichteten Einzelmerkmale der letzten Beurteilung.</span>
+            </label>
+            <label class="field">Vorletzte Beurteilung (2023)
+              <select id="s-rw"></select>
+              <span class="hint">Gesamturteil der Beurteilung 2023.</span>
+            </label>
+          </div>
+          <div id="s-a10-sonst" style="margin-top:12px" hidden>
+            <label class="field">Dienstzeit in A&nbsp;9 / A&nbsp;9 mit Zulage (Monate)
+              <input type="number" id="s-a9-monate" min="0" max="600" placeholder="z. B. 54">
+              <span class="hint">Monate im Amt A 9 bzw. A 9 mit Zulage bis zum Stichtag (mindestens 54 Monate nötig, sofern nicht schwerbehindert). Bleibt das Feld leer, wird die Zeit ab dem oben angegebenen Beginn gerechnet.</span>
+            </label>
+            <label class="check" style="margin-top:8px">
+              <input type="checkbox" id="s-sb">
+              <span>Schwerbehinderung nach §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX (GdB mindestens 50).</span>
+            </label>
+          </div>
+        </fieldset>
         <fieldset id="s-scope-box">
           <legend>Persönlicher Geltungsbereich</legend>
           <label class="check">
@@ -645,6 +669,26 @@
           </table>
         </div>
         <p class="hint">Dienstzeiten werden in Monaten gerechnet. Zum Zeitpunkt der Ernennung beträgt die Dienstzeit null. Angezeigt wird der Monatserste, an dem die geforderte Zahl erreicht ist. Eingetragen wird der Monat, gerechnet wird ab dessen Erstem.</p>
+        <div id="s-auswahl-table-box" style="margin-top:18px" hidden>
+          <h3 style="margin-top:14px">Veröffentlichte Beförderungsauswahl</h3>
+          <p class="hint">Mindestkriterien, die am Stichtag für eine Beförderung erreicht sein mussten:</p>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Stichtag</th>
+                  <th>Gesamturteil</th>
+                  <th>Einzelmerkmale</th>
+                  <th>Gesamturteil 2023</th>
+                  <th>Sonstige Voraussetzung</th>
+                  <th>Befördert / fähig</th>
+                </tr>
+              </thead>
+              <tbody id="s-auswahl-table"></tbody>
+            </table>
+          </div>
+          <p class="hint" style="margin-top:8px">Hinweis: Die Beförderungsauswahl wurde für dieses Amt erstmalig im Dezember 2026 angewendet. Künftige Stichtage werden laufend nach Veröffentlichung ergänzt.</p>
+        </div>
       </details>
     </section>
 
@@ -670,6 +714,7 @@
         <ul>
           <li>Beförderungsrichtlinien vom 21.&nbsp;Juli 2026, für die Bewährungszeiten.</li>
           <li>Veröffentlichte Beförderungsauswahl für A&nbsp;9 mit Amtszulage, September 2023 bis Dezember 2026.</li>
+          <li>Veröffentlichte Beförderungsauswahl für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene, Stand Dezember 2026.</li>
         </ul>
 
         <h3>1. Haftungsausschluss und wichtige rechtliche Hinweise zur Nutzung</h3>
@@ -722,6 +767,7 @@
           <ul>
             <li>Beförderungsauswahl für Dezember 2026 eingetragen.</li>
             <li>Tabelle aller Stichtage unter „So rechnet das Tool“ bei A&nbsp;9 mit Amtszulage ist auch vor Ausfüllen des Formulars sichtbar.</li>
+            <li>Für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene wird die neu eingeführte Beförderungsauswahl (Stand Dezember 2026) zweistufig neben der Bewährungszeit berechnet und geprüft.</li>
           </ul>
         </section>
 
@@ -852,8 +898,8 @@ const PATHS = [
     group: "qe2",
     rank: "Zweite Qualifikationsebene",
     title: "A 10",
-    card: "Nach der letzten Beurteilung in A 9 mit Amtszulage",
-    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Die Bewährungszeit läuft seit A 9 mit Amtszulage. Mindestens neun Punkte.",
+    card: "Nach der letzten Beurteilung in A 9 mit Amtszulage (inkl. Beförderungsauswahl)",
+    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Neben der Bewährungszeit gilt seit Dezember 2026 auch eine Beförderungsauswahl.",
     board: { stars: 2, tone: "white" },
     kind: "points",
     bands: [16, 15, 14, 13, 12, 11, 10, 9].map((p, i) => ({
@@ -865,18 +911,32 @@ const PATHS = [
     startShort: "Übertragung A 9 mit Amtszulage",
     statusLabel: "Diese Beurteilung ist im Statusamt A 9 mit Amtszulage erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 9 mit Amtszulage erstellt wurde",
-    guHint: "Mindestens neun Punkte, letzte Beurteilung im Statusamt A 9 mit Amtszulage.",
+    guHint: "Mindestens neun Punkte für die Bewährungszeit (Beförderungsauswahl 12/2026: mind. 11 Punkte).",
     method: "Seit A 9 mit Amtszulage, abgestuft nach dem Gesamturteil. Mindestens neun Punkte.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Nötig sind mindestens neun Punkte. Eingetragen sind " + gu + " Punkte."
+    bandMessage: (gu) => "Nötig sind mindestens neun Punkte. Eingetragen sind " + gu + " Punkte.",
+    auswahl: {
+      date: "2026-12-01",
+      dateLabel: "1. Dezember 2026",
+      gu: 11,
+      einzel: 57,
+      rw: 9,
+      rwYear: 2023,
+      statusAmt: "A 9 mit Amtszulage",
+      faehig: 22,
+      befoerdert: 10,
+      hasSonst: true,
+      sonstMinA9Months: 54,
+      desc: "Seit Dezember 2026 gilt bei A 10 (2. QE) wegen Stellenmangels erstmals eine Beförderungsauswahl (10 Beförderungen bei 22 Bewerbern). Tragen Sie Ihre Werte ein, um Ihre Chancen zu prüfen."
+    }
   },
   {
     id: "qe2-a11",
     group: "qe2",
     rank: "Zweite Qualifikationsebene",
     title: "A 11",
-    card: "Nach der letzten Beurteilung in A 10",
-    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Die letzte Beurteilung muss im Statusamt A 10 liegen.",
+    card: "Nach der letzten Beurteilung in A 10 (inkl. Beförderungsauswahl)",
+    lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Neben der Bewährungszeit gilt seit Dezember 2026 auch eine Beförderungsauswahl.",
     board: { stars: 3, tone: "white" },
     kind: "points",
     bands: [
@@ -890,10 +950,23 @@ const PATHS = [
     startShort: "letzte Beförderung",
     statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
-    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10.",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10 (Beförderungsauswahl 12/2026: mind. 11 Punkte).",
     method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
     col: "Gesamturteil",
-    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten."
+    bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten.",
+    auswahl: {
+      date: "2026-12-01",
+      dateLabel: "1. Dezember 2026",
+      gu: 11,
+      einzel: 53,
+      rw: 11,
+      rwYear: 2023,
+      statusAmt: "A 10",
+      faehig: 38,
+      befoerdert: 33,
+      hasSonst: false,
+      desc: "Seit Dezember 2026 gilt bei A 11 (2. QE) wegen Stellenmangels erstmals eine Beförderungsauswahl (33 Beförderungen bei 38 Bewerbern). Tragen Sie Ihre Werte ein, um Ihre Chancen zu prüfen."
+    }
   },
   {
     id: "qe3-a10",
@@ -1076,6 +1149,14 @@ function applyPath(path) {
     $("s-second-label").textContent = path.second.label;
     $("s-second-hint").textContent = path.second.hint;
   }
+  const hasAuswahl = !!path.auswahl;
+  $("s-auswahl-box").hidden = !hasAuswahl;
+  $("s-auswahl-table-box").hidden = !hasAuswahl;
+  if (hasAuswahl) {
+    $("s-auswahl-desc").textContent = path.auswahl.desc;
+    $("s-a10-sonst").hidden = !path.auswahl.hasSonst;
+    renderSimpleAuswahlTable(path.auswahl);
+  }
   $("s-method").textContent = path.method;
   $("s-col-a").textContent = path.col;
   $("s-fuenftel-box").hidden = path.kind !== "fuenftel";
@@ -1093,8 +1174,28 @@ function applyPath(path) {
   $("s-status").checked = false;
   $("s-scope").checked = false;
   $("s-posten").checked = false;
+  if ($("s-einzel")) $("s-einzel").value = "";
+  if ($("s-rw")) $("s-rw").value = "";
+  if ($("s-a9-monate")) $("s-a9-monate").value = "";
+  if ($("s-sb")) $("s-sb").checked = false;
   renderSimpleTable(null);
   renderSimple();
+}
+
+function renderSimpleAuswahlTable(aus) {
+  const tbody = $("s-auswahl-table");
+  if (!tbody || !aus) return;
+  const sonstText = aus.hasSonst
+    ? "Schwerbehindert (§ 2 Abs. 2 SGB IX) oder mind. " + aus.sonstMinA9Months + " Monate im Amt A 9/Z"
+    : "Keine weiteren Einschränkungen";
+  tbody.innerHTML = "<tr>" +
+    "<td>" + esc(aus.dateLabel) + "</td>" +
+    "<td>" + aus.gu + "</td>" +
+    "<td>" + aus.einzel + "</td>" +
+    "<td>" + aus.rw + " (" + aus.rwYear + ")</td>" +
+    "<td>" + esc(sonstText) + "</td>" +
+    "<td>" + aus.befoerdert + " / " + aus.faehig + "</td>" +
+    "</tr>";
 }
 
 function tableRows(path) {
@@ -1132,7 +1233,155 @@ function readSimple() {
     second = monat2 && jahr2 ? { y: jahr2, m: monat2 } : null;
     if (!second) missing.push(path.second.label);
   }
-  return { missing, start, gu, fuenftel, second };
+  const einzelEl = $("s-einzel");
+  const einzelRaw = einzelEl && einzelEl.value ? Number(einzelEl.value) : null;
+  const rwEl = $("s-rw");
+  const rwRaw = rwEl && rwEl.value ? Number(rwEl.value) : null;
+  const sb = $("s-sb") ? $("s-sb").checked : false;
+  const a9MonateEl = $("s-a9-monate");
+  const a9Monate = a9MonateEl && a9MonateEl.value ? Number(a9MonateEl.value) : null;
+  const status = $("s-status") ? $("s-status").checked : true;
+  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate, status };
+}
+
+function evalSimpleAuswahl(path, input) {
+  const aus = path.auswahl;
+  if (!aus) return null;
+  const title = "2. Beförderungsauswahl (" + aus.dateLabel + ")";
+
+  if (input.gu > aus.gu) {
+    return {
+      ok: true,
+      cls: "met",
+      badge: "Erfüllt",
+      title: title,
+      text: "Ihr Gesamturteil (" + input.gu + " Punkte) liegt über der Mindestgrenze von " + aus.gu + " Punkten. Die weiteren Hilfskriterien (Einzelmerkmale, Vorbeurteilung) müssen nicht herangezogen werden."
+    };
+  }
+  if (input.gu < aus.gu) {
+    return {
+      ok: false,
+      cls: "wait",
+      badge: "Warteliste",
+      title: title,
+      text: "Ihr Gesamturteil (" + input.gu + " Punkte) liegt unter der Mindestgrenze des aktuellen Stichtags (" + aus.gu + " Punkte). Eine Beförderung zum " + aus.dateLabel + " ist daher nicht möglich."
+    };
+  }
+
+  // Hier gilt input.gu === aus.gu
+  if (input.einzel === null || isNaN(input.einzel)) {
+    return {
+      ok: null,
+      cls: "wait",
+      badge: "Prüfung offen",
+      title: title,
+      text: "Bei genau " + aus.gu + " Punkten Gesamturteil entscheidet als nächstes Kriterium die Summe der 5 doppelt gewichteten Einzelmerkmale (mindestens " + aus.einzel + " Punkte erforderlich). Bitte tragen Sie den Wert oben ein."
+    };
+  }
+
+  if (input.einzel > aus.einzel) {
+    return {
+      ok: true,
+      cls: "met",
+      badge: "Erfüllt",
+      title: title,
+      text: "Ihre Einzelmerkmale (" + input.einzel + " Punkte) liegen über der Mindestgrenze von " + aus.einzel + " Punkten. Das Gesamturteil der vorletzten Beurteilung muss nicht herangezogen werden."
+    };
+  }
+  if (input.einzel < aus.einzel) {
+    return {
+      ok: false,
+      cls: "wait",
+      badge: "Warteliste",
+      title: title,
+      text: "Ihre Einzelmerkmale (" + input.einzel + " Punkte) liegen unter der Mindestgrenze des Stichtags (" + aus.einzel + " Punkte). Eine Beförderung zum " + aus.dateLabel + " ist daher nicht möglich."
+    };
+  }
+
+  // Hier gilt input.einzel === aus.einzel
+  if (input.rw === null || isNaN(input.rw)) {
+    return {
+      ok: null,
+      cls: "wait",
+      badge: "Prüfung offen",
+      title: title,
+      text: "Bei gleicher Einzelmerkmalssumme (" + aus.einzel + " Punkte) entscheidet der Rechenwert aus der Beurteilung " + aus.rwYear + " (mindestens " + aus.rw + " Punkte erforderlich). Bitte wählen Sie den Wert oben aus."
+    };
+  }
+
+  if (input.rw > aus.rw) {
+    return {
+      ok: true,
+      cls: "met",
+      badge: "Erfüllt",
+      title: title,
+      text: "Ihr Rechenwert aus " + aus.rwYear + " (" + input.rw + " Punkte) liegt über der Mindestgrenze von " + aus.rw + " Punkten."
+    };
+  }
+  if (input.rw < aus.rw) {
+    return {
+      ok: false,
+      cls: "wait",
+      badge: "Warteliste",
+      title: title,
+      text: "Ihr Rechenwert aus " + aus.rwYear + " (" + input.rw + " Punkte) liegt unter der Mindestgrenze des Stichtags (" + aus.rw + " Punkte)."
+    };
+  }
+
+  // Hier gilt input.rw === aus.rw
+  if (!aus.hasSonst) {
+    return {
+      ok: true,
+      cls: "met",
+      badge: "Erfüllt",
+      title: title,
+      text: "Alle Kriterien des Stichtags (Gesamturteil " + aus.gu + ", Einzelmerkmale " + aus.einzel + ", Rechenwert " + aus.rwYear + ": " + aus.rw + ") sind erfüllt."
+    };
+  }
+
+  if (input.sb) {
+    return {
+      ok: true,
+      cls: "met",
+      badge: "Erfüllt",
+      title: title,
+      text: "Schwerbehinderung nach § 2 Abs. 2 SGB IX liegt vor und erfüllt die sonstige Voraussetzung."
+    };
+  }
+
+  let a9Monate = input.a9Monate;
+  if ((a9Monate === null || isNaN(a9Monate)) && input.start) {
+    const diff = diffMonths(input.start, { y: 2026, m: 12 });
+    if (diff > 0) a9Monate = diff;
+  }
+
+  if (a9Monate === null || isNaN(a9Monate)) {
+    return {
+      ok: null,
+      cls: "wait",
+      badge: "Prüfung offen",
+      title: title,
+      text: "Bei Gleichstand entscheidet die Schwerbehinderung oder mindestens " + aus.sonstMinA9Months + " Monate Dienstzeit im Amt " + (aus.statusAmt || "A 9 / A 9 mit Amtszulage") + ". Bitte geben Sie oben Ihre Monate ein oder markieren Sie die Schwerbehinderung."
+    };
+  }
+
+  if (a9Monate >= aus.sonstMinA9Months) {
+    return {
+      ok: true,
+      cls: "met",
+      badge: "Erfüllt",
+      title: title,
+      text: "Mit " + a9Monate + " Monaten Dienstzeit in " + (aus.statusAmt || "A 9 / A 9 mit Amtszulage") + " ist die Mindestzeit (" + aus.sonstMinA9Months + " Monate) erfüllt."
+    };
+  }
+
+  return {
+    ok: false,
+    cls: "wait",
+    badge: "Warteliste",
+    title: title,
+    text: "Mit " + a9Monate + " Monaten Dienstzeit in " + (aus.statusAmt || "A 9 / A 9 mit Amtszulage") + " wird die Mindestzeit von " + aus.sonstMinA9Months + " Monaten bis zum Stichtag nicht erreicht (und Schwerbehinderung liegt nicht vor)."
+  };
 }
 
 function renderSimple() {
@@ -1167,7 +1416,6 @@ function renderSimple() {
   }
   const rel = relation(when, new Date());
   const relFuenftel = relation(whenFuenftel, new Date());
-  const lede = rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit";
   const factClass = relFuenftel === "future" ? "wait" : "met";
   const kern = wait.months + " Monate (" + wait.label + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
     (relFuenftel === "future"
@@ -1177,6 +1425,58 @@ function renderSimple() {
   const zweit = input.second ? " " + esc(currentPath.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
   const spaeter = input.second ? " Maßgeblich ist der spätere der beiden Zeitpunkte." : "";
+
+  if (currentPath.auswahl) {
+    const aus = currentPath.auswahl;
+    const ausEval = evalSimpleAuswahl(currentPath, input);
+    const [cy, cm] = (aus.date || "2026-12-01").split("-").map(Number);
+    const cutoffDate = { y: cy, m: cm };
+    let ledeText = "";
+    let whenText = "";
+    let mainText = "";
+
+    if (ausEval.ok === true) {
+      if (cmpMonth(when, cutoffDate) <= 0) {
+        ledeText = "Voraussichtliche Beförderung zum Stichtag";
+        whenText = formatLong(cutoffDate);
+        mainText = "Bewährungszeit (" + formatLong(when) + ") und Beförderungsauswahl (Stand " + aus.dateLabel + ") sind beide erfüllt. " + kopf + punkte;
+      } else {
+        ledeText = "Beförderungsfähig ab";
+        whenText = formatLong(when);
+        mainText = "Die Grenzwerte der Beförderungsauswahl (Stand " + aus.dateLabel + ") sind mit Ihren Beurteilungswerten bereits erfüllt. Die notwendige Bewährungszeit wird zum " + formatLong(when) + " erreicht (vorbehaltlich gleichbleibender Grenzwerte bei künftigen Auswahlterminen). " + kopf + punkte;
+      }
+    } else if (ausEval.ok === false) {
+      ledeText = "Status der Beförderungsauswahl";
+      whenText = "Warteliste";
+      mainText = "Die Bewährungszeit ist " + (rel === "future" ? "ab " + formatLong(when) + " erfüllt" : "bereits erfüllt") + ", die aktuellen Grenzwerte der Beförderungsauswahl zum " + aus.dateLabel + " werden jedoch noch nicht erreicht. " + kopf + punkte;
+    } else {
+      ledeText = rel === "future" ? "Bewährungszeit erfüllt ab" : "Bewährungszeit bereits erfüllt seit";
+      whenText = formatLong(when);
+      mainText = "Die Bewährungszeit ist " + (rel === "future" ? "ab " + formatLong(when) + " erfüllt" : "bereits erfüllt") + ". Da Ihr Gesamturteil genau " + aus.gu + " Punkte beträgt, entscheidet die Beförderungsauswahl anhand der weiteren Kriterien. " + kopf + punkte;
+    }
+
+    const auswahlFact = factHtml(
+      esc(ausEval.title),
+      ausEval.ok === true,
+      esc(ausEval.text),
+      ausEval.cls,
+      ausEval.badge
+    );
+
+    box.innerHTML = "<h2>Beförderungsfähigkeit &amp; Auswahl</h2>" +
+      "<p class='lede'>" + esc(ledeText) + "</p>" +
+      "<p class='when'>" + esc(whenText) + "</p>" +
+      "<p>" + mainText + "</p>" +
+      factWrap(
+        factHtml("1. Bewährungszeit", factClass !== "open", esc(kern), factClass) +
+        auswahlFact
+      ) +
+      "<p class='hint'><strong>Beförderungsauswahl ab Dezember 2026:</strong> Für die Beförderung nach " + esc(currentPath.title) + " gilt seit dem 1. Dezember 2026 neben der Bewährungszeit zusätzlich eine Beförderungsauswahl nach Leistungskriterien. Da dies der erste Auswahlstichtag ist, existieren noch keine historischen Trenddaten für eine langfristige Verlaufsprognose. Der Rechner gleicht Ihre Daten daher mit den Grenzwerten des aktuellen Stichtags (1. Dezember 2026) ab.</p>" +
+      "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
+    return;
+  }
+
+  const lede = rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit";
   box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
     kopf + zweit + punkte + spaeter + "</p>" +
     factWrap(
@@ -1190,8 +1490,8 @@ function renderSimple() {
 function factWrap(inner) {
   return "<div class='facts'>" + inner + "</div>";
 }
-function factHtml(title, met, text, cls) {
-  const badge = cls === "wait" ? "Noch nicht" : cls === "met" ? "Erfüllt" : "Nicht erfüllt";
+function factHtml(title, met, text, cls, customBadge) {
+  const badge = customBadge || (cls === "wait" ? "Noch nicht" : cls === "met" ? "Erfüllt" : cls === "open" ? "Offen" : "Nicht erfüllt");
   return "<div class='fact " + cls + "'><span class='badge'>" + badge + "</span><b>" + title + "</b>" + text + "</div>";
 }
 
@@ -1660,6 +1960,7 @@ function init() {
   fillMonthYear("s-monat", "s-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillMonthYear("s-monat-2", "s-jahr-2", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillPunktSelect($("s-gu"), 4, 16);
+  fillPunktSelect($("s-rw"), 4, 16);
   $("s-fuenftel").innerHTML = "<option value=''>–</option>" + FUENFTEL.map((f) =>
     "<option value='" + f.id + "'>" + f.label + "</option>"
   ).join("");
@@ -1726,6 +2027,14 @@ function init() {
     if (path.statusLabel) $("s-status").checked = true;
     if (path.scopeLabel) $("s-scope").checked = true;
     if (path.postenLabel) $("s-posten").checked = true;
+    if (path.auswahl) {
+      $("s-einzel").value = String(randInt(50, 75));
+      $("s-rw").value = String(randInt(8, 14));
+      if (path.auswahl.hasSonst) {
+        $("s-a9-monate").value = String(randInt(40, 80));
+        $("s-sb").checked = Math.random() < 0.2;
+      }
+    }
     renderSimple();
   });
   $("s-leeren").addEventListener("click", () => {
@@ -1805,6 +2114,30 @@ function selfTest() {
   assert(formatDE(addMonths(2024, 9, 24)) === "01.09.2026", "24 Monate");
   assert(formatDE(addMonths(2023, 10, 48)) === "01.10.2027", "48 Monate");
   assert(formatDE(addMonths(2021, 10, 45)) === "01.07.2025", "45 Monate");
+  const a10Path = byId("qe2-a10");
+  const a11Path = byId("qe2-a11");
+  assert(a10Path && a10Path.auswahl && a10Path.auswahl.gu === 11 && a10Path.auswahl.einzel === 57, "A10 Auswahl Konfiguration");
+  assert(a11Path && a11Path.auswahl && a11Path.auswahl.gu === 11 && a11Path.auswahl.einzel === 53, "A11 Auswahl Konfiguration");
+  const simpleInput = (gu, einzel, rw, sb, a9Monate, start) => ({
+    gu, einzel, rw, sb, a9Monate, start: start || { y: 2021, m: 10 }, status: true, missing: []
+  });
+  assert(evalSimpleAuswahl(a10Path, simpleInput(12, null, null, false, null)).ok === true, "A10 über GU");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(10, null, null, false, null)).ok === false, "A10 unter GU");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, null, null, false, null)).ok === null, "A10 GU gleich ohne Einzel");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 58, null, false, null)).ok === true, "A10 über Einzel");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 56, null, false, null)).ok === false, "A10 unter Einzel");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, null, false, null)).ok === null, "A10 Einzel gleich ohne RW");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 10, false, null)).ok === true, "A10 über RW");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 8, false, null)).ok === false, "A10 unter RW");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, true, null)).ok === true, "A10 RW gleich schwerbehindert");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 54)).ok === true, "A10 RW gleich 54 Monate A9");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 53)).ok === false, "A10 RW gleich 53 Monate A9 verfehlt");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(12, null, null, false, null)).ok === true, "A11 über GU");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, null, null, false, null)).ok === false, "A11 unter GU");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 54, null, false, null)).ok === true, "A11 über Einzel");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 52, null, false, null)).ok === false, "A11 unter Einzel");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 11, false, null)).ok === true, "A11 RW gleich ohne sonst");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 10, false, null)).ok === false, "A11 unter RW");
 }
 
 init();

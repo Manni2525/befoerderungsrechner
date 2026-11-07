@@ -296,6 +296,7 @@
   tr.hit td { background: #f3faf6; }
   tr.miss td { background: #fffafa; }
   tr.is-you td { background: #f4f7fa; font-weight: 650; }
+  tr.period-sep td { border-top: 3px solid var(--navy); }
   .scroll { overflow-x: auto; }
   .chart {
     width: 100%;
@@ -303,6 +304,7 @@
     display: block;
     cursor: crosshair;
     touch-action: none;
+    margin-bottom: 24px;
   }
   details.card {
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -636,7 +638,7 @@
         <h3 style="margin-top:16px">Gesamturteil der bekannten Stichtage</h3>
         <p class="hint" style="margin-top:-2px;margin-bottom:8px">Fahren Sie mit der Maus über die Punkte der Kurve oder tippen Sie darauf, um das Datum und die Grenzwerte des Stichtags einzublenden.</p>
         <svg id="chart" class="chart" viewBox="0 0 760 180" role="img" aria-label="Verlauf der Mindestpunktzahl Gesamturteil"></svg>
-        <h3>Alle Stichtage, gemessen an Ihrer heutigen Lage</h3>
+        <h3 style="margin-top:24px">Alle Stichtage, gemessen an Ihrer heutigen Lage</h3>
         <p class="hint">Grün heißt: Mit Ihren heutigen Punkten und Ihrer heutigen Dienstzeit hätten Sie diese historische Hürde genommen. Das sagt nichts darüber, ob Sie damals schon die Bewährungszeit erfüllt hatten.</p>
         <div class="scroll">
           <table>
@@ -876,7 +878,15 @@
       <button class="back" type="button" data-back>← Zur Auswahl</button>
       <article class="card">
         <h2>Versionen</h2>
-        <p class="version-now">Aktuelle Fassung: <strong>Version 1.5</strong>, gültig seit dem 4.&nbsp;November 2026.</p>
+        <p class="version-now">Aktuelle Fassung: <strong>Version 1.6</strong>, gültig seit dem 7.&nbsp;November 2026.</p>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.6</span><span class="since">seit dem 7. November 2026</span></p>
+          <ul>
+            <li>Abstand zwischen der Grafik „Gesamturteil der bekannten Stichtage“ und der Liste „Alle Stichtage, gemessen an Ihrer heutigen Lage“ unter „So rechnet das Tool“ vergrößert.</li>
+            <li>In der Liste aller Stichtage trennt eine dicke Linie die einzelnen dreijährigen Beurteilungsperioden zwischen September und Oktober.</li>
+          </ul>
+        </section>
 
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.5</span><span class="since">seit dem 4. November 2026</span></p>
@@ -948,7 +958,7 @@
 </main>
 <footer class="site">
   <p>Personalrat Schwaben Nord. Erstellt von © Nowadnick.</p>
-  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.5</a> · Stand: 04.11.2026</p>
+  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.6</a> · Stand: 07.11.2026</p>
 </footer>
 
 <script>
@@ -1947,12 +1957,15 @@ function render() {
   const todayDt = { y: today.getFullYear(), m: today.getMonth() + 1 };
   const todayProfile = input.missing.length ? null : scoresAt(input, todayDt.y, todayDt.m);
   let hits = 0;
-  historie.innerHTML = CUTOFFS.map((row) => {
+  historie.innerHTML = CUTOFFS.map((row, index) => {
     const check = todayProfile && todayProfile.known ? explain(todayProfile, row) : null;
     if (check && check.ok) hits += 1;
     const cls = check ? (check.ok ? "hit" : "miss") : "";
+    const isNewPeriod = index > 0 && beurteilungYear(row.y, row.m) !== beurteilungYear(CUTOFFS[index - 1].y, CUTOFFS[index - 1].m);
+    const trCls = [cls, isNewPeriod ? "period-sep" : ""].filter(Boolean).join(" ");
+    const clsAttr = trCls ? " class='" + trCls + "'" : "";
     const status = check ? (check.ok ? "erfüllt" : "nicht erfüllt") : "–";
-    return "<tr class='" + cls + "'><td>" + formatDE(row) + "</td><td>" + row.gu + "</td><td>" + row.einzel +
+    return "<tr" + clsAttr + "><td>" + formatDE(row) + "</td><td>" + row.gu + "</td><td>" + row.einzel +
       "</td><td>" + row.rw + " (" + row.rwYear + ")</td><td>" + sonstigeText(row.rule) + "</td><td>" + formatZahl(row.befoerdert) + " / " + formatZahl(row.faehig) +
       "</td><td>" + status + "</td></tr>";
   }).join("");

@@ -943,6 +943,7 @@
             <li>Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) bei Beförderungsämtern (A&nbsp;12, A&nbsp;13, A&nbsp;15, A&nbsp;16) verbessert: Monat und Jahr der Dienstpostenübernahme (vergangen oder zukünftig) direkt als Standard-Eingabefeld sichtbar; ergänzt um Schnelloptionen für noch offene Dienstpostenübertragungen sowie weiter zurückliegende Erprobungszeiten.</li>
             <li>Erprobungszeit als eigenständiges, transparentes Kriterium mit Status „Erfüllt“, „Noch nicht erfüllt“ (in Erprobung bis zum errechneten Termin) oder „Ausstehend“ in der Auswertung ausgewiesen.</li>
             <li>Zukunftsberechnung und vorausschauende Laufbahnplanung: Jahresauswahl bei allen Ämtern für künftige Ernennungs-, Beförderungs- und Übernahmetermine erweitert; dynamische Anzeige prognostizierter Termine.</li>
+            <li>Plausibilitätsprüfung für Datumsangaben integriert: Widersprüchliche oder unplausible Eingaben (z.&nbsp;B. Ernennung zu A&nbsp;13 oder A&nbsp;9 Jahre nach Bestehen der Qualifikationsprüfung oder Dienstpostenübernahmen vor der Vorbeförderung) werden erkannt und mit konkreten Hinweisen zur Korrektur abgewiesen.</li>
           </ul>
         </section>
 
@@ -2123,6 +2124,79 @@ function evalSimpleAuswahl(path, input) {
   };
 }
 
+function validateSimpleInput(path, input) {
+  if (!path || !input) return null;
+
+  // 1. Pfade mit zwei Datumsfeldern (Qualifikationsprüfung vs. Statusamt: A 14 und A 10)
+  if (path.second && input.start && input.second) {
+    const diff = diffMonths(input.start, input.second); // positiv = second liegt nach start
+
+    // Für A 14 (4. QE): QP an DHPol vs. Ernennung zu A 13
+    if (path.id === "qe4-a14") {
+      if (diff > 2) {
+        return {
+          title: "Bestehen der Qualifikationsprüfung vs. Ernennung zu A 13",
+          message: "Die Ernennung in das Eingangsamt A 13 (Polizeirat/in) erfolgt unmittelbar mit dem Bestehen der Qualifikationsprüfung an der DHPol (§ 60 Abs. 2 FachV-Pol/VS, Art. 16 Abs. 1 LlbG). Das Datum der Ernennung zu A 13 (" + formatLong(input.second) + ") kann daher nicht Jahre nach dem Bestehen der Qualifikationsprüfung (" + formatLong(input.start) + ") liegen.",
+          hint: "Setzen Sie die Übertragung des Amtes A 13 auf denselben Monat wie das Bestehen der Qualifikationsprüfung."
+        };
+      }
+      if (diff < -2) {
+        return {
+          title: "Bestehen der Qualifikationsprüfung vs. Ernennung zu A 13",
+          message: "Die Ernennung zum/zur Polizeirat/in (A 13 der 4. QE) setzt den erfolgreichen Abschluss des Masterstudiums an der DHPol voraus. Das Amt A 13 (" + formatLong(input.second) + ") kann daher nicht vor dem Bestehen der Qualifikationsprüfung (" + formatLong(input.start) + ") liegen.",
+          hint: "Setzen Sie die Übertragung des Amtes A 13 auf den Monat des Studienabschlusses."
+        };
+      }
+    }
+
+    // Für A 10 (3. QE): QP Studium vs. Amt mindestens A 9
+    if (path.id === "qe3-a10") {
+      if (diff > 2) {
+        return {
+          title: "Qualifikationsprüfung vs. Übertragung Amt mindestens A 9",
+          message: "Mit erfolgreichem Abschluss des Studiums (Qualifikationsprüfung) wird unmittelbar das Eingangsamt A 9 (Polizeikommissar/in) verliehen. Das Amt mindestens A 9 (" + formatLong(input.second) + ") kann daher nicht nach der Qualifikationsprüfung (" + formatLong(input.start) + ") liegen.",
+          hint: "Geben Sie für das Amt A 9 denselben Monat wie für die Qualifikationsprüfung an (bzw. bei Aufstiegsbeamten den früheren Monat der Beförderung zum PHM A 9)."
+        };
+      }
+    }
+  }
+
+  // 2. Erprobungszeit auf dem Dienstposten vs. bisherige Beförderung
+  if (path.askErprobung && input.start && input.erprobungStart && !input.erprobungDone && !input.erprobungOpen) {
+    const diffErp = diffMonths(input.start, input.erprobungStart);
+    const today = new Date();
+    if (relation(input.start, today) === "future" && relation(input.erprobungStart, today) === "past") {
+      return {
+        title: "Dienstpostenübernahme vs. Beförderungsdatum",
+        message: "Das Datum Ihrer Beförderung (" + formatLong(input.start) + ") liegt in der Zukunft, während die Übernahme des Dienstpostens (" + formatLong(input.erprobungStart) + ") in der Vergangenheit liegt. Eine Erprobung für das höhere Amt setzt die entsprechende Vorbeförderung voraus.",
+        hint: "Bitte prüfen Sie, ob die Jahreszahlen versehentlich vertauscht wurden."
+      };
+    }
+    if (diffErp < -48) {
+      return {
+        title: "Dienstpostenübernahme liegt zu weit vor der Beförderung",
+        message: "Die angegebene Dienstpostenübernahme (" + formatLong(input.erprobungStart) + ") liegt mehr als 4 Jahre vor Ihrer letzten Beförderung (" + formatLong(input.start) + "). Das ist für die Erprobungszeit nach Art. 16 Abs. 5 LlbG nicht plausibel.",
+        hint: "Geben Sie den Monat an, in dem Ihnen der für das jetzige Zielamt bewertete Dienstposten übertragen wurde."
+      };
+    }
+  }
+
+  // 3. Beförderungsauswahl (A 10 und A 11 in 2. QE): Vorbeförderung darf nicht nach dem Stichtag liegen
+  if (path.auswahl && input.start) {
+    const [cy, cm] = (path.auswahl.date || "2026-12-01").split("-").map(Number);
+    const cutoffDate = { y: cy, m: cm };
+    if (cmpMonth(input.start, cutoffDate) > 0) {
+      return {
+        title: "Beförderungsdatum liegt nach dem Stichtag der Auswahl",
+        message: "Das angegebene Beförderungsdatum (" + formatLong(input.start) + ") liegt nach dem Stichtag der Beförderungsauswahl (" + path.auswahl.dateLabel + "). Eine Teilnahme an diesem Auswahltermin setzt voraus, dass Sie das Statusamt am Stichtag bereits innehatten.",
+        hint: "Wählen Sie ein Datum vor oder am Stichtag (" + path.auswahl.dateLabel + ") oder nutzen Sie die Zukunftsprognose für die Mindestbewährungszeit."
+      };
+    }
+  }
+
+  return null;
+}
+
 function renderSimple() {
   const box = $("s-ergebnis");
   if (!currentPath) return;
@@ -2135,6 +2209,14 @@ function renderSimple() {
   renderSimpleTable(preview && preview.ok ? preview.key : null);
   if (input.missing.length) {
     box.innerHTML = "<h2>" + (currentPath.kind === "flat" && currentPath.flatMonths === 0 ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit") + "</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
+    return;
+  }
+  const error = validateSimpleInput(currentPath, input);
+  if (error) {
+    box.innerHTML = "<h2>Plausibilitätsprüfung</h2>" +
+      "<p class='lede' style='color:var(--red);font-weight:700;'>Unplausible Eingabe</p>" +
+      factWrap(factHtml(esc(error.title), false, esc(error.message), "open", "Korrektur erforderlich")) +
+      "<p class='hint'><strong>Hinweis zur Korrektur:</strong> " + esc(error.hint || "Bitte überprüfen Sie die eingegebenen Daten und passen Sie die Monats- oder Jahresauswahl an.") + "</p>";
     return;
   }
   const wait = waitOf(currentPath, input.gu, input.fuenftel, input.postenId);
@@ -2968,6 +3050,18 @@ function init() {
       renderSimple();
     });
   }
+  const handleStartChange = () => {
+    if (currentPath && currentPath.second) {
+      const m2 = $("s-monat-2");
+      const y2 = $("s-jahr-2");
+      if (m2 && y2 && (!m2.value || currentPath.id === "qe4-a14")) {
+        m2.value = $("s-monat").value;
+        y2.value = $("s-jahr").value;
+      }
+    }
+  };
+  if ($("s-monat")) $("s-monat").addEventListener("change", handleStartChange);
+  if ($("s-jahr")) $("s-jahr").addEventListener("change", handleStartChange);
   $("simple-form").addEventListener("submit", (event) => {
     event.preventDefault();
     renderSimple();
@@ -3241,6 +3335,34 @@ function selfTest() {
   assert(waitOf(a16Path, 13, null).months === 60, "A16 13 Pkt");
   assert(waitOf(a16Path, 11, null).ok === false, "A16 11 Pkt");
   assert($("s-erprobung-open") && $("s-erprobung-done") && $("s-erprobung-monat") && $("s-erprobung-jahr"), "Erprobung Controls existieren");
+
+  const a14Err = validateSimpleInput(a14Path, {
+    start: { y: 2026, m: 5 },
+    second: { y: 2030, m: 2 },
+    missing: []
+  });
+  assert(a14Err && a14Err.title.includes("Qualifikationsprüfung"), "A14 QP vs A13 Plausibilitätstest fehlgeschlagen");
+
+  const a14Ok = validateSimpleInput(a14Path, {
+    start: { y: 2026, m: 5 },
+    second: { y: 2026, m: 5 },
+    missing: []
+  });
+  assert(a14Ok === null, "A14 identische Daten plausibel");
+
+  const a10Err = validateSimpleInput(byId("qe3-a10"), {
+    start: { y: 2026, m: 5 },
+    second: { y: 2030, m: 2 },
+    missing: []
+  });
+  assert(a10Err && a10Err.title.includes("Qualifikationsprüfung"), "A10 QP vs A9 Plausibilitätstest fehlgeschlagen");
+
+  const a10Aufstieg = validateSimpleInput(byId("qe3-a10"), {
+    start: { y: 2026, m: 5 },
+    second: { y: 2022, m: 10 },
+    missing: []
+  });
+  assert(a10Aufstieg === null, "A10 Aufstiegsbeamter vor QP plausibel");
 }
 
 init();

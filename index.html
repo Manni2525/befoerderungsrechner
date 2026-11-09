@@ -918,7 +918,7 @@
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.7</span><span class="since">seit dem 9. November 2026</span></p>
           <ul>
-            <li>Eingangsamt A&nbsp;7 (Polizeimeister/in, 2 blaue Sterne) der 2.&nbsp;Qualifikationsebene zur Vollständigkeit ergänzt.</li>
+            <li>Eingangsämter A&nbsp;7 (Polizeimeister/in, 2 blaue Sterne) und A&nbsp;9 (Polizeikommissar/in, 1 silberner Stern) zur Vollständigkeit ergänzt.</li>
             <li>Dienstgrade A&nbsp;12 (Polizeihauptkommissar/in) und A&nbsp;13 (Erste/r Polizeihauptkommissar/in) der 3.&nbsp;Qualifikationsebene als Beta ergänzt.</li>
             <li>Amtsbezeichnungen in der 2.&nbsp;Qualifikationsebene für A&nbsp;10 (Polizeioberkommissar/in) und A&nbsp;11 (Polizeihauptkommissar/in) vereinheitlicht.</li>
             <li>Berechnung der Bewährungszeiten nach BefRPolVS (Nrn. 4.7 und 4.8) inklusive Dienstpostenbewertung und Mindestzeiten im Statusamt.</li>
@@ -1171,6 +1171,29 @@ const PATHS = [
       hasSonst: false,
       desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien."
     }
+  },
+  {
+    id: "qe3-a9",
+    group: "qe3",
+    rank: "Polizeikommissar/in",
+    title: "A 9",
+    card: "Eingangsamt mit Bestehen des Studiums",
+    lede: "Eingangsamt der dritten Qualifikationsebene. Die Ernennung erfolgt unmittelbar mit dem erfolgreichen Abschluss des Studiums (Bestehen der Qualifikationsprüfung für die dritte Qualifikationsebene).",
+    board: { stars: 1, tone: "white" },
+    kind: "flat",
+    flatMonths: 0,
+    flatLabel: "Bestehen der Qualifikationsprüfung (Studium)",
+    rows: [
+      { key: "flat", label: "Erfolgreicher Abschluss des Studiums (Eingangsamt)", months: 0 }
+    ],
+    askAssessment: false,
+    startLegend: "Studienabschluss",
+    startLabel: "Studium erfolgreich beendet (Ernennung)",
+    startHint: "Monat und Jahr, in dem Sie die Qualifikationsprüfung für die dritte Qualifikationsebene bestanden haben bzw. zum/zur Polizeikommissar/in ernannt wurden.",
+    startShort: "Studienabschluss",
+    method: "Eingangsamt der 3. Qualifikationsebene: Die Ernennung erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung. Eine Bewährungszeit ist für das Eingangsamt nicht erforderlich.",
+    col: "Voraussetzung",
+    hintText: "Die Ernennung in das Eingangsamt (A 9) erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung für die dritte Qualifikationsebene (Art. 16 Abs. 1 LlbG). Eine Mindestbewährungszeit fällt erst für die nachfolgende Beförderung nach A 10 an."
   },
   {
     id: "qe3-a10",
@@ -2697,6 +2720,9 @@ function selfTest() {
   assert(waitOf(byId("qe2-a9"), 16, null).months === 39 && waitOf(byId("qe2-a9"), 12, null).months === 42 && waitOf(byId("qe2-a9"), 6, null).months === 72 && waitOf(byId("qe2-a9"), 5, null).ok === false, "A9");
   assert(waitOf(byId("qe2-a10"), 9, null).months === 72 && waitOf(byId("qe2-a10"), 16, null).months === 36 && waitOf(byId("qe2-a10"), 8, null).ok === false, "A10 zweite");
   assert(waitOf(byId("qe2-a11"), 12, null).months === 60 && waitOf(byId("qe2-a11"), 9, null).months === 66 && waitOf(byId("qe2-a11"), 6, null).months === 72 && waitOf(byId("qe2-a11"), 5, null).ok === false, "A11 zweite");
+  const a9Dritte = byId("qe3-a9");
+  assert(a9Dritte && a9Dritte.board.stars === 1 && a9Dritte.board.tone === "white", "A9 dritte 1 silberner Stern");
+  assert(waitOf(a9Dritte, 0, null).months === 0, "A9 dritte Eingangsamt 0 Monate");
   assert(waitOf(byId("qe3-a10"), 0, "1").months === 24 && waitOf(byId("qe3-a10"), 0, "5").months === 36 && byId("qe3-a10").second.months === 36, "A10 dritte");
   const pruefung = addMonths(2022, 3, 24);
   const amtA9 = addMonths(2022, 10, 36);

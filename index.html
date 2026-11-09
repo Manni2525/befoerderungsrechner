@@ -918,7 +918,7 @@
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.7</span><span class="since">seit dem 9. November 2026</span></p>
           <ul>
-            <li>Eingangsämter A&nbsp;7 (Polizeimeister/in, 2 blaue Sterne) und A&nbsp;9 (Polizeikommissar/in, 1 silberner Stern) zur Vollständigkeit ergänzt.</li>
+            <li>Eingangsämter A&nbsp;7 (Polizeimeister/in, 2 blaue Sterne) und A&nbsp;9 (Polizeikommissar/in, 1 silberner Stern) zur Vollständigkeit ergänzt; Berechnung auch für künftige Abschlussjahre mit Beschränkung der Jahresauswahl auf 2010 bis heute bzw. die Zukunft möglich.</li>
             <li>Dienstgrade A&nbsp;12 (Polizeihauptkommissar/in) und A&nbsp;13 (Erste/r Polizeihauptkommissar/in) der 3.&nbsp;Qualifikationsebene als Beta ergänzt.</li>
             <li>Amtsbezeichnungen in der 2.&nbsp;Qualifikationsebene für A&nbsp;10 (Polizeioberkommissar/in) und A&nbsp;11 (Polizeihauptkommissar/in) vereinheitlicht.</li>
             <li>Berechnung der Bewährungszeiten nach BefRPolVS (Nrn. 4.7 und 4.8) inklusive Dienstpostenbewertung und Mindestzeiten im Statusamt.</li>
@@ -1035,9 +1035,11 @@ const PATHS = [
       { key: "flat", label: "Erfolgreicher Abschluss der Ausbildung (Eingangsamt)", months: 0 }
     ],
     askAssessment: false,
+    minYear: 2010,
+    futureYears: 6,
     startLegend: "Ausbildungsabschluss",
-    startLabel: "Ausbildung erfolgreich beendet (Ernennung)",
-    startHint: "Monat und Jahr, in dem Sie die Qualifikationsprüfung für die zweite Qualifikationsebene bestanden haben bzw. zum/zur Polizeimeister/in ernannt wurden.",
+    startLabel: "Bestehen bzw. voraussichtliches Bestehen der Qualifikationsprüfung",
+    startHint: "Monat und Jahr, in dem Sie die Qualifikationsprüfung für die zweite Qualifikationsebene bestanden haben oder voraussichtlich bestehen werden (Ernennung zum/zur Polizeimeister/in).",
     startShort: "Ausbildungsabschluss",
     method: "Eingangsamt der 2. Qualifikationsebene: Die Ernennung erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung. Eine Bewährungszeit ist für das Eingangsamt nicht erforderlich.",
     col: "Voraussetzung",
@@ -1187,9 +1189,11 @@ const PATHS = [
       { key: "flat", label: "Erfolgreicher Abschluss des Studiums (Eingangsamt)", months: 0 }
     ],
     askAssessment: false,
+    minYear: 2010,
+    futureYears: 6,
     startLegend: "Studienabschluss",
-    startLabel: "Studium erfolgreich beendet (Ernennung)",
-    startHint: "Monat und Jahr, in dem Sie die Qualifikationsprüfung für die dritte Qualifikationsebene bestanden haben bzw. zum/zur Polizeikommissar/in ernannt wurden.",
+    startLabel: "Bestehen bzw. voraussichtliches Bestehen der Qualifikationsprüfung",
+    startHint: "Monat und Jahr, in dem Sie die Qualifikationsprüfung für die dritte Qualifikationsebene bestanden haben oder voraussichtlich bestehen werden (Ernennung zum/zur Polizeikommissar/in).",
     startShort: "Studienabschluss",
     method: "Eingangsamt der 3. Qualifikationsebene: Die Ernennung erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung. Eine Bewährungszeit ist für das Eingangsamt nicht erforderlich.",
     col: "Voraussetzung",
@@ -1629,6 +1633,10 @@ function applyPath(path) {
   const notes = $("s-notes");
   notes.innerHTML = (path.notes || []).map((t) => "<p>" + esc(t) + "</p>").join("");
   notes.hidden = !(path.notes || []).length;
+  const diesesJahr = new Date().getFullYear();
+  const maxYear = diesesJahr + (path.futureYears || 0);
+  const minYear = path.minYear || 1970;
+  updateYearSelect("s-jahr", minYear, maxYear);
   $("simple-form").reset();
   $("s-status").checked = true;
   $("s-posten").checked = true;
@@ -1918,12 +1926,14 @@ function renderSimple() {
   const relFuenftel = relation(whenFuenftel, new Date());
   const factClass = relFuenftel === "future" ? "wait" : "met";
   const kern = isEingangsamt
-    ? "Ernennung zum/zur " + esc(currentPath.rank) + " (" + esc(currentPath.title) + ") unmittelbar mit Bestehen der Qualifikationsprüfung zum " + formatLong(whenFuenftel) + ". Eine Mindestbewährungszeit fällt für das Eingangsamt nicht an."
+    ? (relFuenftel === "future"
+        ? "Voraussichtliche Ernennung zum/zur " + esc(currentPath.rank) + " (" + esc(currentPath.title) + ") unmittelbar mit Bestehen der Qualifikationsprüfung zum " + formatLong(whenFuenftel) + ". Eine Mindestbewährungszeit fällt für das Eingangsamt nicht an."
+        : "Ernennung zum/zur " + esc(currentPath.rank) + " (" + esc(currentPath.title) + ") unmittelbar mit Bestehen der Qualifikationsprüfung zum " + formatLong(whenFuenftel) + ". Eine Mindestbewährungszeit fällt für das Eingangsamt nicht an.")
     : wait.months + " Monate (" + wait.label + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
       (relFuenftel === "future"
         ? "Frühester Monatserste ist der " + formatLong(whenFuenftel) + "."
         : "Erreicht am " + formatLong(whenFuenftel) + ".");
-  const kopf = esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1)) + ": " + esc(formatLong(input.start)) + ".";
+  const kopf = (isEingangsamt && rel === "future" ? "Voraussichtlicher " + esc(currentPath.startShort) : esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1))) + ": " + esc(formatLong(input.start)) + ".";
   const zweit = input.second ? " " + esc(currentPath.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
   const spaeter = (input.second || (postenOption && postenOption.minAmtMonths)) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
@@ -1982,10 +1992,11 @@ function renderSimple() {
     ? (rel === "future" ? "Voraussichtliche Ernennung zum" : "Ernennung erfolgt zum")
     : (rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit");
   const heading = isEingangsamt ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit";
+  const customBadge = isEingangsamt && rel === "future" ? "Voraussichtlich" : undefined;
   box.innerHTML = "<h2>" + esc(heading) + "</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
     kopf + zweit + punkte + spaeter + "</p>" +
     factWrap(
-      factHtml(isEingangsamt ? "Eingangsamt" : "Bewährungszeit", factClass !== "open", esc(kern), factClass) +
+      factHtml(isEingangsamt ? "Eingangsamt" : "Bewährungszeit", factClass !== "open", esc(kern), factClass, customBadge) +
       amtFact +
       postenFact +
       (input.gu ? factHtml("Gesamturteil", true, esc(wait.label + "."), "met") : "")
@@ -2001,20 +2012,29 @@ function factHtml(title, met, text, cls, customBadge) {
   return "<div class='fact " + cls + "'><span class='badge'>" + badge + "</span><b>" + title + "</b>" + text + "</div>";
 }
 
+function updateYearSelect(yearId, minYear, maxYear) {
+  const year = $(yearId);
+  if (!year) return;
+  const currentVal = year.value;
+  let html = "<option value=''>Jahr</option>";
+  for (let y = maxYear; y >= minYear; y--) {
+    html += "<option value='" + y + "'>" + y + "</option>";
+  }
+  year.innerHTML = html;
+  if (currentVal && Number(currentVal) >= minYear && Number(currentVal) <= maxYear) {
+    year.value = currentVal;
+  }
+}
+
 function fillMonthYear(monthId, yearId, months) {
   const month = $(monthId);
-  month.innerHTML = "<option value=''>Monat</option>" + months.map((m) =>
-    "<option value='" + m + "'>" + MONATE[m - 1] + "</option>"
-  ).join("");
-  const year = $(yearId);
-  year.innerHTML = "<option value=''>Jahr</option>";
-  const diesesJahr = new Date().getFullYear();
-  for (let y = diesesJahr; y >= 1970; y--) {
-    const opt = document.createElement("option");
-    opt.value = String(y);
-    opt.textContent = String(y);
-    year.appendChild(opt);
+  if (month) {
+    month.innerHTML = "<option value=''>Monat</option>" + months.map((m) =>
+      "<option value='" + m + "'>" + MONATE[m - 1] + "</option>"
+    ).join("");
   }
+  const diesesJahr = new Date().getFullYear();
+  updateYearSelect(yearId, 1970, diesesJahr);
 }
 
 function fromHash() {
@@ -2606,8 +2626,10 @@ function init() {
     const path = currentPath;
     if (!path) return;
     const jahr = new Date().getFullYear();
+    const minYear = path.minYear || 2008;
+    const maxYear = jahr + (path.futureYears || 0);
     $("s-monat").value = String(randInt(1, 12));
-    $("s-jahr").value = String(randInt(2008, jahr));
+    $("s-jahr").value = String(randInt(minYear, maxYear));
     const minGu = path.minGu || (path.id === "qe3-a13" ? 9 : 4);
     if (path.askAssessment !== false) $("s-gu").value = String(randInt(minGu, 16));
     if (path.kind === "fuenftel") $("s-fuenftel").value = String(randInt(1, 5));
@@ -2716,6 +2738,7 @@ function selfTest() {
   const a7Path = byId("qe2-a7");
   assert(a7Path && a7Path.board.stars === 2 && a7Path.board.tone === "blue", "A7 2 blaue Sterne");
   assert(waitOf(a7Path, 0, null).months === 0, "A7 Eingangsamt 0 Monate");
+  assert(a7Path && a7Path.minYear === 2010 && a7Path.futureYears === 6, "A7 minYear 2010 futureYears");
   assert(waitOf(byId("qe2-a8"), 3, "1").months === 24 && waitOf(byId("qe2-a8"), 2, "1").months === 24 && waitOf(byId("qe2-a8"), 16, "5").months === 36, "A8");
   assert(waitOf(byId("qe2-a9"), 16, null).months === 39 && waitOf(byId("qe2-a9"), 12, null).months === 42 && waitOf(byId("qe2-a9"), 6, null).months === 72 && waitOf(byId("qe2-a9"), 5, null).ok === false, "A9");
   assert(waitOf(byId("qe2-a10"), 9, null).months === 72 && waitOf(byId("qe2-a10"), 16, null).months === 36 && waitOf(byId("qe2-a10"), 8, null).ok === false, "A10 zweite");
@@ -2723,6 +2746,7 @@ function selfTest() {
   const a9Dritte = byId("qe3-a9");
   assert(a9Dritte && a9Dritte.board.stars === 1 && a9Dritte.board.tone === "white", "A9 dritte 1 silberner Stern");
   assert(waitOf(a9Dritte, 0, null).months === 0, "A9 dritte Eingangsamt 0 Monate");
+  assert(a9Dritte && a9Dritte.minYear === 2010 && a9Dritte.futureYears === 6, "A9 dritte minYear 2010 futureYears");
   assert(waitOf(byId("qe3-a10"), 0, "1").months === 24 && waitOf(byId("qe3-a10"), 0, "5").months === 36 && byId("qe3-a10").second.months === 36, "A10 dritte");
   const pruefung = addMonths(2022, 3, 24);
   const amtA9 = addMonths(2022, 10, 36);

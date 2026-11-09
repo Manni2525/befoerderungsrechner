@@ -125,6 +125,7 @@
     flex: none;
   }
   .group.silver::before { background: #e7ebf0; box-shadow: inset 0 0 0 1px #c9d1d9; }
+  .group.gold::before { background: #f0b429; box-shadow: inset 0 0 0 1px #d69e2e; }
   .picks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   button.pick {
     position: relative;
@@ -933,8 +934,10 @@
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.8</span><span class="since">seit dem 10. November 2026</span></p>
           <ul>
-            <li>Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) bei den Beförderungsämtern A&nbsp;12 und A&nbsp;13 integriert: Option zur Eingabe des Datums der Dienstpostenübernahme oder Bestätigung einer bereits erfüllten 6-monatigen Erprobung.</li>
-            <li>Berechnung berücksichtigt bei A&nbsp;12 und A&nbsp;13 das Zwei-Fristen-Prinzip (Mindeststehzeit im bisherigen Statusamt sowie Ablauf der Erprobungszeit auf dem neuen Dienstposten; maßgeblich ist der spätere Zeitpunkt).</li>
+            <li>Vierte Qualifikationsebene (4.&nbsp;QE) mit den Dienstgraden A&nbsp;13 (Polizeirat/in, 1 goldener Stern, Eingangsamt), A&nbsp;14 (Polizeioberrat/in, 2 goldene Sterne), A&nbsp;15 (Polizeidirektor/in, 3 goldene Sterne) und A&nbsp;16 (Leitende/r Polizeidirektor/in, 4 goldene Sterne) als Beta integriert.</li>
+            <li>Berechnung nach BefRPolVS (Nrn. 4.8.1, 4.10, 4.11 und 4.12) für die 4.&nbsp;QE mit Abstufungen nach Fünftel (DHPol), Dienstpostenbewertung und Gesamturteil.</li>
+            <li>Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) bei allen relevanten Beförderungsämtern (A&nbsp;12, A&nbsp;13, A&nbsp;15, A&nbsp;16) integriert: Option zur Eingabe des Datums der Dienstpostenübernahme oder Bestätigung der erfüllten Erprobung (Zwei-Fristen-Prinzip).</li>
+            <li>Zukunftsberechnung und vorausschauende Laufbahnplanung: Jahresauswahl bei allen Ämtern für künftige Ernennungs-, Beförderungs- und Übernahmetermine erweitert; dynamische Anzeige prognostizierter Termine.</li>
           </ul>
         </section>
 
@@ -1042,6 +1045,11 @@ const FUENFTEL = [
   { id: "4", label: "viertes Fünftel", months: 33 },
   { id: "5", label: "fünftes Fünftel", months: 36 }
 ];
+const FUENFTEL_4QE = [
+  { id: "1-2", label: "erstes und zweites Fünftel", months: 24 },
+  { id: "3-4", label: "drittes und viertes Fünftel", months: 30 },
+  { id: "5", label: "fünftes Fünftel", months: 36 }
+];
 
 const PATHS = [
   {
@@ -1078,6 +1086,8 @@ const PATHS = [
     lede: "Die Monate hängen vom Fünftel der bestandenen Ausbildung ab.",
     kind: "fuenftel",
     askAssessment: false,
+    minYear: 2010,
+    futureYears: 6,
     board: { stars: 3, tone: "blue" },
     startLegend: "Ausbildungsabschluss",
     startLabel: "Ausbildung erfolgreich beendet",
@@ -1095,6 +1105,8 @@ const PATHS = [
     lede: "Seit der Beförderung nach A 8, abgestuft nach dem Gesamturteil der letzten Beurteilung im Statusamt A 8.",
     board: { stars: 4, tone: "blue" },
     kind: "points",
+    minYear: 2010,
+    futureYears: 6,
     bands: [
       { min: 13, max: 16, months: 39, label: "16 bis 13 Punkte" },
       { min: 12, max: 12, months: 42, label: "12 Punkte" },
@@ -1132,6 +1144,8 @@ const PATHS = [
     lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Neben der Bewährungszeit entscheidet bei Planstellenmangel die Beförderungsauswahl.",
     board: { stars: 2, tone: "white" },
     kind: "points",
+    minYear: 2010,
+    futureYears: 6,
     bands: [16, 15, 14, 13, 12, 11, 10, 9].map((p, i) => ({
       min: p, max: p, months: [36, 39, 42, 45, 48, 54, 60, 72][i], label: String(p).padStart(2, "0") + " Punkte"
     })),
@@ -1169,6 +1183,8 @@ const PATHS = [
     lede: "Ohne Ausbildungsqualifizierung für die dritte Qualifikationsebene. Neben der Bewährungszeit entscheidet bei Planstellenmangel die Beförderungsauswahl.",
     board: { stars: 3, tone: "white" },
     kind: "points",
+    minYear: 2010,
+    futureYears: 6,
     bands: [
       { min: 12, max: 16, months: 60, label: "16 bis 12 Punkte" },
       { min: 9, max: 11, months: 66, label: "11 bis 09 Punkte" },
@@ -1232,6 +1248,8 @@ const PATHS = [
     lede: "Die Monate hängen vom Fünftel der Qualifikationsprüfung ab, der Abschlussprüfung des Studiums. Zusätzlich 36 Monate in einem Amt mindestens A 9.",
     kind: "fuenftel",
     askAssessment: false,
+    minYear: 2010,
+    futureYears: 6,
     board: { stars: 2, tone: "white" },
     startLegend: "Qualifikationsprüfung",
     startLabel: "Qualifikationsprüfung bestanden",
@@ -1242,6 +1260,7 @@ const PATHS = [
       label: "Übertragung eines Amtes mindestens der Besoldungsgruppe A 9",
       hint: "Zusätzlich sind 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9 nötig. Gerechnet wird ab dem Ersten des Monats der Übertragung.",
       short: "Amt mindestens A 9",
+      factTitle: "36 Monate im Amt mindestens A 9",
       months: 36
     },
     method: "Seit dem Bestehen der Qualifikationsprüfung, der Abschlussprüfung des Studiums, abgestuft nach dem Fünftel. Zusätzlich 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9.",
@@ -1256,6 +1275,8 @@ const PATHS = [
     lede: "Seit der Beförderung nach A 10, auf einem Dienstposten A 9/11, A 11/00 oder höher.",
     board: { stars: 3, tone: "white" },
     kind: "points",
+    minYear: 2010,
+    futureYears: 6,
     bands: [
       { min: 12, max: 16, months: 36, label: "16 bis 12 Punkte" },
       { min: 9, max: 11, months: 39, label: "11 bis 09 Punkte" },
@@ -1287,6 +1308,8 @@ const PATHS = [
     kind: "points",
     askErprobung: true,
     erprobungMonths: 6,
+    minYear: 2010,
+    futureYears: 6,
     notes: [
       "Voraussetzung für die Beförderung nach A 12 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
     ],
@@ -1379,6 +1402,8 @@ const PATHS = [
     kind: "points",
     askErprobung: true,
     erprobungMonths: 6,
+    minYear: 2010,
+    futureYears: 6,
     notes: [
       "Voraussetzung für die Beförderung nach A 13 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
     ],
@@ -1456,12 +1481,171 @@ const PATHS = [
         bandMessage: (gu) => "Für unter 09 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei neun Punkten."
       }
     ]
+  },
+  {
+    id: "qe4-a13",
+    group: "qe4",
+    beta: true,
+    rank: "Polizeirat/in",
+    title: "A 13",
+    card: "Eingangsamt nach der Qualifikationsprüfung (DHPol)",
+    lede: "Eingangsamt der vierten Qualifikationsebene. Die Ernennung erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung bzw. des Masterstudiums an der DHPol (§ 60 Abs. 2 FachV-Pol/VS, Art. 16 Abs. 1 LlbG).",
+    board: { stars: 1, tone: "gold" },
+    kind: "flat",
+    flatMonths: 0,
+    flatLabel: "Bestehen der Qualifikationsprüfung (DHPol)",
+    rows: [
+      { key: "flat", label: "Erfolgreicher Abschluss des Masterstudiums (Eingangsamt)", months: 0 }
+    ],
+    askAssessment: false,
+    minYear: 2010,
+    futureYears: 6,
+    startLegend: "Studienabschluss (DHPol)",
+    startLabel: "Bestehen bzw. voraussichtliches Bestehen der Qualifikationsprüfung",
+    startHint: "Monat und Jahr, in dem Sie die Qualifikationsprüfung für die vierte Qualifikationsebene (Masterstudium an der Deutschen Hochschule der Polizei) bestanden haben oder voraussichtlich bestehen werden.",
+    startShort: "Studienabschluss",
+    method: "Eingangsamt der 4. Qualifikationsebene: Die Ernennung erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung. Eine Bewährungszeit ist für das Eingangsamt nicht erforderlich.",
+    col: "Voraussetzung",
+    hintText: "Die Ernennung in das Eingangsamt (A 13) erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung für die vierte Qualifikationsebene (Art. 16 Abs. 1 LlbG, § 60 Abs. 2 FachV-Pol/VS). Eine Mindestbewährungszeit fällt erst für die nachfolgende Beförderung nach A 14 an."
+  },
+  {
+    id: "qe4-a14",
+    group: "qe4",
+    beta: true,
+    rank: "Polizeioberrat/in",
+    title: "A 14",
+    card: "Nach Fünftel der Qualifikationsprüfung (DHPol) und Amt A 13",
+    lede: "Die Monate hängen vom Fünftel der Qualifikationsprüfung ab (Masterstudium an der DHPol). Zusätzlich sind mindestens 36 Monate im Statusamt A 13 erforderlich (Nr. 4.10.1 BefRPolVS).",
+    board: { stars: 2, tone: "gold" },
+    kind: "fuenftel",
+    fuenftelList: FUENFTEL_4QE,
+    askAssessment: false,
+    minYear: 2010,
+    futureYears: 6,
+    startLegend: "Qualifikationsprüfung (DHPol)",
+    startLabel: "Qualifikationsprüfung bestanden",
+    startHint: "Monat und Jahr, in dem die Qualifikationsprüfung bestanden wurde (Masterabschluss an der DHPol). Die nach dem Fünftel abgestufte Bewährungszeit läuft ab dem Ersten dieses Monats.",
+    startShort: "bestandene Qualifikationsprüfung",
+    second: {
+      legend: "Amt A 13",
+      label: "Übertragung des Amtes der Besoldungsgruppe A 13",
+      hint: "Zusätzlich sind mindestens 36 Monate im Statusamt A 13 nötig (Nr. 4.10.1 BefRPolVS). Gerechnet wird ab dem Ersten des Monats der Übertragung.",
+      short: "Amt A 13",
+      factTitle: "36 Monate im Amt A 13",
+      months: 36
+    },
+    method: "Seit dem Bestehen der Qualifikationsprüfung (DHPol), abgestuft nach dem Fünftel (1./2. Fünftel: 24 Mo., 3./4. Fünftel: 30 Mo., 5. Fünftel: 36 Mo.). Zusätzlich mindestens 36 Monate im Statusamt A 13 (Nr. 4.10.1 BefRPolVS). Mindestens drei Punkte in der Beurteilung.",
+    col: "Fünftel der Qualifikationsprüfung"
+  },
+  {
+    id: "qe4-a15",
+    group: "qe4",
+    beta: true,
+    rank: "Polizeidirektor/in",
+    title: "A 15",
+    card: "Nach Dienstposten und letzter Beurteilung in A 14",
+    lede: "Seit der Beförderung nach A 14, abgestuft nach der Dienstpostenbewertung und dem Gesamturteil der letzten Beurteilung im Statusamt A 14 (Nr. 4.11 BefRPolVS).",
+    board: { stars: 3, tone: "gold" },
+    kind: "points",
+    askErprobung: true,
+    erprobungMonths: 6,
+    minYear: 2010,
+    futureYears: 6,
+    notes: [
+      "Voraussetzung für die Beförderung nach A 15 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
+    ],
+    startLegend: "Letzte Beförderung",
+    startLabel: "Beförderung nach A 14",
+    startHint: "Monat und Jahr, in dem Ihnen das Amt A 14 übertragen wurde. Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
+    startShort: "Beförderung nach A 14",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 14 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
+    statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 14 erstellt wurde",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 14.",
+    method: "Seit der letzten Beförderung (A 14), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.11 BefRPolVS). Vor Beförderung ist eine mindestens 6-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 LlbG).",
+    col: "Gesamturteil",
+    postenOptions: [
+      {
+        id: "a15-00",
+        label: "Dienstposten A 15/00 oder höher (Nr. 4.11.1)",
+        short: "Dienstposten A 15/00 oder höher",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 15/00 oder höher (Nr. 4.11.1 BefRPolVS).",
+        method: "Dienstposten A 15/00 oder höher (Nr. 4.11.1 BefRPolVS). Bewährungszeit seit Beförderung nach A 14, nach dem Gesamturteil.",
+        bands: [
+          { min: 15, max: 16, months: 36, label: "16 bis 15 Punkte" },
+          { min: 12, max: 14, months: 48, label: "14 bis 12 Punkte" },
+          { min: 9, max: 11, months: 60, label: "11 bis 09 Punkte" }
+        ],
+        bandMessage: (gu) => "Für unter 09 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei neun Punkten."
+      },
+      {
+        id: "a14-15",
+        label: "Bündeldienstposten A 14/15 (Nr. 4.11.2)",
+        short: "Dienstposten A 14/15",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 14/15 (Nr. 4.11.2 BefRPolVS).",
+        method: "Bündeldienstposten A 14/15 (Nr. 4.11.2 BefRPolVS). Bewährungszeit seit Beförderung nach A 14, nach dem Gesamturteil.",
+        bands: [
+          { min: 15, max: 16, months: 42, label: "16 bis 15 Punkte" },
+          { min: 12, max: 14, months: 54, label: "14 bis 12 Punkte" },
+          { min: 9, max: 11, months: 66, label: "11 bis 09 Punkte" }
+        ],
+        bandMessage: (gu) => "Für unter 09 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei neun Punkten."
+      },
+      {
+        id: "a13-15",
+        label: "Bündeldienstposten A 13/15 (Nr. 4.11.3)",
+        short: "Dienstposten A 13/15",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 13/15 (Nr. 4.11.3 BefRPolVS).",
+        method: "Bündeldienstposten A 13/15 (Nr. 4.11.3 BefRPolVS). Bewährungszeit seit Beförderung nach A 14, nach dem Gesamturteil.",
+        bands: [
+          { min: 15, max: 16, months: 54, label: "16 bis 15 Punkte" },
+          { min: 12, max: 14, months: 66, label: "14 bis 12 Punkte" },
+          { min: 9, max: 11, months: 78, label: "11 bis 09 Punkte" }
+        ],
+        bandMessage: (gu) => "Für unter 09 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei neun Punkten."
+      }
+    ]
+  },
+  {
+    id: "qe4-a16",
+    group: "qe4",
+    beta: true,
+    rank: "Leitende/r Polizeidirektor/in",
+    title: "A 16",
+    card: "Nach Dienstposten und letzter Beurteilung in A 15",
+    lede: "Seit der Beförderung nach A 15, auf einem Dienstposten A 16/00 oder A 15/16, abgestuft nach dem Gesamturteil der letzten Beurteilung im Statusamt A 15 (Nr. 4.12 BefRPolVS).",
+    board: { stars: 4, tone: "gold" },
+    kind: "points",
+    askErprobung: true,
+    erprobungMonths: 6,
+    minYear: 2010,
+    futureYears: 6,
+    notes: [
+      "Voraussetzung für die Beförderung nach A 16 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
+    ],
+    startLegend: "Letzte Beförderung",
+    startLabel: "Beförderung nach A 15",
+    startHint: "Monat und Jahr, in dem Ihnen das Amt A 15 übertragen wurde. Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
+    startShort: "Beförderung nach A 15",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 15 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
+    statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 15 erstellt wurde",
+    postenLabel: "Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A 16/00 oder A 15/16.",
+    postenMissing: "Bestätigung zum Dienstposten A 16/00 oder A 15/16",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 15.",
+    method: "Seit der letzten Beförderung (A 15), auf einem Dienstposten A 16/00 oder A 15/16, abgestuft nach dem Gesamturteil (Nr. 4.12 BefRPolVS). Vor Beförderung ist eine mindestens 6-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 LlbG).",
+    col: "Gesamturteil",
+    bands: [
+      { min: 16, max: 16, months: 36, label: "16 Punkte" },
+      { min: 15, max: 15, months: 48, label: "15 Punkte" },
+      { min: 12, max: 14, months: 60, label: "14 bis 12 Punkte" }
+    ],
+    bandMessage: (gu) => "Für unter 12 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei zwölf Punkten."
   }
 ];
 
 const GROUPS = [
   { id: "qe2", title: "Zweite Qualifikationsebene", tone: "" },
-  { id: "qe3", title: "Dritte Qualifikationsebene", tone: " silver" }
+  { id: "qe3", title: "Dritte Qualifikationsebene", tone: " silver" },
+  { id: "qe4", title: "Vierte Qualifikationsebene", tone: " gold" }
 ];
 
 function addMonths(y, m, n) {
@@ -1503,7 +1687,7 @@ function waitOf(path, gu, fuenftelId, postenId) {
   if (path.minPoints && gu < path.minPoints) return { ok: false, reason: "min" };
   if (path.kind === "flat") return { ok: true, months: path.flatMonths, label: path.flatLabel, key: "flat" };
   if (path.kind === "fuenftel") {
-    const row = FUENFTEL.find((f) => f.id === fuenftelId);
+    const row = (path.fuenftelList || FUENFTEL).find((f) => f.id === fuenftelId);
     if (!row) return { ok: false, reason: "fuenftel" };
     return { ok: true, months: row.months, label: row.label, key: row.id };
   }
@@ -1556,7 +1740,7 @@ function boardMarkup(spec) {
   if (!spec || !spec.stars) return "";
   const w = 334;
   const h = 133;
-  const fill = spec.tone === "white" ? "#f4f6f8" : "#0490cb";
+  const fill = spec.tone === "gold" ? "#f0b429" : spec.tone === "white" ? "#f4f6f8" : "#0490cb";
   const seam = "#001f46";
   let inner = "";
   if (spec.layout === "ephk" || spec.stars === 5) {
@@ -1646,6 +1830,12 @@ function applyPath(path) {
   $("s-method").textContent = path.method;
   $("s-col-a").textContent = path.col;
   $("s-fuenftel-box").hidden = path.kind !== "fuenftel";
+  if (path.kind === "fuenftel") {
+    const flist = path.fuenftelList || FUENFTEL;
+    $("s-fuenftel").innerHTML = "<option value=''>–</option>" + flist.map((f) =>
+      "<option value='" + f.id + "'>" + f.label + "</option>"
+    ).join("");
+  }
   $("s-grid").className = path.kind === "fuenftel" ? "grid-2" : "";
   $("s-status-row").hidden = !path.statusLabel;
   if (path.statusLabel) $("s-status-label").textContent = path.statusLabel;
@@ -1673,6 +1863,9 @@ function applyPath(path) {
   const maxYear = diesesJahr + (path.futureYears || 0);
   const minYear = path.minYear || 1970;
   updateYearSelect("s-jahr", minYear, maxYear);
+  if (path.second) {
+    updateYearSelect("s-jahr-2", minYear, maxYear);
+  }
   if (hasErprobung) {
     updateYearSelect("s-erprobung-jahr", 2010, diesesJahr + 6);
   }
@@ -1714,7 +1907,7 @@ function renderSimpleAuswahlTable(aus) {
 }
 
 function tableRows(path) {
-  if (path.kind === "fuenftel") return FUENFTEL.map((f) => ({ key: f.id, label: f.label, months: f.months }));
+  if (path.kind === "fuenftel") return (path.fuenftelList || FUENFTEL).map((f) => ({ key: f.id, label: f.label, months: f.months }));
   if (path.kind === "flat") return path.rows;
   if (path.postenOptions && path.postenOptions.length) {
     const opt = (typeof getActivePostenOption === "function" ? getActivePostenOption() : null) || path.postenOptions[0];
@@ -1956,8 +2149,10 @@ function renderSimple() {
     when = cmpMonth(whenFuenftel, whenAmt) >= 0 ? whenFuenftel : whenAmt;
     const relAmt = relation(whenAmt, new Date());
     const amtClass = relAmt === "future" ? "wait" : "met";
-    const amtText = currentPath.second.months + " Monate seit dem " + formatLong(input.second) + ". Erreicht am " + formatLong(whenAmt) + ".";
-    amtFact = factHtml("36 Monate im Amt mindestens A 9", true, esc(amtText), amtClass);
+    const amtText = currentPath.second.months + " Monate seit dem " + formatLong(input.second) + ". " +
+      (relAmt === "future" ? "Frühester Monatserste ist der " + formatLong(whenAmt) + "." : "Erreicht am " + formatLong(whenAmt) + ".");
+    const amtFactTitle = (currentPath.second && currentPath.second.factTitle) || ("36 Monate im Amt mindestens " + currentPath.second.short);
+    amtFact = factHtml(amtFactTitle, true, esc(amtText), amtClass);
   }
 
   let postenFact = "";
@@ -2725,12 +2920,17 @@ function init() {
     const maxYear = jahr + (path.futureYears || 0);
     $("s-monat").value = String(randInt(1, 12));
     $("s-jahr").value = String(randInt(minYear, maxYear));
-    const minGu = path.minGu || (path.id === "qe3-a13" ? 9 : 4);
+    const minGu = path.minGu || (path.id === "qe4-a16" ? 12 : (path.id === "qe3-a13" || path.id === "qe4-a15" ? 9 : 4));
     if (path.askAssessment !== false) $("s-gu").value = String(randInt(minGu, 16));
-    if (path.kind === "fuenftel") $("s-fuenftel").value = String(randInt(1, 5));
+    if (path.kind === "fuenftel") {
+      const flist = path.fuenftelList || FUENFTEL;
+      $("s-fuenftel").value = pick(flist).id;
+    }
     if (path.second) {
+      const min2 = path.second.minYear || path.minYear || 2010;
+      const max2 = jahr + (path.second.futureYears || path.futureYears || 0);
       $("s-monat-2").value = String(randInt(1, 12));
-      $("s-jahr-2").value = String(randInt(2008, jahr));
+      $("s-jahr-2").value = String(randInt(min2, max2));
     }
     if (path.statusLabel) $("s-status").checked = true;
     if (path.postenLabel) $("s-posten").checked = true;
@@ -2937,6 +3137,44 @@ function selfTest() {
   assert(formatDE(stehzeitA12) === "01.11.2019", "Stehzeit A12 2019");
   assert(formatDE(erpEnde) === "01.06.2027", "Erprobung A13 2027");
   assert(cmpMonth(stehzeitA12, erpEnde) < 0, "Erprobung liegt später als Stehzeit");
+
+  const a13Qe4Path = byId("qe4-a13");
+  assert(a13Qe4Path && a13Qe4Path.beta, "A13 4.QE Beta");
+  assert(a13Qe4Path.board.stars === 1 && a13Qe4Path.board.tone === "gold", "A13 4.QE 1 goldener Stern");
+  assert(waitOf(a13Qe4Path, 0, null).months === 0, "A13 4.QE Eingangsamt 0 Monate");
+  assert(boardMarkup(a13Qe4Path.board).includes("#f0b429"), "A13 4.QE goldene Sternfarbe");
+
+  const a14Path = byId("qe4-a14");
+  assert(a14Path && a14Path.beta, "A14 Beta");
+  assert(a14Path.board.stars === 2 && a14Path.board.tone === "gold", "A14 2 goldene Sterne");
+  assert(waitOf(a14Path, 3, "1-2").months === 24, "A14 1./2. Fünftel 24 Monate");
+  assert(waitOf(a14Path, 3, "3-4").months === 30, "A14 3./4. Fünftel 30 Monate");
+  assert(waitOf(a14Path, 3, "5").months === 36, "A14 5. Fünftel 36 Monate");
+  assert(a14Path.second && a14Path.second.months === 36, "A14 36 Monate Amt A13");
+
+  const a15Path = byId("qe4-a15");
+  assert(a15Path && a15Path.beta, "A15 Beta");
+  assert(a15Path.board.stars === 3 && a15Path.board.tone === "gold", "A15 3 goldene Sterne");
+  assert(a15Path.askErprobung === true && a15Path.erprobungMonths === 6, "A15 Erprobung");
+  assert(waitOf(a15Path, 16, null, "a15-00").months === 36, "A15 Hoeher 16 Pkt");
+  assert(waitOf(a15Path, 13, null, "a15-00").months === 48, "A15 Hoeher 13 Pkt");
+  assert(waitOf(a15Path, 10, null, "a15-00").months === 60, "A15 Hoeher 10 Pkt");
+  assert(waitOf(a15Path, 8, null, "a15-00").ok === false, "A15 Hoeher 8 Pkt");
+  assert(waitOf(a15Path, 16, null, "a14-15").months === 42, "A15 Buendel 16 Pkt");
+  assert(waitOf(a15Path, 13, null, "a14-15").months === 54, "A15 Buendel 13 Pkt");
+  assert(waitOf(a15Path, 10, null, "a14-15").months === 66, "A15 Buendel 10 Pkt");
+  assert(waitOf(a15Path, 16, null, "a13-15").months === 54, "A15 Dreifach 16 Pkt");
+  assert(waitOf(a15Path, 13, null, "a13-15").months === 66, "A15 Dreifach 13 Pkt");
+  assert(waitOf(a15Path, 10, null, "a13-15").months === 78, "A15 Dreifach 10 Pkt");
+
+  const a16Path = byId("qe4-a16");
+  assert(a16Path && a16Path.beta, "A16 Beta");
+  assert(a16Path.board.stars === 4 && a16Path.board.tone === "gold", "A16 4 goldene Sterne");
+  assert(a16Path.askErprobung === true && a16Path.erprobungMonths === 6, "A16 Erprobung");
+  assert(waitOf(a16Path, 16, null).months === 36, "A16 16 Pkt");
+  assert(waitOf(a16Path, 15, null).months === 48, "A16 15 Pkt");
+  assert(waitOf(a16Path, 13, null).months === 60, "A16 13 Pkt");
+  assert(waitOf(a16Path, 11, null).ok === false, "A16 11 Pkt");
 }
 
 init();

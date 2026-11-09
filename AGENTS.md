@@ -23,7 +23,7 @@ In `index.html`, neueste Fassung zuerst. Pro Kalendertag höchstens eine Version
 </section>
 ```
 
-Aktueller Stand: **Version 1.6** seit dem 7. November 2026. Eine weitere sichtbare Änderung an diesem Tag ergänzt die Stichpunkte von 1.6. Die nächste Nummer ist 1.7, am ersten späteren Tag mit einer sichtbaren Änderung.
+Aktueller Stand: **Version 1.7** seit dem 9. November 2026. Eine weitere sichtbare Änderung an diesem Tag ergänzt die Stichpunkte von 1.7. Die nächste Nummer ist 1.8, am ersten späteren Tag mit einer sichtbaren Änderung.
 
 ## Veröffentlichen
 

@@ -173,6 +173,21 @@
   .pick-title { font-size: 1.12rem; font-weight: 700; color: var(--navy); letter-spacing: -0.03em; line-height: 1.2; }
   .pick-rank { color: var(--ink); font-size: 0.92rem; }
   .pick-text { color: var(--muted); font-size: 0.86rem; }
+  .badge-beta {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: #e9eef4;
+    color: #1b3a4b;
+    border: 1px solid #c5d3e0;
+    vertical-align: middle;
+    margin-left: 6px;
+    line-height: 1.4;
+  }
   button.back {
     background: none;
     border: 0;
@@ -755,11 +770,26 @@
         </fieldset>
         <fieldset id="s-posten-box">
           <legend>Dienstposten</legend>
-          <label class="check">
-            <input type="checkbox" id="s-posten" checked>
-            <span id="s-posten-label"></span>
-          </label>
-          <p class="hint">Nötig ist ein Dienstposten der Bewertung A&nbsp;9/11, A&nbsp;11/00 oder höher.</p>
+          <div id="s-posten-check-wrap">
+            <label class="check">
+              <input type="checkbox" id="s-posten" checked>
+              <span id="s-posten-label"></span>
+            </label>
+            <p class="hint">Nötig ist ein Dienstposten der Bewertung A&nbsp;9/11, A&nbsp;11/00 oder höher.</p>
+          </div>
+          <div id="s-posten-select-wrap" hidden>
+            <label class="field"><span class="lbl">Bewertung des Dienstpostens</span>
+              <select id="s-posten-select"></select>
+            </label>
+            <p class="hint" id="s-posten-select-hint"></p>
+            <div id="s-posten-extra-wrap" hidden style="margin-top:10px">
+              <label class="check">
+                <input type="checkbox" id="s-posten-extra-check" checked>
+                <span id="s-posten-extra-label"></span>
+              </label>
+              <p class="hint" id="s-posten-extra-hint"></p>
+            </div>
+          </div>
         </fieldset>
         <div class="actions">
           <button class="primary" type="submit">Prognose</button>
@@ -878,7 +908,16 @@
       <button class="back" type="button" data-back>← Zur Auswahl</button>
       <article class="card">
         <h2>Versionen</h2>
-        <p class="version-now">Aktuelle Fassung: <strong>Version 1.6</strong>, gültig seit dem 7.&nbsp;November 2026.</p>
+        <p class="version-now">Aktuelle Fassung: <strong>Version 1.7</strong>, gültig seit dem 9.&nbsp;November 2026.</p>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.7</span><span class="since">seit dem 9. November 2026</span></p>
+          <ul>
+            <li>Dienstgrade A&nbsp;12 (Polizeihauptkommissar/in) und A&nbsp;13 (Erste/r Polizeihauptkommissar/in) der 3.&nbsp;Qualifikationsebene als Beta ergänzt.</li>
+            <li>Berechnung der Bewährungszeiten nach BefRPolVS (Nrn. 4.7 und 4.8) inklusive Dienstpostenbewertung und Mindestzeiten im Statusamt.</li>
+            <li>Originalgetreue Schulterklappen für A&nbsp;12 (4 silberne Sterne) und A&nbsp;13 (5 silberne Sterne: 2 an der Basis, 3 in Reihe).</li>
+          </ul>
+        </section>
 
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.6</span><span class="since">seit dem 7. November 2026</span></p>
@@ -958,7 +997,7 @@
 </main>
 <footer class="site">
   <p>Personalrat Schwaben Nord. Erstellt von © Nowadnick.</p>
-  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.6</a> · Stand: 07.11.2026</p>
+  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.7</a> · Stand: 09.11.2026</p>
 </footer>
 
 <script>
@@ -1153,6 +1192,178 @@ const PATHS = [
     method: "Eingangsamt A 9 oder niedriger, Dienstposten A 9/11, A 11/00 oder höher. Bewährungszeit seit der letzten Beförderung, nach dem Gesamturteil.",
     col: "Gesamturteil",
     bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle beginnt bei drei Punkten."
+  },
+  {
+    id: "qe3-a12",
+    group: "qe3",
+    beta: true,
+    rank: "Polizeihauptkommissar/in",
+    title: "A 12",
+    card: "Nach Dienstposten und letzter Beurteilung in A 11",
+    lede: "Seit der Beförderung nach A 11, abgestuft nach der Dienstpostenbewertung und dem Gesamturteil der letzten Beurteilung im Statusamt A 11 (Nr. 4.7 BefRPolVS).",
+    board: { stars: 4, tone: "white" },
+    kind: "points",
+    startLegend: "Letzte Beförderung",
+    startLabel: "Beförderung nach A 11",
+    startHint: "Monat und Jahr, in dem Ihnen das Amt A 11 übertragen wurde. Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
+    startShort: "Beförderung nach A 11",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 11 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
+    statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 11 erstellt wurde",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 11.",
+    method: "Seit der letzten Beförderung (A 11), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.7 BefRPolVS).",
+    col: "Gesamturteil",
+    postenOptions: [
+      {
+        id: "a11-12",
+        label: "Bündeldienstposten A 11/12 bzw. A 11/13 (Nr. 4.7.2)",
+        short: "Dienstposten A 11/12 bzw. A 11/13",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 11/12 bzw. A 11/13 (Nr. 4.7.2 BefRPolVS).",
+        method: "Dienstposten A 11/12 bzw. A 11/13 (Nr. 4.7.2 BefRPolVS). Bewährungszeit seit der Beförderung nach A 11, nach dem Gesamturteil.",
+        bands: [
+          { min: 15, max: 16, months: 36, label: "16 bis 15 Punkte" },
+          { min: 12, max: 14, months: 42, label: "14 bis 12 Punkte" },
+          { min: 9, max: 11, months: 54, label: "11 bis 09 Punkte" },
+          { min: 6, max: 8, months: 78, label: "08 bis 06 Punkte" }
+        ],
+        bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten."
+      },
+      {
+        id: "a12-00",
+        label: "Dienstposten A 12/00 oder höher (Nr. 4.7.1)",
+        short: "Dienstposten A 12/00 oder höher",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 12/00 oder höher (Nr. 4.7.1 BefRPolVS).",
+        method: "Dienstposten A 12/00 oder höher (Nr. 4.7.1 BefRPolVS). Bewährungszeit seit der Beförderung nach A 11, nach dem Gesamturteil.",
+        bands: [
+          { min: 12, max: 16, months: 36, label: "16 bis 12 Punkte" },
+          { min: 9, max: 11, months: 48, label: "11 bis 09 Punkte" },
+          { min: 6, max: 8, months: 72, label: "08 bis 06 Punkte" }
+        ],
+        bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten."
+      },
+      {
+        id: "a09-12-fach",
+        label: "Fachspezifischer Dienstposten A 09/11(12) bzw. A 10/13 (Nr. 4.7.3)",
+        short: "Fachspezifischer Dienstposten",
+        hint: "Gilt für fachspezifische Dienstposten nach RBestPol (Anlage 2). Zusätzliche Voraussetzungen: mind. 5 Jahre im Amt A 11 und mind. 8 Jahre fachspezifische Verwendung (Nr. 4.7.3 BefRPolVS).",
+        method: "Fachspezifischer Dienstposten (Nr. 4.7.3 BefRPolVS). Bewährungszeit nach Nr. 4.7.2, mindestens aber 5 Jahre (60 Monate) im Statusamt A 11 und 8 Jahre fachspezifische Verwendung.",
+        minAmtMonths: 60,
+        minAmtLabel: "Mindestens 5 Jahre im Amt A 11",
+        extraLabel: "Mindestens 8 Jahre fachspezifische Verwendung gemäß RBestPol liegen vor.",
+        extraShort: "Fachspezifische Verwendung",
+        extraMissing: "Bestätigung der mindestens 8-jährigen fachspezifischen Verwendung",
+        bands: [
+          { min: 15, max: 16, months: 36, label: "16 bis 15 Punkte" },
+          { min: 12, max: 14, months: 42, label: "14 bis 12 Punkte" },
+          { min: 9, max: 11, months: 54, label: "11 bis 09 Punkte" },
+          { min: 6, max: 8, months: 78, label: "08 bis 06 Punkte" }
+        ],
+        bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten."
+      },
+      {
+        id: "a09-12-kripo",
+        label: "K-Sachbearbeiter/in A 09/11(12) kuv bei der Kriminalpolizei (Nr. 4.7.4)",
+        short: "K-Sachbearbeiter/in Kriminalpolizei",
+        hint: "Gilt für K-Sachbearbeiter auf einem Dienstposten A 09/11(12) kuv. Zusätzliche Voraussetzungen: mind. 4 Jahre im Amt A 11 und mind. 8 Jahre Kripo-Verwendung ab der 3. QE (Nr. 4.7.4 BefRPolVS).",
+        method: "K-Sachbearbeiter/in (Nr. 4.7.4 BefRPolVS). Bewährungszeit nach Nr. 4.7.2, mindestens aber 4 Jahre (48 Monate) im Statusamt A 11 und 8 Jahre Verwendung bei der Kripo ab 3. QE.",
+        minAmtMonths: 48,
+        minAmtLabel: "Mindestens 4 Jahre im Amt A 11",
+        extraLabel: "Mindestens 8 Jahre Verwendung in Ämtern ab der 3. Qualifikationsebene bei der Kriminalpolizei liegen vor.",
+        extraShort: "Kripo-Verwendung ab 3. QE",
+        extraMissing: "Bestätigung der mindestens 8-jährigen Verwendung bei der Kriminalpolizei ab 3. QE",
+        bands: [
+          { min: 15, max: 16, months: 36, label: "16 bis 15 Punkte" },
+          { min: 12, max: 14, months: 42, label: "14 bis 12 Punkte" },
+          { min: 9, max: 11, months: 54, label: "11 bis 09 Punkte" },
+          { min: 6, max: 8, months: 78, label: "08 bis 06 Punkte" }
+        ],
+        bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten."
+      }
+    ]
+  },
+  {
+    id: "qe3-a13",
+    group: "qe3",
+    beta: true,
+    rank: "Erste/r Polizeihauptkommissar/in",
+    title: "A 13",
+    card: "Nach Dienstposten und letzter Beurteilung in A 12",
+    lede: "Seit der Beförderung nach A 12, abgestuft nach der Dienstpostenbewertung und dem Gesamturteil der letzten Beurteilung im Statusamt A 12 (Nr. 4.8 BefRPolVS).",
+    board: { stars: 5, tone: "white", layout: "ephk" },
+    kind: "points",
+    startLegend: "Letzte Beförderung",
+    startLabel: "Beförderung nach A 12",
+    startHint: "Monat und Jahr, in dem Ihnen das Amt A 12 übertragen wurde. Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
+    startShort: "Beförderung nach A 12",
+    statusLabel: "Diese Beurteilung ist im Statusamt A 12 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
+    statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 12 erstellt wurde",
+    guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 12.",
+    method: "Seit der letzten Beförderung (A 12), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.8 BefRPolVS).",
+    col: "Gesamturteil",
+    postenOptions: [
+      {
+        id: "a12-13",
+        label: "Bündeldienstposten A 12/13 (Nr. 4.8.2)",
+        short: "Dienstposten A 12/13",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 12/13 (Nr. 4.8.2 BefRPolVS).",
+        method: "Dienstposten A 12/13 (Nr. 4.8.2 BefRPolVS). Bewährungszeit seit der Beförderung nach A 12, nach dem Gesamturteil.",
+        bands: [
+          { min: 15, max: 16, months: 36, label: "16 bis 15 Punkte" },
+          { min: 12, max: 14, months: 42, label: "14 bis 12 Punkte" },
+          { min: 9, max: 11, months: 84, label: "11 bis 09 Punkte" }
+        ],
+        bandMessage: (gu) => "Für unter 09 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei neun Punkten."
+      },
+      {
+        id: "a13-00",
+        label: "Dienstposten A 13/00 oder höher (Nr. 4.8.1)",
+        short: "Dienstposten A 13/00 oder höher",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 13/00 oder höher (Nr. 4.8.1 BefRPolVS).",
+        method: "Dienstposten A 13/00 oder höher (Nr. 4.8.1 BefRPolVS). Bewährungszeit seit der Beförderung nach A 12, nach dem Gesamturteil.",
+        bands: [
+          { min: 15, max: 16, months: 36, label: "16 bis 15 Punkte" },
+          { min: 12, max: 14, months: 39, label: "14 bis 12 Punkte" },
+          { min: 9, max: 11, months: 72, label: "11 bis 09 Punkte" }
+        ],
+        bandMessage: (gu) => "Für unter 09 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei neun Punkten."
+      },
+      {
+        id: "a11-13",
+        label: "Bündeldienstposten A 11/13 (Nr. 4.8.3)",
+        short: "Dienstposten A 11/13",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 11/13 (Nr. 4.8.3 BefRPolVS).",
+        method: "Dienstposten A 11/13 (Nr. 4.8.3 BefRPolVS). Bewährungszeit seit der Beförderung nach A 12, nach dem Gesamturteil.",
+        bands: [
+          { min: 12, max: 16, months: 60, label: "16 bis 12 Punkte" },
+          { min: 9, max: 11, months: 84, label: "11 bis 09 Punkte" }
+        ],
+        bandMessage: (gu) => "Für unter 09 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei neun Punkten."
+      },
+      {
+        id: "a10-13",
+        label: "Bündeldienstposten A 10/13 (Nr. 4.8.4 – pauschal 120 Monate)",
+        short: "Dienstposten A 10/13",
+        hint: "Gilt für Beamte bei Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten A 10/13 (Nr. 4.8.4 BefRPolVS).",
+        method: "Dienstposten A 10/13 (Nr. 4.8.4 BefRPolVS). Pauschale Bewährungszeit von 120 Monaten (10 Jahren) seit Beförderung nach A 12.",
+        flatMonths: 120,
+        flatLabel: "Pauschal 120 Monate (10 Jahre)",
+        bands: [
+          { min: 3, max: 16, months: 120, label: "16 bis 03 Punkte (pauschal)" }
+        ],
+        bandMessage: (gu) => "Für unter 03 Punkte ist keine Beförderung vorgesehen."
+      },
+      {
+        id: "a09-13-kuv",
+        label: "Dienstposten A 09/11(13) kuv A 09/11(12) (Nr. 4.8.5)",
+        short: "Dienstposten A 09/11(13) kuv",
+        hint: "Gilt bei Bestellung auf einem Dienstposten A 09/11(13) kuv A 09/11(12) (Nr. 4.8.5 BefRPolVS).",
+        method: "Dienstposten A 09/11(13) kuv A 09/11(12) (Nr. 4.8.5 BefRPolVS). Bewährungszeit seit Beförderung nach A 12.",
+        bands: [
+          { min: 12, max: 16, months: 72, label: "16 bis 12 Punkte" },
+          { min: 9, max: 11, months: 84, label: "11 bis 09 Punkte" }
+        ],
+        bandMessage: (gu) => "Für unter 09 Punkte ist auf diesem Dienstposten keine Beförderung vorgesehen. Die Tabelle endet bei neun Punkten."
+      }
+    ]
   }
 ];
 
@@ -1196,7 +1407,7 @@ function relation(dt, today) {
   if (diff === 0 && today.getDate() === 1) return "today";
   return "past";
 }
-function waitOf(path, gu, fuenftelId) {
+function waitOf(path, gu, fuenftelId, postenId) {
   if (path.minPoints && gu < path.minPoints) return { ok: false, reason: "min" };
   if (path.kind === "flat") return { ok: true, months: path.flatMonths, label: path.flatLabel, key: "flat" };
   if (path.kind === "fuenftel") {
@@ -1204,8 +1415,22 @@ function waitOf(path, gu, fuenftelId) {
     if (!row) return { ok: false, reason: "fuenftel" };
     return { ok: true, months: row.months, label: row.label, key: row.id };
   }
-  const row = (path.bands || []).find((b) => gu >= b.min && gu <= b.max);
-  if (!row) return { ok: false, reason: "band" };
+  let bands = path.bands;
+  let bandMessage = path.bandMessage;
+  if (path.postenOptions) {
+    const pid = postenId || (typeof getActivePostenOption === "function" && getActivePostenOption() ? getActivePostenOption().id : null);
+    const opt = path.postenOptions.find((o) => o.id === pid) || path.postenOptions[0];
+    if (opt.flatMonths) {
+      if (gu < (opt.minPoints || 3)) {
+        return { ok: false, reason: "min", message: opt.bandMessage ? opt.bandMessage(gu) : "Mit diesem Gesamturteil nicht vorgesehen." };
+      }
+      return { ok: true, months: opt.flatMonths, label: opt.flatLabel || (opt.flatMonths + " Monate"), key: "flat" };
+    }
+    bands = opt.bands;
+    bandMessage = opt.bandMessage;
+  }
+  const row = (bands || []).find((b) => gu >= b.min && gu <= b.max);
+  if (!row) return { ok: false, reason: "band", message: bandMessage ? bandMessage(gu) : null };
   return { ok: true, months: row.months, label: row.label, key: row.label };
 }
 
@@ -1213,8 +1438,8 @@ function esc(s) {
   return String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 }
 
-function rankStar(cx, cy, fill, seam) {
-  const R = 33.1;
+function rankStar(cx, cy, fill, seam, r) {
+  const R = r || 33.1;
   const sx = 1.07;
   function tri(offset) {
     const pts = [];
@@ -1242,7 +1467,16 @@ function boardMarkup(spec) {
   const fill = spec.tone === "white" ? "#f4f6f8" : "#0490cb";
   const seam = "#001f46";
   let inner = "";
-  for (let i = 0; i < spec.stars; i++) inner += rankStar(51.4 + i * 77.6, 67.4, fill, seam);
+  if (spec.layout === "ephk" || spec.stars === 5) {
+    const r = 29;
+    inner += rankStar(51.4, 34.0, fill, seam, r);
+    inner += rankStar(51.4, 100.8, fill, seam, r);
+    inner += rankStar(129.0, 67.4, fill, seam, r);
+    inner += rankStar(206.6, 67.4, fill, seam, r);
+    inner += rankStar(284.2, 67.4, fill, seam, r);
+  } else {
+    for (let i = 0; i < spec.stars; i++) inner += rankStar(51.4 + i * 77.6, 67.4, fill, seam);
+  }
   return "<svg class='board' viewBox='0 0 " + w + " " + h + "' aria-hidden='true'><rect width='" + w + "' height='" + h + "' fill='#001f46'/>" + inner + "</svg>";
 }
 
@@ -1251,7 +1485,7 @@ function buildSelection() {
     const cards = PATHS.filter((p) => p.group === group.id).map((p) =>
       "<button type='button' class='pick' data-open='" + p.id + "'>" +
       boardMarkup(p.board) +
-      "<span class='pick-copy'><span class='pick-title'>" + esc(p.title) + "</span>" +
+      "<span class='pick-copy'><span class='pick-title'>" + esc(p.title) + (p.beta ? " <span class='badge-beta'>Beta</span>" : "") + "</span>" +
       "<span class='pick-rank'>" + esc(p.rank || "") + "</span>" +
       "<span class='pick-text'>" + esc(p.card) + "</span></span></button>"
     ).join("");
@@ -1266,11 +1500,36 @@ function buildSelection() {
 
 let currentPath = null;
 
+function getActivePostenOption() {
+  if (!currentPath || !currentPath.postenOptions) return null;
+  const sel = $("s-posten-select");
+  const val = sel ? sel.value : null;
+  return currentPath.postenOptions.find((o) => o.id === val) || currentPath.postenOptions[0];
+}
+
+function updatePostenOptionsUI() {
+  const opt = getActivePostenOption();
+  if (!opt) return;
+  const hintEl = $("s-posten-select-hint");
+  if (hintEl) hintEl.textContent = opt.hint || "";
+  if (opt.method) $("s-method").textContent = opt.method;
+  const extraWrap = $("s-posten-extra-wrap");
+  if (extraWrap) {
+    extraWrap.hidden = !opt.extraLabel;
+    if (opt.extraLabel) {
+      $("s-posten-extra-label").textContent = opt.extraLabel;
+      $("s-posten-extra-hint").textContent = opt.extraHint || "";
+      const extraCheck = $("s-posten-extra-check");
+      if (extraCheck) extraCheck.checked = true;
+    }
+  }
+}
+
 function applyPath(path) {
   currentPath = path;
   $("s-board").innerHTML = boardMarkup(path.board);
   $("s-kicker").textContent = path.rank || "";
-  $("s-title").textContent = path.title;
+  $("s-title").innerHTML = esc(path.title) + (path.beta ? " <span class='badge-beta'>Beta</span>" : "");
   $("s-lede").textContent = path.lede;
   $("s-start-legend").textContent = path.startLegend;
   $("s-start-label").textContent = path.startLabel;
@@ -1297,14 +1556,32 @@ function applyPath(path) {
   $("s-grid").className = path.kind === "fuenftel" ? "grid-2" : "";
   $("s-status-row").hidden = !path.statusLabel;
   if (path.statusLabel) $("s-status-label").textContent = path.statusLabel;
-  $("s-posten-box").hidden = !path.postenLabel;
-  if (path.postenLabel) $("s-posten-label").textContent = path.postenLabel;
+
+  const hasPostenOptions = !!(path.postenOptions && path.postenOptions.length);
+  const hasPostenLabel = !!path.postenLabel;
+  $("s-posten-box").hidden = !hasPostenOptions && !hasPostenLabel;
+  $("s-posten-check-wrap").hidden = !hasPostenLabel;
+  $("s-posten-select-wrap").hidden = !hasPostenOptions;
+  if (hasPostenLabel) $("s-posten-label").textContent = path.postenLabel;
+  if (hasPostenOptions) {
+    $("s-posten-select").innerHTML = path.postenOptions.map((opt) =>
+      "<option value='" + esc(opt.id) + "'>" + esc(opt.label) + "</option>"
+    ).join("");
+    $("s-posten-select").value = path.postenOptions[0].id;
+    updatePostenOptionsUI();
+  }
+
   const notes = $("s-notes");
   notes.innerHTML = (path.notes || []).map((t) => "<p>" + esc(t) + "</p>").join("");
   notes.hidden = !(path.notes || []).length;
   $("simple-form").reset();
   $("s-status").checked = true;
   $("s-posten").checked = true;
+  if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
+  if (hasPostenOptions) {
+    $("s-posten-select").value = path.postenOptions[0].id;
+    updatePostenOptionsUI();
+  }
   if ($("s-einzel")) $("s-einzel").value = "";
   if ($("s-rw")) $("s-rw").value = "";
   if ($("s-sb")) $("s-sb").checked = false;
@@ -1331,7 +1608,12 @@ function renderSimpleAuswahlTable(aus) {
 function tableRows(path) {
   if (path.kind === "fuenftel") return FUENFTEL.map((f) => ({ key: f.id, label: f.label, months: f.months }));
   if (path.kind === "flat") return path.rows;
-  return path.bands.map((b) => ({ key: b.label, label: b.label, months: b.months }));
+  if (path.postenOptions && path.postenOptions.length) {
+    const opt = (typeof getActivePostenOption === "function" ? getActivePostenOption() : null) || path.postenOptions[0];
+    if (opt.flatMonths) return [{ key: "flat", label: opt.flatLabel || (opt.flatMonths + " Monate"), months: opt.flatMonths }];
+    return (opt.bands || []).map((b) => ({ key: b.label, label: b.label, months: b.months }));
+  }
+  return (path.bands || []).map((b) => ({ key: b.label, label: b.label, months: b.months }));
 }
 
 function renderSimpleTable(activeKey) {
@@ -1355,6 +1637,19 @@ function readSimple() {
   if (askAssessment && !gu) missing.push("Gesamturteil der letzten dienstlichen Beurteilung");
   if (path.statusLabel && !$("s-status").checked) missing.push(path.statusMissing);
   if (path.postenLabel && !$("s-posten").checked) missing.push(path.postenMissing);
+
+  let postenOption = null;
+  let postenId = null;
+  if (path.postenOptions && path.postenOptions.length) {
+    postenOption = getActivePostenOption();
+    postenId = postenOption ? postenOption.id : null;
+    if (postenOption && postenOption.extraLabel) {
+      if (!$("s-posten-extra-check") || !$("s-posten-extra-check").checked) {
+        missing.push(postenOption.extraMissing || postenOption.extraLabel);
+      }
+    }
+  }
+
   let second = null;
   if (path.second) {
     const monat2 = Number($("s-monat-2").value);
@@ -1368,7 +1663,7 @@ function readSimple() {
   const rwRaw = rwEl && rwEl.value ? Number(rwEl.value) : null;
   const sb = $("s-sb") ? $("s-sb").checked : false;
   const status = $("s-status") ? $("s-status").checked : true;
-  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status };
+  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status, postenId, postenOption };
 }
 
 function evalSimpleAuswahl(path, input) {
@@ -1517,16 +1812,16 @@ function renderSimple() {
   if (!currentPath) return;
   const input = readSimple();
   const preview = (currentPath.askAssessment === false ? input.fuenftel : input.gu)
-    ? waitOf(currentPath, input.gu, input.fuenftel)
+    ? waitOf(currentPath, input.gu, input.fuenftel, input.postenId)
     : null;
   renderSimpleTable(preview && preview.ok ? preview.key : null);
   if (input.missing.length) {
     box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
     return;
   }
-  const wait = waitOf(currentPath, input.gu, input.fuenftel);
+  const wait = waitOf(currentPath, input.gu, input.fuenftel, input.postenId);
   if (!wait.ok) {
-    const text = wait.reason === "min" ? currentPath.minMessage(input.gu) : currentPath.bandMessage(input.gu);
+    const text = wait.message || (wait.reason === "min" ? (currentPath.minMessage ? currentPath.minMessage(input.gu) : "Nicht vorgesehen.") : (currentPath.bandMessage ? currentPath.bandMessage(input.gu) : "Mit diesem Gesamturteil nicht vorgesehen."));
     box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='when'>Mit diesem Gesamturteil nicht vorgesehen</p><p>" + esc(text) + "</p>" +
       factWrap(factHtml("Gesamturteil", false, esc(text), "open"));
     return;
@@ -1542,6 +1837,25 @@ function renderSimple() {
     const amtText = currentPath.second.months + " Monate seit dem " + formatLong(input.second) + ". Erreicht am " + formatLong(whenAmt) + ".";
     amtFact = factHtml("36 Monate im Amt mindestens A 9", true, esc(amtText), amtClass);
   }
+
+  let postenFact = "";
+  const postenOption = input.postenOption || (typeof getActivePostenOption === "function" ? getActivePostenOption() : null);
+  if (postenOption) {
+    if (postenOption.minAmtMonths) {
+      const whenMinAmt = addMonths(input.start.y, input.start.m, postenOption.minAmtMonths);
+      if (cmpMonth(when, whenMinAmt) < 0) when = whenMinAmt;
+      const relMinAmt = relation(whenMinAmt, new Date());
+      const minAmtClass = relMinAmt === "future" ? "wait" : "met";
+      const minAmtText = postenOption.minAmtMonths + " Monate (" + Math.round(postenOption.minAmtMonths / 12) + " Jahre) im Statusamt " + (currentPath.id === "qe3-a12" ? "A 11" : "A 12") + " seit dem " + formatLong(input.start) + ". " +
+        (relMinAmt === "future" ? "Frühester Monatserste ist der " + formatLong(whenMinAmt) + "." : "Erreicht am " + formatLong(whenMinAmt) + ".");
+      postenFact += factHtml(postenOption.minAmtLabel, relMinAmt !== "future", esc(minAmtText), minAmtClass);
+    }
+    if (postenOption.extraLabel) {
+      const extraChecked = $("s-posten-extra-check") && $("s-posten-extra-check").checked;
+      postenFact += factHtml(postenOption.extraShort || "Verwendungsvoraussetzung", extraChecked, esc(postenOption.extraLabel), extraChecked ? "met" : "wait");
+    }
+  }
+
   const rel = relation(when, new Date());
   const relFuenftel = relation(whenFuenftel, new Date());
   const factClass = relFuenftel === "future" ? "wait" : "met";
@@ -1552,7 +1866,7 @@ function renderSimple() {
   const kopf = esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1)) + ": " + esc(formatLong(input.start)) + ".";
   const zweit = input.second ? " " + esc(currentPath.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
-  const spaeter = input.second ? " Maßgeblich ist der spätere der beiden Zeitpunkte." : "";
+  const spaeter = (input.second || (postenOption && postenOption.minAmtMonths)) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
 
   if (currentPath.auswahl) {
     const aus = currentPath.auswahl;
@@ -1610,6 +1924,7 @@ function renderSimple() {
     factWrap(
       factHtml("Bewährungszeit", factClass !== "open", esc(kern), factClass) +
       amtFact +
+      postenFact +
       (input.gu ? factHtml("Gesamturteil", true, esc(wait.label + "."), "met") : "")
     ) +
     "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
@@ -2211,6 +2526,14 @@ function init() {
     render();
   });
   $("simple-form").addEventListener("input", renderSimple);
+  $("simple-form").addEventListener("change", renderSimple);
+  if ($("s-posten-select")) {
+    $("s-posten-select").addEventListener("change", () => {
+      updatePostenOptionsUI();
+      renderSimpleTable(null);
+      renderSimple();
+    });
+  }
   $("simple-form").addEventListener("submit", (event) => {
     event.preventDefault();
     renderSimple();
@@ -2222,7 +2545,8 @@ function init() {
     const jahr = new Date().getFullYear();
     $("s-monat").value = String(randInt(1, 12));
     $("s-jahr").value = String(randInt(2008, jahr));
-    if (path.askAssessment !== false) $("s-gu").value = String(randInt(4, 16));
+    const minGu = path.minGu || (path.id === "qe3-a13" ? 9 : 4);
+    if (path.askAssessment !== false) $("s-gu").value = String(randInt(minGu, 16));
     if (path.kind === "fuenftel") $("s-fuenftel").value = String(randInt(1, 5));
     if (path.second) {
       $("s-monat-2").value = String(randInt(1, 12));
@@ -2230,6 +2554,12 @@ function init() {
     }
     if (path.statusLabel) $("s-status").checked = true;
     if (path.postenLabel) $("s-posten").checked = true;
+    if (path.postenOptions && path.postenOptions.length) {
+      const opt = pick(path.postenOptions);
+      $("s-posten-select").value = opt.id;
+      updatePostenOptionsUI();
+      if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
+    }
     if (path.auswahl) {
       $("s-einzel").value = String(randInt(50, 75));
       $("s-rw").value = String(randInt(8, 14));
@@ -2237,13 +2567,20 @@ function init() {
         $("s-sb").checked = Math.random() < 0.2;
       }
     }
+    renderSimpleTable(null);
     renderSimple();
   });
   $("s-leeren").addEventListener("click", () => {
     $("simple-form").reset();
     $("s-status").checked = true;
     $("s-posten").checked = true;
+    if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
+    if (currentPath && currentPath.postenOptions && currentPath.postenOptions.length) {
+      $("s-posten-select").value = currentPath.postenOptions[0].id;
+      updatePostenOptionsUI();
+    }
     if ($("s-sb")) $("s-sb").checked = false;
+    renderSimpleTable(null);
     renderSimple();
   });
   document.querySelectorAll("[data-back]").forEach((btn) => {
@@ -2351,6 +2688,45 @@ function selfTest() {
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 52, null, false, null)).ok === false, "A11 unter Einzel");
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 11, false, null)).ok === true, "A11 RW gleich ohne sonst");
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 10, false, null)).ok === false, "A11 unter RW");
+
+  const a12Path = byId("qe3-a12");
+  assert(a12Path && a12Path.beta, "A12 Beta");
+  assert(waitOf(a12Path, 16, null, "a11-12").months === 36, "A12 Standard 16 Pkt");
+  assert(waitOf(a12Path, 13, null, "a11-12").months === 42, "A12 Standard 13 Pkt");
+  assert(waitOf(a12Path, 10, null, "a11-12").months === 54, "A12 Standard 10 Pkt");
+  assert(waitOf(a12Path, 7, null, "a11-12").months === 78, "A12 Standard 7 Pkt");
+  assert(waitOf(a12Path, 5, null, "a11-12").ok === false, "A12 Standard 5 Pkt");
+  assert(waitOf(a12Path, 16, null, "a12-00").months === 36, "A12 Hoeher 16 Pkt");
+  assert(waitOf(a12Path, 10, null, "a12-00").months === 48, "A12 Hoeher 10 Pkt");
+  assert(waitOf(a12Path, 7, null, "a12-00").months === 72, "A12 Hoeher 7 Pkt");
+  assert(waitOf(a12Path, 5, null, "a12-00").ok === false, "A12 Hoeher 5 Pkt");
+  const a12Fach = a12Path.postenOptions.find((o) => o.id === "fach");
+  assert(a12Fach && a12Fach.minAmtMonths === 60, "A12 Fach 60 Mo");
+  const a12Kripo = a12Path.postenOptions.find((o) => o.id === "k-sach");
+  assert(a12Kripo && a12Kripo.minAmtMonths === 48, "A12 Kripo 48 Mo");
+
+  const a13Path = byId("qe3-a13");
+  assert(a13Path && a13Path.beta, "A13 Beta");
+  assert(waitOf(a13Path, 16, null, "a12-13").months === 36, "A13 Buendel 16 Pkt");
+  assert(waitOf(a13Path, 13, null, "a12-13").months === 42, "A13 Buendel 13 Pkt");
+  assert(waitOf(a13Path, 10, null, "a12-13").months === 84, "A13 Buendel 10 Pkt");
+  assert(waitOf(a13Path, 8, null, "a12-13").ok === false, "A13 Buendel 8 Pkt");
+  assert(waitOf(a13Path, 16, null, "a13-00").months === 36, "A13 Hoeher 16 Pkt");
+  assert(waitOf(a13Path, 13, null, "a13-00").months === 39, "A13 Hoeher 13 Pkt");
+  assert(waitOf(a13Path, 10, null, "a13-00").months === 72, "A13 Hoeher 10 Pkt");
+  assert(waitOf(a13Path, 8, null, "a13-00").ok === false, "A13 Hoeher 8 Pkt");
+  assert(waitOf(a13Path, 16, null, "a11-13").months === 60, "A13 A11/13 16 Pkt");
+  assert(waitOf(a13Path, 10, null, "a11-13").months === 84, "A13 A11/13 10 Pkt");
+  assert(waitOf(a13Path, 8, null, "a11-13").ok === false, "A13 A11/13 8 Pkt");
+  assert(waitOf(a13Path, 16, null, "a10-13").months === 120, "A13 A10/13 16 Pkt");
+  assert(waitOf(a13Path, 3, null, "a10-13").months === 120, "A13 A10/13 3 Pkt");
+  assert(waitOf(a13Path, 2, null, "a10-13").ok === false, "A13 A10/13 2 Pkt");
+  assert(waitOf(a13Path, 16, null, "a09-13-kuv").months === 72, "A13 kuv 16 Pkt");
+  assert(waitOf(a13Path, 10, null, "a09-13-kuv").months === 84, "A13 kuv 10 Pkt");
+  assert(waitOf(a13Path, 8, null, "a09-13-kuv").ok === false, "A13 kuv 8 Pkt");
+
+  const ephkSvg = boardMarkup(a13Path.board);
+  assert(ephkSvg.includes("ephk") && ephkSvg.includes("polygon"), "EPHK Schulterklappe Markup");
 }
 
 init();

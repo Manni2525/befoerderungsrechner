@@ -1477,7 +1477,8 @@ function boardMarkup(spec) {
   } else {
     for (let i = 0; i < spec.stars; i++) inner += rankStar(51.4 + i * 77.6, 67.4, fill, seam);
   }
-  return "<svg class='board' viewBox='0 0 " + w + " " + h + "' aria-hidden='true'><rect width='" + w + "' height='" + h + "' fill='#001f46'/>" + inner + "</svg>";
+  const extraClass = (spec.layout === "ephk" || spec.stars === 5) ? " board-ephk" : "";
+  return "<svg class='board" + extraClass + "' viewBox='0 0 " + w + " " + h + "' aria-hidden='true'><rect width='" + w + "' height='" + h + "' fill='#001f46'/>" + inner + "</svg>";
 }
 
 function buildSelection() {
@@ -2700,9 +2701,9 @@ function selfTest() {
   assert(waitOf(a12Path, 10, null, "a12-00").months === 48, "A12 Hoeher 10 Pkt");
   assert(waitOf(a12Path, 7, null, "a12-00").months === 72, "A12 Hoeher 7 Pkt");
   assert(waitOf(a12Path, 5, null, "a12-00").ok === false, "A12 Hoeher 5 Pkt");
-  const a12Fach = a12Path.postenOptions.find((o) => o.id === "fach");
+  const a12Fach = a12Path.postenOptions.find((o) => o.id === "a09-12-fach");
   assert(a12Fach && a12Fach.minAmtMonths === 60, "A12 Fach 60 Mo");
-  const a12Kripo = a12Path.postenOptions.find((o) => o.id === "k-sach");
+  const a12Kripo = a12Path.postenOptions.find((o) => o.id === "a09-12-kripo");
   assert(a12Kripo && a12Kripo.minAmtMonths === 48, "A12 Kripo 48 Mo");
 
   const a13Path = byId("qe3-a13");
@@ -2726,7 +2727,7 @@ function selfTest() {
   assert(waitOf(a13Path, 8, null, "a09-13-kuv").ok === false, "A13 kuv 8 Pkt");
 
   const ephkSvg = boardMarkup(a13Path.board);
-  assert(ephkSvg.includes("ephk") && ephkSvg.includes("polygon"), "EPHK Schulterklappe Markup");
+  assert(ephkSvg.includes("board-ephk") && ephkSvg.includes("polygon"), "EPHK Schulterklappe Markup");
 }
 
 init();

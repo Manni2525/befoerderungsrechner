@@ -913,9 +913,9 @@
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.7</span><span class="since">seit dem 9. November 2026</span></p>
           <ul>
-            <li>Dienstgrade A&nbsp;12 (Polizeihauptkommissar/in) und A&nbsp;13 (Erste/r Polizeihauptkommissar/in) der 3.&nbsp;Qualifikationsebene als Beta ergänzt.</li>
+            <li>Dienstgrade A&nbsp;12 (Polizeihauptkommissar/in A&nbsp;12 (PHK)) und A&nbsp;13 (Erste/r Polizeihauptkommissar/in (EPHK)) der 3.&nbsp;Qualifikationsebene als Beta ergänzt.</li>
             <li>Berechnung der Bewährungszeiten nach BefRPolVS (Nrn. 4.7 und 4.8) inklusive Dienstpostenbewertung und Mindestzeiten im Statusamt.</li>
-            <li>Originalgetreue Schulterklappen für A&nbsp;12 (4 silberne Sterne) und A&nbsp;13 (5 silberne Sterne: 2 an der Basis, 3 in Reihe).</li>
+            <li>Originalgetreue Schulterklappen für A&nbsp;12 (4 silberne Sterne) und A&nbsp;13 (5 silberne Sterne: 2 an der Basis, 3 in Reihe) exakt nach Fotovorlage abgestimmt.</li>
           </ul>
         </section>
 
@@ -1197,7 +1197,7 @@ const PATHS = [
     id: "qe3-a12",
     group: "qe3",
     beta: true,
-    rank: "Polizeihauptkommissar/in",
+    rank: "Polizeihauptkommissar/in A 12 (PHK)",
     title: "A 12",
     card: "Nach Dienstposten und letzter Beurteilung in A 11",
     lede: "Seit der Beförderung nach A 11, abgestuft nach der Dienstpostenbewertung und dem Gesamturteil der letzten Beurteilung im Statusamt A 11 (Nr. 4.7 BefRPolVS).",
@@ -1284,7 +1284,7 @@ const PATHS = [
     id: "qe3-a13",
     group: "qe3",
     beta: true,
-    rank: "Erste/r Polizeihauptkommissar/in",
+    rank: "Erste/r Polizeihauptkommissar/in (EPHK)",
     title: "A 13",
     card: "Nach Dienstposten und letzter Beurteilung in A 12",
     lede: "Seit der Beförderung nach A 12, abgestuft nach der Dienstpostenbewertung und dem Gesamturteil der letzten Beurteilung im Statusamt A 12 (Nr. 4.8 BefRPolVS).",
@@ -1469,11 +1469,11 @@ function boardMarkup(spec) {
   let inner = "";
   if (spec.layout === "ephk" || spec.stars === 5) {
     const r = 29;
-    inner += rankStar(51.4, 34.0, fill, seam, r);
-    inner += rankStar(51.4, 100.8, fill, seam, r);
-    inner += rankStar(129.0, 67.4, fill, seam, r);
-    inner += rankStar(206.6, 67.4, fill, seam, r);
-    inner += rankStar(284.2, 67.4, fill, seam, r);
+    inner += rankStar(51.4, 37.0, fill, seam, r);
+    inner += rankStar(51.4, 96.0, fill, seam, r);
+    inner += rankStar(129.0, 66.5, fill, seam, r);
+    inner += rankStar(206.6, 66.5, fill, seam, r);
+    inner += rankStar(284.2, 66.5, fill, seam, r);
   } else {
     for (let i = 0; i < spec.stars; i++) inner += rankStar(51.4 + i * 77.6, 67.4, fill, seam);
   }

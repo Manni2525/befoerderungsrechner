@@ -577,14 +577,14 @@
                       <li>Geistige Beweglichkeit</li>
                       <li>Fachkenntnisse</li>
                     </ul>
-                    Tragen Sie die Summe dieser fünf Punktzahlen ein, so wie sie in der Beförderungswahl steht, zum Beispiel 66. Nicht den bereits verdoppelten Wert.
+                    Wählen Sie die Summe dieser fünf Punktzahlen aus, so wie sie in der Beförderungswahl steht, zum Beispiel 66. Nicht den bereits verdoppelten Wert.
                   </span>
                 </span>
               </span>
-              <input type="number" id="einzel" name="einzel" min="5" max="80" step="1" inputmode="numeric" placeholder="Summe 5 bis 80" required>
+              <select id="einzel" name="einzel" required></select>
             </label>
           </div>
-          <p class="hint">Für alle gilt die periodische Beurteilung 2026, wirksam seit Oktober 2026. Die Summe der fünf Einzelmerkmale liegt zwischen 5 und 80.</p>
+          <p class="hint">Für alle gilt die periodische Beurteilung 2026, wirksam seit Oktober 2026. Die Summe der fünf Einzelmerkmale liegt zwischen 20 und 80 Punkten.</p>
           <label class="check">
             <input type="checkbox" id="in-a9" checked>
             <span>Diese Beurteilung ist im Statusamt A&nbsp;9 erstellt worden. Die Beförderungsauswahl verlangt das ausdrücklich.</span>
@@ -755,14 +755,14 @@
                       <li>Geistige Beweglichkeit</li>
                       <li>Fachkenntnisse</li>
                     </ul>
-                    Tragen Sie die Summe dieser fünf Punktzahlen ein, so wie sie in der Beförderungswahl steht, zum Beispiel 57. Nicht den bereits verdoppelten Wert.
+                    Wählen Sie die Summe dieser fünf Punktzahlen aus, so wie sie in der Beförderungswahl steht, zum Beispiel 57. Nicht den bereits verdoppelten Wert.
                   </span>
                 </span>
               </span>
-              <input type="number" id="s-einzel" name="s-einzel" min="5" max="80" step="1" inputmode="numeric" placeholder="Summe 5 bis 80">
+              <select id="s-einzel" name="s-einzel"></select>
             </label>
           </div>
-          <p class="hint">Gesamturteil der Beurteilung 2023 sowie die Summe der fünf doppelt gewichteten Einzelmerkmale der letzten Beurteilung.</p>
+          <p class="hint">Gesamturteil der Beurteilung 2023 sowie die Summe der fünf doppelt gewichteten Einzelmerkmale der letzten Beurteilung (20 bis 80 Punkte).</p>
           <div id="s-a10-sonst" style="margin-top:12px" hidden>
             <label class="check">
               <input type="checkbox" id="s-sb">
@@ -923,6 +923,7 @@
             <li>Amtsbezeichnungen in der 2.&nbsp;Qualifikationsebene für A&nbsp;10 (Polizeioberkommissar/in) und A&nbsp;11 (Polizeihauptkommissar/in) vereinheitlicht.</li>
             <li>Berechnung der Bewährungszeiten nach BefRPolVS (Nrn. 4.7 und 4.8) inklusive Dienstpostenbewertung und Mindestzeiten im Statusamt.</li>
             <li>Originalgetreue Schulterklappen für A&nbsp;12 (4 silberne Sterne) und A&nbsp;13 (5 silberne Sterne: 2 an der Basis, 3 in Reihe).</li>
+            <li>Eingabe der Einzelmerkmale (Binnendifferenzierung) auf Dropdown-Menüs (20 bis 80 Punkte) umgestellt für eine durchgängige Bedienung per Maus.</li>
             <li>Hinweis auf Ideengeber Roland Trott im Impressum ergänzt.</li>
           </ul>
         </section>
@@ -1760,7 +1761,7 @@ function evalSimpleAuswahl(path, input) {
       cls: "wait",
       badge: "Prüfung offen",
       title: title,
-      text: "Bei genau " + aus.gu + " Punkten Gesamturteil entscheidet als nächstes Kriterium die Summe der 5 doppelt gewichteten Einzelmerkmale (mindestens " + aus.einzel + " Punkte erforderlich). Bitte tragen Sie den Wert oben ein."
+      text: "Bei genau " + aus.gu + " Punkten Gesamturteil entscheidet als nächstes Kriterium die Summe der 5 doppelt gewichteten Einzelmerkmale (mindestens " + aus.einzel + " Punkte erforderlich). Bitte wählen Sie den Wert oben aus."
     };
   }
 
@@ -2320,7 +2321,7 @@ function readInput() {
   if (!einstieg) missing.push("allgemeiner Dienstzeitbeginn");
   if (!a9) missing.push("Beginn im Amt A 9");
   if (!gu) missing.push("Gesamturteil der Beurteilung 2026");
-  if (einzelRoh === "" || !Number.isInteger(einzel) || einzel < 5 || einzel > 80) missing.push("Summe der Einzelmerkmale (5 bis 80)");
+  if (einzelRoh === "" || !Number.isInteger(einzel) || einzel < 20 || einzel > 80) missing.push("Summe der Einzelmerkmale (20 bis 80)");
   if (!rw) missing.push("Gesamturteil der Beurteilung 2023");
   return {
     missing, einstieg, a9,
@@ -2563,11 +2564,13 @@ function init() {
   fillMonthYear("s-monat-2", "s-jahr-2", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillPunktSelect($("s-gu"), 4, 16);
   fillPunktSelect($("s-rw"), 4, 16);
+  fillPunktSelect($("s-einzel"), 20, 80);
   $("s-fuenftel").innerHTML = "<option value=''>–</option>" + FUENFTEL.map((f) =>
     "<option value='" + f.id + "'>" + f.label + "</option>"
   ).join("");
   fillPunktSelect($("gu"), 4, 16);
   fillPunktSelect($("rw"), 4, 16);
+  fillPunktSelect($("einzel"), 20, 80);
   const diesesJahr = new Date().getFullYear();
   for (const id of ["einstieg-jahr", "a9-jahr"]) {
     const select = $(id);
@@ -2599,7 +2602,7 @@ function init() {
     $("a9-jahr").value = String(a9Jahr);
     $("sb").checked = Math.random() < 0.2;
     $("gu").value = String(randInt(4, 16));
-    $("einzel").value = String(randInt(5, 80));
+    $("einzel").value = String(randInt(20, 80));
     $("rw").value = String(randInt(4, 16));
     $("in-a9").checked = Math.random() < 0.8;
     render();
@@ -2781,6 +2784,7 @@ function selfTest() {
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 52, null, false, null)).ok === false, "A11 unter Einzel");
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 11, false, null)).ok === true, "A11 RW gleich ohne sonst");
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 10, false, null)).ok === false, "A11 unter RW");
+  assert($("einzel") && $("s-einzel"), "einzel selects exist");
 
   const a12Path = byId("qe3-a12");
   assert(a12Path && a12Path.beta, "A12 Beta");

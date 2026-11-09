@@ -916,6 +916,7 @@
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.7</span><span class="since">seit dem 9. November 2026</span></p>
           <ul>
+            <li>Eingangsamt A&nbsp;7 (Polizeimeister/in, 2 blaue Sterne) der 2.&nbsp;Qualifikationsebene zur Vollständigkeit ergänzt.</li>
             <li>Dienstgrade A&nbsp;12 (Polizeihauptkommissar/in) und A&nbsp;13 (Erste/r Polizeihauptkommissar/in) der 3.&nbsp;Qualifikationsebene als Beta ergänzt.</li>
             <li>Amtsbezeichnungen in der 2.&nbsp;Qualifikationsebene für A&nbsp;10 (Polizeioberkommissar/in) und A&nbsp;11 (Polizeihauptkommissar/in) vereinheitlicht.</li>
             <li>Berechnung der Bewährungszeiten nach BefRPolVS (Nrn. 4.7 und 4.8) inklusive Dienstpostenbewertung und Mindestzeiten im Statusamt.</li>
@@ -1016,6 +1017,29 @@ const FUENFTEL = [
 ];
 
 const PATHS = [
+  {
+    id: "qe2-a7",
+    group: "qe2",
+    rank: "Polizeimeister/in",
+    title: "A 7",
+    card: "Eingangsamt mit Bestehen der Ausbildung",
+    lede: "Eingangsamt der zweiten Qualifikationsebene. Die Ernennung erfolgt unmittelbar mit dem erfolgreichen Abschluss der Ausbildung (Bestehen der Qualifikationsprüfung).",
+    board: { stars: 2, tone: "blue" },
+    kind: "flat",
+    flatMonths: 0,
+    flatLabel: "Bestehen der Qualifikationsprüfung (Ausbildung)",
+    rows: [
+      { key: "flat", label: "Erfolgreicher Abschluss der Ausbildung (Eingangsamt)", months: 0 }
+    ],
+    askAssessment: false,
+    startLegend: "Ausbildungsabschluss",
+    startLabel: "Ausbildung erfolgreich beendet (Ernennung)",
+    startHint: "Monat und Jahr, in dem Sie die Qualifikationsprüfung für die zweite Qualifikationsebene bestanden haben bzw. zum/zur Polizeimeister/in ernannt wurden.",
+    startShort: "Ausbildungsabschluss",
+    method: "Eingangsamt der 2. Qualifikationsebene: Die Ernennung erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung. Eine Bewährungszeit ist für das Eingangsamt nicht erforderlich.",
+    col: "Voraussetzung",
+    hintText: "Die Ernennung in das Eingangsamt (A 7) erfolgt unmittelbar mit Bestehen der Qualifikationsprüfung für die zweite Qualifikationsebene (Art. 16 Abs. 1 LlbG). Eine Mindestbewährungszeit fällt erst für die nachfolgende Beförderung nach A 8 an."
+  },
   {
     id: "qe2-a8",
     group: "qe2",
@@ -1624,7 +1648,7 @@ function tableRows(path) {
 function renderSimpleTable(activeKey) {
   if (!currentPath) return;
   $("s-table").innerHTML = tableRows(currentPath).map((row) =>
-    "<tr" + (row.key === activeKey ? " class='is-you'" : "") + "><td>" + esc(row.label) + "</td><td>" + row.months + " Monate</td></tr>"
+    "<tr" + (row.key === activeKey ? " class='is-you'" : "") + "><td>" + esc(row.label) + "</td><td>" + (row.months === 0 ? "0 Monate (unmittelbar)" : row.months + " Monate") + "</td></tr>"
   ).join("");
 }
 
@@ -1816,12 +1840,14 @@ function renderSimple() {
   const box = $("s-ergebnis");
   if (!currentPath) return;
   const input = readSimple();
-  const preview = (currentPath.askAssessment === false ? input.fuenftel : input.gu)
-    ? waitOf(currentPath, input.gu, input.fuenftel, input.postenId)
-    : null;
+  const preview = currentPath.kind === "flat"
+    ? waitOf(currentPath, 0, null)
+    : (currentPath.askAssessment === false ? input.fuenftel : input.gu)
+      ? waitOf(currentPath, input.gu, input.fuenftel, input.postenId)
+      : null;
   renderSimpleTable(preview && preview.ok ? preview.key : null);
   if (input.missing.length) {
-    box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
+    box.innerHTML = "<h2>" + (currentPath.kind === "flat" && currentPath.flatMonths === 0 ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit") + "</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
     return;
   }
   const wait = waitOf(currentPath, input.gu, input.fuenftel, input.postenId);
@@ -1861,13 +1887,16 @@ function renderSimple() {
     }
   }
 
+  const isEingangsamt = wait.months === 0;
   const rel = relation(when, new Date());
   const relFuenftel = relation(whenFuenftel, new Date());
   const factClass = relFuenftel === "future" ? "wait" : "met";
-  const kern = wait.months + " Monate (" + wait.label + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
-    (relFuenftel === "future"
-      ? "Frühester Monatserste ist der " + formatLong(whenFuenftel) + "."
-      : "Erreicht am " + formatLong(whenFuenftel) + ".");
+  const kern = isEingangsamt
+    ? "Ernennung zum/zur " + esc(currentPath.rank) + " (" + esc(currentPath.title) + ") unmittelbar mit Bestehen der Qualifikationsprüfung zum " + formatLong(whenFuenftel) + ". Eine Mindestbewährungszeit fällt für das Eingangsamt nicht an."
+    : wait.months + " Monate (" + wait.label + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
+      (relFuenftel === "future"
+        ? "Frühester Monatserste ist der " + formatLong(whenFuenftel) + "."
+        : "Erreicht am " + formatLong(whenFuenftel) + ".");
   const kopf = esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1)) + ": " + esc(formatLong(input.start)) + ".";
   const zweit = input.second ? " " + esc(currentPath.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
@@ -1923,16 +1952,19 @@ function renderSimple() {
     return;
   }
 
-  const lede = rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit";
-  box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
+  const lede = isEingangsamt
+    ? (rel === "future" ? "Voraussichtliche Ernennung zum" : "Ernennung erfolgt zum")
+    : (rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit");
+  const heading = isEingangsamt ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit";
+  box.innerHTML = "<h2>" + esc(heading) + "</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
     kopf + zweit + punkte + spaeter + "</p>" +
     factWrap(
-      factHtml("Bewährungszeit", factClass !== "open", esc(kern), factClass) +
+      factHtml(isEingangsamt ? "Eingangsamt" : "Bewährungszeit", factClass !== "open", esc(kern), factClass) +
       amtFact +
       postenFact +
       (input.gu ? factHtml("Gesamturteil", true, esc(wait.label + "."), "met") : "")
     ) +
-    "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
+    "<p class='hint'>" + esc(currentPath.hintText || "Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.") + "</p>";
 }
 
 function factWrap(inner) {
@@ -2655,6 +2687,9 @@ function selfTest() {
   const prognoseKnapp = findPrognose(knapp, new Date(2026, 9, 3));
   assert(!(prognoseKnapp.analog && prognoseKnapp.analog.y === 2026 && prognoseKnapp.analog.m === 11), "ohne 87 Monate nicht November 2026");
   const byId = (id) => PATHS.find((p) => p.id === id);
+  const a7Path = byId("qe2-a7");
+  assert(a7Path && a7Path.board.stars === 2 && a7Path.board.tone === "blue", "A7 2 blaue Sterne");
+  assert(waitOf(a7Path, 0, null).months === 0, "A7 Eingangsamt 0 Monate");
   assert(waitOf(byId("qe2-a8"), 3, "1").months === 24 && waitOf(byId("qe2-a8"), 2, "1").months === 24 && waitOf(byId("qe2-a8"), 16, "5").months === 36, "A8");
   assert(waitOf(byId("qe2-a9"), 16, null).months === 39 && waitOf(byId("qe2-a9"), 12, null).months === 42 && waitOf(byId("qe2-a9"), 6, null).months === 72 && waitOf(byId("qe2-a9"), 5, null).ok === false, "A9");
   assert(waitOf(byId("qe2-a10"), 9, null).months === 72 && waitOf(byId("qe2-a10"), 16, null).months === 36 && waitOf(byId("qe2-a10"), 8, null).ok === false, "A10 zweite");

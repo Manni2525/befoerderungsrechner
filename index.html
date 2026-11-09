@@ -793,6 +793,21 @@
               <p class="hint" id="s-posten-extra-hint"></p>
             </div>
           </div>
+          <div id="s-erprobung-wrap" hidden style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line);">
+            <label class="check">
+              <input type="checkbox" id="s-erprobung-done" checked>
+              <span>Dienstposten ist bereits seit mindestens 6 Monaten übertragen (Erprobungszeit nach Art.&nbsp;16 Abs.&nbsp;5 LlbG erfüllt).</span>
+            </label>
+            <div id="s-erprobung-date-wrap" hidden style="margin-top:10px">
+              <label class="field"><span class="lbl">Übernahme des Dienstpostens</span>
+                <span class="pair">
+                  <select id="s-erprobung-monat"></select>
+                  <select id="s-erprobung-jahr"></select>
+                </span>
+              </label>
+              <p class="hint">Monat und Jahr, in dem Ihnen der höher bewertete Dienstposten übertragen wurde oder voraussichtlich übertragen wird. Die 6-monatige Erprobungszeit (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) läuft ab dem Ersten dieses Monats. Vor deren Ablauf besteht eine gesetzliche Beförderungssperre.</p>
+            </div>
+          </div>
         </fieldset>
         <div class="actions">
           <button class="primary" type="submit">Prognose</button>
@@ -913,7 +928,15 @@
       <button class="back" type="button" data-back>← Zur Auswahl</button>
       <article class="card">
         <h2>Versionen</h2>
-        <p class="version-now">Aktuelle Fassung: <strong>Version 1.7</strong>, gültig seit dem 9.&nbsp;November 2026.</p>
+        <p class="version-now">Aktuelle Fassung: <strong>Version 1.8</strong>, gültig seit dem 10.&nbsp;November 2026.</p>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.8</span><span class="since">seit dem 10. November 2026</span></p>
+          <ul>
+            <li>Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) bei den Beförderungsämtern A&nbsp;12 und A&nbsp;13 integriert: Option zur Eingabe des Datums der Dienstpostenübernahme oder Bestätigung einer bereits erfüllten 6-monatigen Erprobung.</li>
+            <li>Berechnung berücksichtigt bei A&nbsp;12 und A&nbsp;13 das Zwei-Fristen-Prinzip (Mindeststehzeit im bisherigen Statusamt sowie Ablauf der Erprobungszeit auf dem neuen Dienstposten; maßgeblich ist der spätere Zeitpunkt).</li>
+          </ul>
+        </section>
 
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.7</span><span class="since">seit dem 9. November 2026</span></p>
@@ -1006,7 +1029,7 @@
 </main>
 <footer class="site">
   <p>Personalrat Schwaben Nord. Erstellt von © Nowadnick.</p>
-  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.7</a> · Stand: 09.11.2026</p>
+  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.8</a> · Stand: 10.11.2026</p>
 </footer>
 
 <script>
@@ -1262,6 +1285,11 @@ const PATHS = [
     lede: "Seit der Beförderung nach A 11, abgestuft nach der Dienstpostenbewertung und dem Gesamturteil der letzten Beurteilung im Statusamt A 11 (Nr. 4.7 BefRPolVS).",
     board: { stars: 4, tone: "white" },
     kind: "points",
+    askErprobung: true,
+    erprobungMonths: 6,
+    notes: [
+      "Voraussetzung für die Beförderung nach A 12 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
+    ],
     startLegend: "Letzte Beförderung",
     startLabel: "Beförderung nach A 11",
     startHint: "Monat und Jahr, in dem Ihnen das Amt A 11 übertragen wurde. Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
@@ -1269,7 +1297,7 @@ const PATHS = [
     statusLabel: "Diese Beurteilung ist im Statusamt A 11 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 11 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 11.",
-    method: "Seit der letzten Beförderung (A 11), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.7 BefRPolVS).",
+    method: "Seit der letzten Beförderung (A 11), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.7 BefRPolVS). Vor Beförderung ist eine mindestens 6-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 LlbG).",
     col: "Gesamturteil",
     postenOptions: [
       {
@@ -1349,6 +1377,11 @@ const PATHS = [
     lede: "Seit der Beförderung nach A 12, abgestuft nach der Dienstpostenbewertung und dem Gesamturteil der letzten Beurteilung im Statusamt A 12 (Nr. 4.8 BefRPolVS).",
     board: { stars: 5, tone: "white", layout: "ephk" },
     kind: "points",
+    askErprobung: true,
+    erprobungMonths: 6,
+    notes: [
+      "Voraussetzung für die Beförderung nach A 13 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
+    ],
     startLegend: "Letzte Beförderung",
     startLabel: "Beförderung nach A 12",
     startHint: "Monat und Jahr, in dem Ihnen das Amt A 12 übertragen wurde. Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
@@ -1356,7 +1389,7 @@ const PATHS = [
     statusLabel: "Diese Beurteilung ist im Statusamt A 12 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 12 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 12.",
-    method: "Seit der letzten Beförderung (A 12), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.8 BefRPolVS).",
+    method: "Seit der letzten Beförderung (A 12), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.8 BefRPolVS). Vor Beförderung ist eine mindestens 6-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 LlbG).",
     col: "Gesamturteil",
     postenOptions: [
       {
@@ -1619,7 +1652,8 @@ function applyPath(path) {
 
   const hasPostenOptions = !!(path.postenOptions && path.postenOptions.length);
   const hasPostenLabel = !!path.postenLabel;
-  $("s-posten-box").hidden = !hasPostenOptions && !hasPostenLabel;
+  const hasErprobung = !!path.askErprobung;
+  $("s-posten-box").hidden = !hasPostenOptions && !hasPostenLabel && !hasErprobung;
   $("s-posten-check-wrap").hidden = !hasPostenLabel;
   $("s-posten-select-wrap").hidden = !hasPostenOptions;
   if (hasPostenLabel) $("s-posten-label").textContent = path.postenLabel;
@@ -1630,6 +1664,7 @@ function applyPath(path) {
     $("s-posten-select").value = path.postenOptions[0].id;
     updatePostenOptionsUI();
   }
+  $("s-erprobung-wrap").hidden = !hasErprobung;
 
   const notes = $("s-notes");
   notes.innerHTML = (path.notes || []).map((t) => "<p>" + esc(t) + "</p>").join("");
@@ -1638,10 +1673,19 @@ function applyPath(path) {
   const maxYear = diesesJahr + (path.futureYears || 0);
   const minYear = path.minYear || 1970;
   updateYearSelect("s-jahr", minYear, maxYear);
+  if (hasErprobung) {
+    updateYearSelect("s-erprobung-jahr", 2010, diesesJahr + 6);
+  }
   $("simple-form").reset();
   $("s-status").checked = true;
   $("s-posten").checked = true;
   if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
+  if (hasErprobung) {
+    $("s-erprobung-done").checked = true;
+    $("s-erprobung-date-wrap").hidden = true;
+    $("s-erprobung-monat").value = "";
+    $("s-erprobung-jahr").value = "";
+  }
   if (hasPostenOptions) {
     $("s-posten-select").value = path.postenOptions[0].id;
     updatePostenOptionsUI();
@@ -1714,6 +1758,18 @@ function readSimple() {
     }
   }
 
+  let erprobungDone = true;
+  let erprobungStart = null;
+  if (path.askErprobung) {
+    erprobungDone = $("s-erprobung-done") ? $("s-erprobung-done").checked : true;
+    if (!erprobungDone) {
+      const em = Number($("s-erprobung-monat").value);
+      const ey = Number($("s-erprobung-jahr").value);
+      erprobungStart = em && ey ? { y: ey, m: em } : null;
+      if (!erprobungStart) missing.push("Datum der Dienstpostenübernahme (für die Erprobungszeit)");
+    }
+  }
+
   let second = null;
   if (path.second) {
     const monat2 = Number($("s-monat-2").value);
@@ -1727,7 +1783,7 @@ function readSimple() {
   const rwRaw = rwEl && rwEl.value ? Number(rwEl.value) : null;
   const sb = $("s-sb") ? $("s-sb").checked : false;
   const status = $("s-status") ? $("s-status").checked : true;
-  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status, postenId, postenOption };
+  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status, postenId, postenOption, erprobungDone, erprobungStart };
 }
 
 function evalSimpleAuswahl(path, input) {
@@ -1922,6 +1978,32 @@ function renderSimple() {
     }
   }
 
+  let erprobungFact = "";
+  if (currentPath.askErprobung) {
+    if (input.erprobungDone) {
+      erprobungFact = factHtml(
+        "Erprobungszeit auf dem Dienstposten",
+        true,
+        "Mindestens 6 Monate Erprobung auf dem Dienstposten (Art. 16 Abs. 5 LlbG) liegen vor.",
+        "met"
+      );
+    } else if (input.erprobungStart) {
+      const erpMonths = currentPath.erprobungMonths || 6;
+      const whenErprobung = addMonths(input.erprobungStart.y, input.erprobungStart.m, erpMonths);
+      if (cmpMonth(when, whenErprobung) < 0) when = whenErprobung;
+      const relErp = relation(whenErprobung, new Date());
+      const erpClass = relErp === "future" ? "wait" : "met";
+      const erpText = erpMonths + " Monate Erprobungszeit (Art. 16 Abs. 5 LlbG) seit dem " + formatLong(input.erprobungStart) + ". " +
+        (relErp === "future" ? "Frühester Monatserste ist der " + formatLong(whenErprobung) + "." : "Erreicht am " + formatLong(whenErprobung) + ".");
+      erprobungFact = factHtml(
+        "Erprobungszeit auf dem Dienstposten",
+        relErp !== "future",
+        esc(erpText),
+        erpClass
+      );
+    }
+  }
+
   const isEingangsamt = wait.months === 0;
   const rel = relation(when, new Date());
   const relFuenftel = relation(whenFuenftel, new Date());
@@ -1936,8 +2018,9 @@ function renderSimple() {
         : "Erreicht am " + formatLong(whenFuenftel) + ".");
   const kopf = (isEingangsamt && rel === "future" ? "Voraussichtlicher " + esc(currentPath.startShort) : esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1))) + ": " + esc(formatLong(input.start)) + ".";
   const zweit = input.second ? " " + esc(currentPath.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
+  const erpZusatz = (!input.erprobungDone && input.erprobungStart) ? " Dienstpostenübernahme: " + esc(formatLong(input.erprobungStart)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
-  const spaeter = (input.second || (postenOption && postenOption.minAmtMonths)) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
+  const spaeter = (input.second || (postenOption && postenOption.minAmtMonths) || (!input.erprobungDone && input.erprobungStart)) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
 
   if (currentPath.auswahl) {
     const aus = currentPath.auswahl;
@@ -1989,17 +2072,19 @@ function renderSimple() {
     return;
   }
 
+  const hasErprobungFrist = currentPath.askErprobung && !input.erprobungDone && input.erprobungStart;
   const lede = isEingangsamt
     ? (rel === "future" ? "Voraussichtliche Ernennung zum" : "Ernennung erfolgt zum")
-    : (rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : "Bewährungszeit bereits erfüllt seit");
+    : (rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : (hasErprobungFrist ? "Bewährungs- und Erprobungszeit bereits erfüllt seit" : "Bewährungszeit bereits erfüllt seit"));
   const heading = isEingangsamt ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit";
   const customBadge = isEingangsamt && rel === "future" ? "Voraussichtlich" : undefined;
   box.innerHTML = "<h2>" + esc(heading) + "</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
-    kopf + zweit + punkte + spaeter + "</p>" +
+    kopf + zweit + erpZusatz + punkte + spaeter + "</p>" +
     factWrap(
       factHtml(isEingangsamt ? "Eingangsamt" : "Bewährungszeit", factClass !== "open", esc(kern), factClass, customBadge) +
       amtFact +
       postenFact +
+      erprobungFact +
       (input.gu ? factHtml("Gesamturteil", true, esc(wait.label + "."), "met") : "")
     ) +
     "<p class='hint'>" + esc(currentPath.hintText || "Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.") + "</p>";
@@ -2562,6 +2647,7 @@ function init() {
   $("a9z-board").innerHTML = boardMarkup({ stars: 4, tone: "blue" });
   fillMonthYear("s-monat", "s-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillMonthYear("s-monat-2", "s-jahr-2", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+  fillMonthYear("s-erprobung-monat", "s-erprobung-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillPunktSelect($("s-gu"), 4, 16);
   fillPunktSelect($("s-rw"), 4, 16);
   fillPunktSelect($("s-einzel"), 20, 80);
@@ -2620,6 +2706,12 @@ function init() {
       renderSimple();
     });
   }
+  if ($("s-erprobung-done")) {
+    $("s-erprobung-done").addEventListener("change", () => {
+      $("s-erprobung-date-wrap").hidden = $("s-erprobung-done").checked;
+      renderSimple();
+    });
+  }
   $("simple-form").addEventListener("submit", (event) => {
     event.preventDefault();
     renderSimple();
@@ -2648,6 +2740,12 @@ function init() {
       updatePostenOptionsUI();
       if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
     }
+    if (path.askErprobung) {
+      $("s-erprobung-done").checked = true;
+      $("s-erprobung-date-wrap").hidden = true;
+      $("s-erprobung-monat").value = "";
+      $("s-erprobung-jahr").value = "";
+    }
     if (path.auswahl) {
       $("s-einzel").value = String(randInt(50, 75));
       $("s-rw").value = String(randInt(8, 14));
@@ -2666,6 +2764,12 @@ function init() {
     if (currentPath && currentPath.postenOptions && currentPath.postenOptions.length) {
       $("s-posten-select").value = currentPath.postenOptions[0].id;
       updatePostenOptionsUI();
+    }
+    if (currentPath && currentPath.askErprobung) {
+      $("s-erprobung-done").checked = true;
+      $("s-erprobung-date-wrap").hidden = true;
+      $("s-erprobung-monat").value = "";
+      $("s-erprobung-jahr").value = "";
     }
     if ($("s-sb")) $("s-sb").checked = false;
     renderSimpleTable(null);
@@ -2824,6 +2928,15 @@ function selfTest() {
 
   const ephkSvg = boardMarkup(a13Path.board);
   assert(ephkSvg.includes("board-ephk") && ephkSvg.includes("polygon"), "EPHK Schulterklappe Markup");
+  assert(a12Path.askErprobung === true && a12Path.erprobungMonths === 6, "A12 Erprobung Konfiguration");
+  assert(a13Path.askErprobung === true && a13Path.erprobungMonths === 6, "A13 Erprobung Konfiguration");
+  const a12Ernennung = { y: 2016, m: 11 };
+  const dpUebernahme = { y: 2026, m: 12 };
+  const stehzeitA12 = addMonths(a12Ernennung.y, a12Ernennung.m, 36);
+  const erpEnde = addMonths(dpUebernahme.y, dpUebernahme.m, 6);
+  assert(formatDE(stehzeitA12) === "01.11.2019", "Stehzeit A12 2019");
+  assert(formatDE(erpEnde) === "01.06.2027", "Erprobung A13 2027");
+  assert(cmpMonth(stehzeitA12, erpEnde) < 0, "Erprobung liegt später als Stehzeit");
 }
 
 init();

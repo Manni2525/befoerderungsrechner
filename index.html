@@ -801,17 +801,7 @@
                 <select id="s-erprobung-jahr"></select>
               </span>
             </label>
-            <p class="hint">Monat und Jahr, in dem Ihnen der höher bewertete Dienstposten übertragen wurde oder voraussichtlich übertragen wird (Beginn der 6-monatigen Erprobungszeit nach Art.&nbsp;16 Abs.&nbsp;5 LlbG). Vor Ablauf der Erprobungszeit besteht eine gesetzliche Beförderungssperre.</p>
-            <div style="margin-top:10px; display:flex; flex-direction:column; gap:6px;">
-              <label class="check">
-                <input type="checkbox" id="s-erprobung-open">
-                <span>Dienstposten noch nicht übertragen / Termin noch offen</span>
-              </label>
-              <label class="check">
-                <input type="checkbox" id="s-erprobung-done">
-                <span>Bereits vor mehr als 6 Monaten übertragen (genauer Monat nicht bekannt)</span>
-              </label>
-            </div>
+            <p class="hint">Monat und Jahr, in dem Ihnen der höher bewertete Dienstposten übertragen wurde oder voraussichtlich übertragen wird. Die 6-monatige Erprobungszeit (Art.&nbsp;16 Abs.&nbsp;5 LlbG) läuft ab dem Ersten dieses Monats. Vor deren Ablauf besteht eine gesetzliche Beförderungssperre.</p>
           </div>
         </fieldset>
         <div class="actions">
@@ -940,8 +930,8 @@
           <ul>
             <li>Vierte Qualifikationsebene (4.&nbsp;QE) mit den Dienstgraden A&nbsp;13 (Polizeirat/in, 1 goldener Stern, Eingangsamt), A&nbsp;14 (Polizeioberrat/in, 2 goldene Sterne), A&nbsp;15 (Polizeidirektor/in, 3 goldene Sterne) und A&nbsp;16 (Leitende/r Polizeidirektor/in, 4 goldene Sterne) als Beta integriert.</li>
             <li>Berechnung nach BefRPolVS (Nrn. 4.8.1, 4.10, 4.11 und 4.12) für die 4.&nbsp;QE mit Abstufungen nach Fünftel (DHPol), Dienstpostenbewertung und Gesamturteil.</li>
-            <li>Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) bei Beförderungsämtern (A&nbsp;12, A&nbsp;13, A&nbsp;15, A&nbsp;16) verbessert: Monat und Jahr der Dienstpostenübernahme (vergangen oder zukünftig) direkt als Standard-Eingabefeld sichtbar; ergänzt um Schnelloptionen für noch offene Dienstpostenübertragungen sowie weiter zurückliegende Erprobungszeiten.</li>
-            <li>Erprobungszeit als eigenständiges, transparentes Kriterium mit Status „Erfüllt“, „Noch nicht erfüllt“ (in Erprobung bis zum errechneten Termin) oder „Ausstehend“ in der Auswertung ausgewiesen.</li>
+            <li>Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) bei Beförderungsämtern (A&nbsp;12, A&nbsp;13, A&nbsp;15, A&nbsp;16) vereinfacht: Monat und Jahr der Dienstpostenübernahme (vergangen oder zukünftig) direkt als klares Datumsfeld abgefragt; die 6-monatige Erprobung wird automatisch zeitgenau berechnet (überflüssige Checkboxen entfernt).</li>
+            <li>Erprobungszeit als eigenständiges Kriterium transparent in der Ergebniskarte mit Status („Erfüllt“ bzw. „Noch nicht erfüllt bis [Datum]“) ausgewiesen.</li>
             <li>Zukunftsberechnung und vorausschauende Laufbahnplanung: Jahresauswahl bei allen Ämtern für künftige Ernennungs-, Beförderungs- und Übernahmetermine erweitert; dynamische Anzeige prognostizierter Termine.</li>
             <li>Plausibilitätsprüfung für Datumsangaben integriert: Widersprüchliche oder unplausible Eingaben (z.&nbsp;B. Ernennung zu A&nbsp;13 oder A&nbsp;9 Jahre nach Bestehen der Qualifikationsprüfung oder Dienstpostenübernahmen vor der Vorbeförderung) werden erkannt und mit konkreten Hinweisen zur Korrektur abgewiesen.</li>
           </ul>
@@ -1874,10 +1864,6 @@ function applyPath(path) {
   }
   if (hasErprobung) {
     updateYearSelect("s-erprobung-jahr", 2010, diesesJahr + 6);
-    $("s-erprobung-open").checked = false;
-    $("s-erprobung-done").checked = false;
-    $("s-erprobung-monat").disabled = false;
-    $("s-erprobung-jahr").disabled = false;
     $("s-erprobung-monat").value = "";
     $("s-erprobung-jahr").value = "";
   }
@@ -1953,18 +1939,12 @@ function readSimple() {
     }
   }
 
-  let erprobungDone = false;
-  let erprobungOpen = false;
   let erprobungStart = null;
   if (path.askErprobung) {
-    erprobungOpen = $("s-erprobung-open") ? $("s-erprobung-open").checked : false;
-    erprobungDone = $("s-erprobung-done") ? $("s-erprobung-done").checked : false;
-    if (!erprobungOpen && !erprobungDone) {
-      const em = Number($("s-erprobung-monat").value);
-      const ey = Number($("s-erprobung-jahr").value);
-      erprobungStart = em && ey ? { y: ey, m: em } : null;
-      if (!erprobungStart) missing.push("Übernahme des Dienstpostens (Monat/Jahr oder Option 'noch offen' / 'bereits erfüllt')");
-    }
+    const em = Number($("s-erprobung-monat").value);
+    const ey = Number($("s-erprobung-jahr").value);
+    erprobungStart = em && ey ? { y: ey, m: em } : null;
+    if (!erprobungStart) missing.push("Übernahme des Dienstpostens");
   }
 
   let second = null;
@@ -1980,7 +1960,7 @@ function readSimple() {
   const rwRaw = rwEl && rwEl.value ? Number(rwEl.value) : null;
   const sb = $("s-sb") ? $("s-sb").checked : false;
   const status = $("s-status") ? $("s-status").checked : true;
-  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status, postenId, postenOption, erprobungDone, erprobungOpen, erprobungStart };
+  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status, postenId, postenOption, erprobungStart };
 }
 
 function evalSimpleAuswahl(path, input) {
@@ -2162,7 +2142,7 @@ function validateSimpleInput(path, input) {
   }
 
   // 2. Erprobungszeit auf dem Dienstposten vs. bisherige Beförderung
-  if (path.askErprobung && input.start && input.erprobungStart && !input.erprobungDone && !input.erprobungOpen) {
+  if (path.askErprobung && input.start && input.erprobungStart) {
     const diffErp = diffMonths(input.start, input.erprobungStart);
     const today = new Date();
     if (relation(input.start, today) === "future" && relation(input.erprobungStart, today) === "past") {
@@ -2259,37 +2239,20 @@ function renderSimple() {
   }
 
   let erprobungFact = "";
-  if (currentPath.askErprobung) {
-    if (input.erprobungOpen) {
-      erprobungFact = factHtml(
-        "Erprobungszeit auf dem Dienstposten",
-        false,
-        "Der höher bewertete Dienstposten wurde noch nicht übertragen. Vor einer Beförderung müssen mindestens 6 Monate Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 LlbG) abgeleistet werden.",
-        "open",
-        "Ausstehend"
-      );
-    } else if (input.erprobungDone) {
-      erprobungFact = factHtml(
-        "Erprobungszeit auf dem Dienstposten",
-        true,
-        "Mindestens 6 Monate Erprobung auf dem Dienstposten (Art. 16 Abs. 5 LlbG) liegen vor.",
-        "met"
-      );
-    } else if (input.erprobungStart) {
-      const erpMonths = currentPath.erprobungMonths || 6;
-      const whenErprobung = addMonths(input.erprobungStart.y, input.erprobungStart.m, erpMonths);
-      if (cmpMonth(when, whenErprobung) < 0) when = whenErprobung;
-      const relErp = relation(whenErprobung, new Date());
-      const erpClass = relErp === "future" ? "wait" : "met";
-      const erpText = erpMonths + " Monate Erprobungszeit (Art. 16 Abs. 5 LlbG) seit dem " + formatLong(input.erprobungStart) + ". " +
-        (relErp === "future" ? "Frühester Monatserste ist der " + formatLong(whenErprobung) + "." : "Erreicht am " + formatLong(whenErprobung) + ".");
-      erprobungFact = factHtml(
-        "Erprobungszeit auf dem Dienstposten",
-        relErp !== "future",
-        esc(erpText),
-        erpClass
-      );
-    }
+  if (currentPath.askErprobung && input.erprobungStart) {
+    const erpMonths = currentPath.erprobungMonths || 6;
+    const whenErprobung = addMonths(input.erprobungStart.y, input.erprobungStart.m, erpMonths);
+    if (cmpMonth(when, whenErprobung) < 0) when = whenErprobung;
+    const relErp = relation(whenErprobung, new Date());
+    const erpClass = relErp === "future" ? "wait" : "met";
+    const erpText = erpMonths + " Monate Erprobungszeit (Art. 16 Abs. 5 LlbG) seit dem " + formatLong(input.erprobungStart) + ". " +
+      (relErp === "future" ? "Frühester Monatserste ist der " + formatLong(whenErprobung) + "." : "Erreicht am " + formatLong(whenErprobung) + ".");
+    erprobungFact = factHtml(
+      "Erprobungszeit auf dem Dienstposten",
+      relErp !== "future",
+      esc(erpText),
+      erpClass
+    );
   }
 
   const isEingangsamt = wait.months === 0;
@@ -2306,13 +2269,9 @@ function renderSimple() {
         : "Erreicht am " + formatLong(whenFuenftel) + ".");
   const kopf = (isEingangsamt && rel === "future" ? "Voraussichtlicher " + esc(currentPath.startShort) : esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1))) + ": " + esc(formatLong(input.start)) + ".";
   const zweit = input.second ? " " + esc(currentPath.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
-  const erpZusatz = input.erprobungOpen
-    ? " Dienstposten: noch nicht übertragen (Erprobung ausstehend)."
-    : (!input.erprobungDone && input.erprobungStart)
-      ? " Dienstpostenübernahme: " + esc(formatLong(input.erprobungStart)) + "."
-      : "";
+  const erpZusatz = input.erprobungStart ? " Dienstpostenübernahme: " + esc(formatLong(input.erprobungStart)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
-  const spaeter = (!input.erprobungOpen && (input.second || (postenOption && postenOption.minAmtMonths) || (!input.erprobungDone && input.erprobungStart))) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
+  const spaeter = (input.second || (postenOption && postenOption.minAmtMonths) || input.erprobungStart) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
 
   if (currentPath.auswahl) {
     const aus = currentPath.auswahl;
@@ -2364,17 +2323,11 @@ function renderSimple() {
     return;
   }
 
-  const hasErprobungFrist = currentPath.askErprobung && !input.erprobungDone && !input.erprobungOpen && input.erprobungStart;
+  const hasErprobungFrist = currentPath.askErprobung && input.erprobungStart;
   const lede = isEingangsamt
     ? (rel === "future" ? "Voraussichtliche Ernennung zum" : "Ernennung erfolgt zum")
-    : input.erprobungOpen
-      ? (rel === "future" ? "Mindestbewährungszeit im Statusamt erreicht ab" : "Mindestbewährungszeit im Statusamt bereits erfüllt seit")
-      : (rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : (hasErprobungFrist ? "Bewährungs- und Erprobungszeit bereits erfüllt seit" : "Bewährungszeit bereits erfüllt seit"));
-  const heading = isEingangsamt
-    ? "Ernennung in das Eingangsamt"
-    : input.erprobungOpen
-      ? "Mindestbewährungszeit (Erprobung ausstehend)"
-      : "Beförderungsfähigkeit";
+    : (rel === "future" ? "Beförderungsfähig ab" : rel === "today" ? "Beförderungsfähig zum heutigen Monatsersten" : (hasErprobungFrist ? "Bewährungs- und Erprobungszeit bereits erfüllt seit" : "Bewährungszeit bereits erfüllt seit"));
+  const heading = isEingangsamt ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit";
   const customBadge = isEingangsamt && rel === "future" ? "Voraussichtlich" : undefined;
   box.innerHTML = "<h2>" + esc(heading) + "</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
     kopf + zweit + erpZusatz + punkte + spaeter + "</p>" +
@@ -3004,52 +2957,6 @@ function init() {
       renderSimple();
     });
   }
-  const updateErprobungUI = () => {
-    const openCheck = $("s-erprobung-open");
-    const doneCheck = $("s-erprobung-done");
-    const monat = $("s-erprobung-monat");
-    const jahr = $("s-erprobung-jahr");
-    if (!openCheck || !doneCheck || !monat || !jahr) return;
-    const disabled = openCheck.checked || doneCheck.checked;
-    monat.disabled = disabled;
-    jahr.disabled = disabled;
-    if (disabled) {
-      monat.value = "";
-      jahr.value = "";
-    }
-  };
-  if ($("s-erprobung-open")) {
-    $("s-erprobung-open").addEventListener("change", () => {
-      if ($("s-erprobung-open").checked && $("s-erprobung-done")) {
-        $("s-erprobung-done").checked = false;
-      }
-      updateErprobungUI();
-      renderSimple();
-    });
-  }
-  if ($("s-erprobung-done")) {
-    $("s-erprobung-done").addEventListener("change", () => {
-      if ($("s-erprobung-done").checked && $("s-erprobung-open")) {
-        $("s-erprobung-open").checked = false;
-      }
-      updateErprobungUI();
-      renderSimple();
-    });
-  }
-  if ($("s-erprobung-monat")) {
-    $("s-erprobung-monat").addEventListener("change", () => {
-      if ($("s-erprobung-monat").value && $("s-erprobung-open")) $("s-erprobung-open").checked = false;
-      if ($("s-erprobung-monat").value && $("s-erprobung-done")) $("s-erprobung-done").checked = false;
-      renderSimple();
-    });
-  }
-  if ($("s-erprobung-jahr")) {
-    $("s-erprobung-jahr").addEventListener("change", () => {
-      if ($("s-erprobung-jahr").value && $("s-erprobung-open")) $("s-erprobung-open").checked = false;
-      if ($("s-erprobung-jahr").value && $("s-erprobung-done")) $("s-erprobung-done").checked = false;
-      renderSimple();
-    });
-  }
   const handleStartChange = () => {
     if (currentPath && currentPath.second) {
       const m2 = $("s-monat-2");
@@ -3096,10 +3003,6 @@ function init() {
       if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
     }
     if (path.askErprobung) {
-      $("s-erprobung-open").checked = false;
-      $("s-erprobung-done").checked = false;
-      $("s-erprobung-monat").disabled = false;
-      $("s-erprobung-jahr").disabled = false;
       $("s-erprobung-monat").value = String(randInt(1, 12));
       $("s-erprobung-jahr").value = String(randInt(2010, jahr + 3));
     }
@@ -3123,10 +3026,6 @@ function init() {
       updatePostenOptionsUI();
     }
     if (currentPath && currentPath.askErprobung) {
-      $("s-erprobung-open").checked = false;
-      $("s-erprobung-done").checked = false;
-      $("s-erprobung-monat").disabled = false;
-      $("s-erprobung-jahr").disabled = false;
       $("s-erprobung-monat").value = "";
       $("s-erprobung-jahr").value = "";
     }
@@ -3334,7 +3233,7 @@ function selfTest() {
   assert(waitOf(a16Path, 15, null).months === 48, "A16 15 Pkt");
   assert(waitOf(a16Path, 13, null).months === 60, "A16 13 Pkt");
   assert(waitOf(a16Path, 11, null).ok === false, "A16 11 Pkt");
-  assert($("s-erprobung-open") && $("s-erprobung-done") && $("s-erprobung-monat") && $("s-erprobung-jahr"), "Erprobung Controls existieren");
+  assert($("s-erprobung-monat") && $("s-erprobung-jahr"), "Erprobung Controls existieren");
 
   const a14Err = validateSimpleInput(a14Path, {
     start: { y: 2026, m: 5 },

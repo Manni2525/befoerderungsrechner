@@ -696,6 +696,13 @@
         <h3>Ihre Angaben</h3>
         <p class="lede">Die Berechnung bleibt in diesem Browser. Es wird nichts gespeichert und nichts übertragen.</p>
         <div class="notes" id="s-notes" hidden></div>
+        <fieldset id="s-track-box" hidden>
+          <legend>Qualifizierungsweg</legend>
+          <label class="field"><span class="lbl">Art des Einstiegs bzw. Aufstiegs</span>
+            <select id="s-track"></select>
+          </label>
+          <p class="hint" id="s-track-hint"></p>
+        </fieldset>
         <div id="s-grid">
           <fieldset>
             <legend id="s-start-legend">Beginn</legend>
@@ -930,10 +937,11 @@
           <ul>
             <li>Vierte Qualifikationsebene (4.&nbsp;QE) mit den Dienstgraden A&nbsp;13 (Polizeirat/in, 1 goldener Stern, Eingangsamt), A&nbsp;14 (Polizeioberrat/in, 2 goldene Sterne), A&nbsp;15 (Polizeidirektor/in, 3 goldene Sterne) und A&nbsp;16 (Leitende/r Polizeidirektor/in, 4 goldene Sterne) als Beta integriert.</li>
             <li>Berechnung nach BefRPolVS (Nrn. 4.8.1, 4.10, 4.11 und 4.12) für die 4.&nbsp;QE mit Abstufungen nach Fünftel (DHPol), Dienstpostenbewertung und Gesamturteil.</li>
-            <li>Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) bei Beförderungsämtern (A&nbsp;12, A&nbsp;13, A&nbsp;15, A&nbsp;16) vereinfacht: Monat und Jahr der Dienstpostenübernahme (vergangen oder zukünftig) direkt als klares Datumsfeld abgefragt; die 6-monatige Erprobung wird automatisch zeitgenau berechnet (überflüssige Checkboxen entfernt).</li>
-            <li>Erprobungszeit als eigenständiges Kriterium transparent in der Ergebniskarte mit Status („Erfüllt“ bzw. „Noch nicht erfüllt bis [Datum]“) ausgewiesen.</li>
-            <li>Zukunftsberechnung und vorausschauende Laufbahnplanung: Jahresauswahl bei allen Ämtern für künftige Ernennungs-, Beförderungs- und Übernahmetermine erweitert; dynamische Anzeige prognostizierter Termine.</li>
-            <li>Plausibilitätsprüfung für Datumsangaben integriert: Widersprüchliche oder unplausible Eingaben (z.&nbsp;B. Ernennung zu A&nbsp;13 oder A&nbsp;9 Jahre nach Bestehen der Qualifikationsprüfung oder Dienstpostenübernahmen vor der Vorbeförderung) werden erkannt und mit konkreten Hinweisen zur Korrektur abgewiesen.</li>
+            <li>Qualifizierungspfade präzisiert: Bei A&nbsp;10 (3.&nbsp;QE) Umschaltung zwischen Direkteinstieg (pauschal 36 Monate ab Diensteintritt A&nbsp;9, Nr. 4.5.1 BefRPolVS) und Ausbildungsqualifizierung (nach Fünftel der QP und mind. 36 Monaten in A&nbsp;9, Nr. 4.5.2 BefRPolVS); bei A&nbsp;14 (4.&nbsp;QE) Umschaltung zwischen Master an der DHPol (Nr. 4.10.1) und Direkteinstieg im Eingangsamt A&nbsp;13 nach Beurteilungspunkten (Nr. 4.10.2).</li>
+            <li>Beförderungsauswahl (A&nbsp;10 und A&nbsp;11 in 2.&nbsp;QE): Zukunftsprognosen für künftige Beförderungstermine entsperrt; Hinweis auf den gesetzlichen Vorrang von Beamtinnen und Beamten der 3.&nbsp;QE (Nr. 5 BefRPolVS) ergänzt.</li>
+            <li>Erprobungszeit auf dem Dienstposten (Art. 16 Abs. 5 i.&nbsp;V.&nbsp;m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) bei Beförderungsämtern (A&nbsp;12, A&nbsp;13, A&nbsp;15, A&nbsp;16) zeitgenau integriert; unbegründete Blockade bei länger als 4 Jahre zurückliegender Dienstpostenübernahme aufgehoben.</li>
+            <li>A&nbsp;9 mit Amtszulage: Statusanzeige der Bewährungszeit bei Erreichen genau zum kommenden Monatsersten („Erfüllt zum kommenden Monatsersten“) korrigiert.</li>
+            <li>Plausibilitätsprüfung für Datumsangaben integriert: Widersprüchliche Eingaben werden erkannt und mit konkreten Hinweisen zur Korrektur abgewiesen.</li>
           </ul>
         </section>
 
@@ -1167,7 +1175,7 @@ const PATHS = [
       befoerdert: 10,
       hasSonst: true,
       sonstMinA9Months: 54,
-      desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien."
+      desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr. 5 BefRPolVS haben Beamtinnen und Beamte der 3. Qualifikationsebene (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang bei der Stellenbesetzung."
     }
   },
   {
@@ -1207,7 +1215,7 @@ const PATHS = [
       faehig: 38,
       befoerdert: 33,
       hasSonst: false,
-      desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien."
+      desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr. 5 BefRPolVS haben Beamtinnen und Beamte der 3. Qualifikationsebene (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang bei der Stellenbesetzung."
     }
   },
   {
@@ -1240,27 +1248,54 @@ const PATHS = [
     group: "qe3",
     rank: "Polizeioberkommissar/in",
     title: "A 10",
-    card: "Nach dem Fünftel der bestandenen Qualifikationsprüfung",
-    lede: "Die Monate hängen vom Fünftel der Qualifikationsprüfung ab, der Abschlussprüfung des Studiums. Zusätzlich 36 Monate in einem Amt mindestens A 9.",
-    kind: "fuenftel",
-    askAssessment: false,
+    card: "Direkteinstieg oder Ausbildungsqualifizierung",
+    lede: "Wählen Sie Ihren Qualifizierungsweg: Direkteinstieg (36 Monate ab Diensteintritt) oder Ausbildungsqualifizierung (nach Fünftel der Qualifikationsprüfung und 36 Monaten in A 9).",
+    board: { stars: 2, tone: "white" },
     minYear: 2010,
     futureYears: 6,
-    board: { stars: 2, tone: "white" },
-    startLegend: "Qualifikationsprüfung",
-    startLabel: "Qualifikationsprüfung bestanden",
-    startHint: "Monat, in dem die Qualifikationsprüfung bestanden wurde. Das ist die Abschlussprüfung des Studiums. Die nach dem Fünftel abgestufte Bewährungszeit läuft ab dem Ersten dieses Monats.",
-    startShort: "bestandene Qualifikationsprüfung",
-    second: {
-      legend: "Amt mindestens A 9",
-      label: "Übertragung eines Amtes mindestens der Besoldungsgruppe A 9",
-      hint: "Zusätzlich sind 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9 nötig. Gerechnet wird ab dem Ersten des Monats der Übertragung.",
-      short: "Amt mindestens A 9",
-      factTitle: "36 Monate im Amt mindestens A 9",
-      months: 36
-    },
-    method: "Seit dem Bestehen der Qualifikationsprüfung, der Abschlussprüfung des Studiums, abgestuft nach dem Fünftel. Zusätzlich 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9.",
-    col: "Fünftel der Qualifikationsprüfung"
+    tracks: [
+      {
+        id: "direkt",
+        label: "Direkteinstieg 3. QE (Bachelorstudium / Vorbereitungsdienst, Nr. 4.5.1)",
+        short: "Direkteinstieg 3. QE",
+        hint: "Gilt für Direkteinsteiger in die 3. Qualifikationsebene nach dem Studium (Bachelor). Die Bewährungszeit beträgt pauschal 36 Monate (3 Jahre) seit Ernennung zum/zur Polizeikommissar/in (Nr. 4.5.1 BefRPolVS). Ein Fünftel ist hierfür nicht maßgeblich.",
+        kind: "flat",
+        flatMonths: 36,
+        flatLabel: "Pauschal 36 Monate (3 Jahre)",
+        askAssessment: false,
+        startLegend: "Einstellung / Diensteintritt A 9",
+        startLabel: "Ernennung zum/zur Polizeikommissar/in (A 9)",
+        startHint: "Monat und Jahr, in dem Sie in das Eingangsamt A 9 ernannt wurden (allgemeiner Dienstzeitbeginn). Die Bewährungszeit beträgt 36 Monate ab diesem Zeitpunkt.",
+        startShort: "Ernennung zu A 9",
+        method: "Direkteinstieg 3. QE: Pauschale Bewährungszeit von 36 Monaten (3 Jahren) seit der Ernennung in das Eingangsamt A 9 (Nr. 4.5.1 BefRPolVS).",
+        col: "Voraussetzung",
+        rows: [
+          { key: "flat", label: "Mindestbewährungszeit seit Ernennung zu A 9 (Nr. 4.5.1 BefRPolVS)", months: 36 }
+        ]
+      },
+      {
+        id: "aq",
+        label: "Ausbildungsqualifizierung / Aufstieg aus der 2. QE (Nr. 4.5.2)",
+        short: "Ausbildungsqualifizierung",
+        hint: "Gilt für Aufsteiger aus der 2. Qualifikationsebene. Die Bewährungszeit richtet sich nach dem Fünftel der Qualifikationsprüfung (24 bis 36 Monate). Zusätzlich sind mindestens 36 Monate im Amt mindestens A 9 erforderlich (Nr. 4.5.2 BefRPolVS).",
+        kind: "fuenftel",
+        askAssessment: false,
+        startLegend: "Qualifikationsprüfung",
+        startLabel: "Qualifikationsprüfung bestanden",
+        startHint: "Monat, in dem die Qualifikationsprüfung (Abschlussprüfung des Aufstiegsstudiums) bestanden wurde. Die nach dem Fünftel abgestufte Bewährungszeit läuft ab dem Ersten dieses Monats.",
+        startShort: "bestandene Qualifikationsprüfung",
+        second: {
+          legend: "Amt mindestens A 9",
+          label: "Übertragung eines Amtes mindestens der Besoldungsgruppe A 9",
+          hint: "Zusätzlich sind mindestens 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9 nötig (oft bereits vor dem Studium als PHM erworben). Gerechnet wird ab dem Ersten des Monats der Übertragung.",
+          short: "Amt mindestens A 9",
+          factTitle: "36 Monate im Amt mindestens A 9",
+          months: 36
+        },
+        method: "Ausbildungsqualifizierung: Seit Bestehen der Qualifikationsprüfung, abgestuft nach dem Fünftel (24 bis 36 Monate). Zusätzlich sind mindestens 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9 erforderlich (Nr. 4.5.2 BefRPolVS).",
+        col: "Fünftel der Qualifikationsprüfung"
+      }
+    ]
   },
   {
     id: "qe3-a11",
@@ -1510,28 +1545,59 @@ const PATHS = [
     beta: true,
     rank: "Polizeioberrat/in",
     title: "A 14",
-    card: "Nach Fünftel der Qualifikationsprüfung (DHPol) und Amt A 13",
-    lede: "Die Monate hängen vom Fünftel der Qualifikationsprüfung ab (Masterstudium an der DHPol). Zusätzlich sind mindestens 36 Monate im Statusamt A 13 erforderlich (Nr. 4.10.1 BefRPolVS).",
+    card: "Masterabschluss (DHPol) oder Direkteinstieg",
+    lede: "Wählen Sie Ihren Qualifizierungsweg: Ausbildungsqualifizierung an der DHPol (nach Fünftel und 36 Monaten in A 13) oder Direkteinstieg im Eingangsamt A 13 (nach Beurteilungspunkten).",
     board: { stars: 2, tone: "gold" },
-    kind: "fuenftel",
-    fuenftelList: FUENFTEL_4QE,
-    askAssessment: false,
     minYear: 2010,
     futureYears: 6,
-    startLegend: "Qualifikationsprüfung (DHPol)",
-    startLabel: "Qualifikationsprüfung bestanden",
-    startHint: "Monat und Jahr, in dem die Qualifikationsprüfung bestanden wurde (Masterabschluss an der DHPol). Die nach dem Fünftel abgestufte Bewährungszeit läuft ab dem Ersten dieses Monats.",
-    startShort: "bestandene Qualifikationsprüfung",
-    second: {
-      legend: "Amt A 13",
-      label: "Übertragung des Amtes der Besoldungsgruppe A 13",
-      hint: "Zusätzlich sind mindestens 36 Monate im Statusamt A 13 nötig (Nr. 4.10.1 BefRPolVS). Gerechnet wird ab dem Ersten des Monats der Übertragung.",
-      short: "Amt A 13",
-      factTitle: "36 Monate im Amt A 13",
-      months: 36
-    },
-    method: "Seit dem Bestehen der Qualifikationsprüfung (DHPol), abgestuft nach dem Fünftel (1./2. Fünftel: 24 Mo., 3./4. Fünftel: 30 Mo., 5. Fünftel: 36 Mo.). Zusätzlich mindestens 36 Monate im Statusamt A 13 (Nr. 4.10.1 BefRPolVS). Mindestens drei Punkte in der Beurteilung.",
-    col: "Fünftel der Qualifikationsprüfung"
+    tracks: [
+      {
+        id: "dhpol",
+        label: "Masterstudium an der DHPol / Ausbildungsqualifizierung (Nr. 4.10.1)",
+        short: "Master an der DHPol",
+        hint: "Gilt nach Bestehen der Qualifikationsprüfung an der DHPol. Die Bewährungszeit richtet sich nach dem Fünftel (24, 30 oder 36 Monate). Zusätzlich sind mindestens 36 Monate im Statusamt A 13 erforderlich (Nr. 4.10.1 BefRPolVS).",
+        kind: "fuenftel",
+        fuenftelList: FUENFTEL_4QE,
+        askAssessment: false,
+        startLegend: "Qualifikationsprüfung (DHPol)",
+        startLabel: "Qualifikationsprüfung bestanden",
+        startHint: "Monat und Jahr, in dem die Qualifikationsprüfung bestanden wurde (Masterabschluss an der DHPol). Die nach dem Fünftel abgestufte Bewährungszeit läuft ab dem Ersten dieses Monats.",
+        startShort: "bestandene Qualifikationsprüfung",
+        second: {
+          legend: "Amt A 13",
+          label: "Übertragung des Amtes der Besoldungsgruppe A 13",
+          hint: "Zusätzlich sind mindestens 36 Monate im Statusamt A 13 nötig (Nr. 4.10.1 BefRPolVS). Gerechnet wird ab dem Ersten des Monats der Übertragung.",
+          short: "Amt A 13",
+          factTitle: "36 Monate im Amt A 13",
+          months: 36
+        },
+        method: "Seit dem Bestehen der Qualifikationsprüfung (DHPol), abgestuft nach dem Fünftel (1./2. Fünftel: 24 Mo., 3./4. Fünftel: 30 Mo., 5. Fünftel: 36 Mo.). Zusätzlich mindestens 36 Monate im Statusamt A 13 (Nr. 4.10.1 BefRPolVS).",
+        col: "Fünftel der Qualifikationsprüfung"
+      },
+      {
+        id: "direkt",
+        label: "Direkteinstieg im Eingangsamt A 13 (Nr. 4.10.2)",
+        short: "Direkteinstieg 4. QE",
+        hint: "Gilt für Beamte, die im Eingangsamt A 13 eingestellt wurden (z. B. Volljuristen). Bewährungszeit seit dem allgemeinen Dienstzeitbeginn, abgestuft nach dem Ergebnis der letzten dienstlichen Beurteilung (Nr. 4.10.2 BefRPolVS).",
+        kind: "points",
+        bands: [
+          { min: 12, max: 16, months: 24, label: "16 bis 12 Punkte" },
+          { min: 9, max: 11, months: 27, label: "11 bis 09 Punkte" },
+          { min: 6, max: 8, months: 30, label: "08 bis 06 Punkte" },
+          { min: 3, max: 5, months: 33, label: "05 bis 03 Punkte" }
+        ],
+        bandMessage: (gu) => "Für unter 03 Punkte ist keine Beförderung vorgesehen. Die Tabelle beginnt bei drei Punkten.",
+        startLegend: "Einstellung / Diensteintritt A 13",
+        startLabel: "Übertragung des Amtes der Besoldungsgruppe A 13",
+        startHint: "Monat und Jahr, in dem Ihnen das Amt A 13 übertragen wurde (allgemeiner Dienstzeitbeginn). Die Bewährungszeit läuft ab dem Ersten dieses Monats.",
+        startShort: "Ernennung zu A 13",
+        statusLabel: "Diese Beurteilung ist im Statusamt A 13 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
+        statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 13 erstellt wurde",
+        guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 13.",
+        method: "Direkteinstieg 4. QE (Nr. 4.10.2 BefRPolVS): Seit dem allgemeinen Dienstzeitbeginn (A 13), abgestuft nach dem Ergebnis der letzten dienstlichen Beurteilung.",
+        col: "Gesamturteil"
+      }
+    ]
   },
   {
     id: "qe4-a15",
@@ -1679,19 +1745,26 @@ function relation(dt, today) {
   if (diff === 0 && today.getDate() === 1) return "today";
   return "past";
 }
-function waitOf(path, gu, fuenftelId, postenId) {
-  if (path.minPoints && gu < path.minPoints) return { ok: false, reason: "min" };
-  if (path.kind === "flat") return { ok: true, months: path.flatMonths, label: path.flatLabel, key: "flat" };
-  if (path.kind === "fuenftel") {
-    const row = (path.fuenftelList || FUENFTEL).find((f) => f.id === fuenftelId);
+function waitOf(path, gu, fuenftelId, postenId, trackId) {
+  let eff = path;
+  if (path && path.tracks && path.tracks.length) {
+    const tid = trackId || (typeof getActiveTrack === "function" && getActiveTrack() ? getActiveTrack().id : null);
+    const tr = path.tracks.find((t) => t.id === tid) || path.tracks[0];
+    eff = { ...path, ...tr };
+  }
+  if (!eff) return { ok: false, reason: "none" };
+  if (eff.minPoints && gu < eff.minPoints) return { ok: false, reason: "min" };
+  if (eff.kind === "flat") return { ok: true, months: eff.flatMonths, label: eff.flatLabel || (eff.flatMonths + " Monate"), key: "flat" };
+  if (eff.kind === "fuenftel") {
+    const row = (eff.fuenftelList || FUENFTEL).find((f) => f.id === fuenftelId);
     if (!row) return { ok: false, reason: "fuenftel" };
     return { ok: true, months: row.months, label: row.label, key: row.id };
   }
-  let bands = path.bands;
-  let bandMessage = path.bandMessage;
-  if (path.postenOptions) {
+  let bands = eff.bands;
+  let bandMessage = eff.bandMessage;
+  if (eff.postenOptions) {
     const pid = postenId || (typeof getActivePostenOption === "function" && getActivePostenOption() ? getActivePostenOption().id : null);
-    const opt = path.postenOptions.find((o) => o.id === pid) || path.postenOptions[0];
+    const opt = eff.postenOptions.find((o) => o.id === pid) || eff.postenOptions[0];
     if (opt.flatMonths) {
       if (gu < (opt.minPoints || 3)) {
         return { ok: false, reason: "min", message: opt.bandMessage ? opt.bandMessage(gu) : "Mit diesem Gesamturteil nicht vorgesehen." };
@@ -1773,11 +1846,63 @@ function buildSelection() {
 
 let currentPath = null;
 
+function getActiveTrack() {
+  if (!currentPath || !currentPath.tracks) return null;
+  const sel = $("s-track");
+  const val = sel ? sel.value : null;
+  return currentPath.tracks.find((t) => t.id === val) || currentPath.tracks[0];
+}
+
+function effectivePath() {
+  if (!currentPath) return null;
+  const track = getActiveTrack();
+  if (!track) return currentPath;
+  return { ...currentPath, ...track };
+}
+
+function updateTrackUI() {
+  const eff = effectivePath();
+  if (!eff) return;
+  const track = getActiveTrack();
+  const trackBox = $("s-track-box");
+  if (trackBox) trackBox.hidden = !(currentPath && currentPath.tracks && currentPath.tracks.length);
+  const hintEl = $("s-track-hint");
+  if (hintEl && track) hintEl.textContent = track.hint || "";
+
+  $("s-start-legend").textContent = eff.startLegend;
+  $("s-start-label").textContent = eff.startLabel;
+  $("s-start-hint").textContent = eff.startHint;
+  $("s-method").textContent = eff.method;
+  $("s-col-a").textContent = eff.col;
+
+  $("s-fuenftel-box").hidden = eff.kind !== "fuenftel";
+  if (eff.kind === "fuenftel") {
+    const flist = eff.fuenftelList || FUENFTEL;
+    $("s-fuenftel").innerHTML = "<option value=''>–</option>" + flist.map((f) =>
+      "<option value='" + f.id + "'>" + f.label + "</option>"
+    ).join("");
+  }
+  $("s-grid").className = eff.kind === "fuenftel" ? "grid-2" : "";
+
+  $("s-second-box").hidden = !eff.second;
+  if (eff.second) {
+    $("s-second-legend").textContent = eff.second.legend;
+    $("s-second-label").textContent = eff.second.label;
+    $("s-second-hint").textContent = eff.second.hint;
+  }
+
+  $("s-gu-box").hidden = eff.askAssessment === false;
+  if (eff.guHint) $("s-gu-hint").textContent = eff.guHint;
+  $("s-status-row").hidden = !eff.statusLabel;
+  if (eff.statusLabel) $("s-status-label").textContent = eff.statusLabel;
+}
+
 function getActivePostenOption() {
-  if (!currentPath || !currentPath.postenOptions) return null;
+  const eff = effectivePath();
+  if (!eff || !eff.postenOptions) return null;
   const sel = $("s-posten-select");
   const val = sel ? sel.value : null;
-  return currentPath.postenOptions.find((o) => o.id === val) || currentPath.postenOptions[0];
+  return eff.postenOptions.find((o) => o.id === val) || eff.postenOptions[0];
 }
 
 function updatePostenOptionsUI() {
@@ -1804,62 +1929,51 @@ function applyPath(path) {
   $("s-kicker").textContent = path.rank || "";
   $("s-title").innerHTML = esc(path.title) + (path.beta ? " <span class='badge-beta'>Beta</span>" : "");
   $("s-lede").textContent = path.lede;
-  $("s-start-legend").textContent = path.startLegend;
-  $("s-start-label").textContent = path.startLabel;
-  $("s-start-hint").textContent = path.startHint;
-  $("s-gu-hint").textContent = path.guHint || "";
-  $("s-gu-box").hidden = path.askAssessment === false;
-  $("s-second-box").hidden = !path.second;
-  if (path.second) {
-    $("s-second-legend").textContent = path.second.legend;
-    $("s-second-label").textContent = path.second.label;
-    $("s-second-hint").textContent = path.second.hint;
+
+  const hasTracks = !!(path.tracks && path.tracks.length);
+  $("s-track-box").hidden = !hasTracks;
+  if (hasTracks) {
+    $("s-track").innerHTML = path.tracks.map((t) =>
+      "<option value='" + esc(t.id) + "'>" + esc(t.label) + "</option>"
+    ).join("");
+    $("s-track").value = path.tracks[0].id;
   }
-  const hasAuswahl = !!path.auswahl;
+  updateTrackUI();
+
+  const eff = effectivePath();
+  const hasAuswahl = !!eff.auswahl;
   $("s-auswahl-box").hidden = !hasAuswahl;
   $("s-auswahl-table-box").hidden = !hasAuswahl;
   if (hasAuswahl) {
-    $("s-auswahl-desc").textContent = path.auswahl.desc;
-    $("s-a10-sonst").hidden = !path.auswahl.hasSonst;
-    renderSimpleAuswahlTable(path.auswahl);
+    $("s-auswahl-desc").textContent = eff.auswahl.desc;
+    $("s-a10-sonst").hidden = !eff.auswahl.hasSonst;
+    renderSimpleAuswahlTable(eff.auswahl);
   }
-  $("s-method").textContent = path.method;
-  $("s-col-a").textContent = path.col;
-  $("s-fuenftel-box").hidden = path.kind !== "fuenftel";
-  if (path.kind === "fuenftel") {
-    const flist = path.fuenftelList || FUENFTEL;
-    $("s-fuenftel").innerHTML = "<option value=''>–</option>" + flist.map((f) =>
-      "<option value='" + f.id + "'>" + f.label + "</option>"
-    ).join("");
-  }
-  $("s-grid").className = path.kind === "fuenftel" ? "grid-2" : "";
-  $("s-status-row").hidden = !path.statusLabel;
-  if (path.statusLabel) $("s-status-label").textContent = path.statusLabel;
 
-  const hasPostenOptions = !!(path.postenOptions && path.postenOptions.length);
-  const hasPostenLabel = !!path.postenLabel;
-  const hasErprobung = !!path.askErprobung;
+  const hasPostenOptions = !!(eff.postenOptions && eff.postenOptions.length);
+  const hasPostenLabel = !!eff.postenLabel;
+  const hasErprobung = !!eff.askErprobung;
   $("s-posten-box").hidden = !hasPostenOptions && !hasPostenLabel && !hasErprobung;
   $("s-posten-check-wrap").hidden = !hasPostenLabel;
   $("s-posten-select-wrap").hidden = !hasPostenOptions;
-  if (hasPostenLabel) $("s-posten-label").textContent = path.postenLabel;
+  if (hasPostenLabel) $("s-posten-label").textContent = eff.postenLabel;
   if (hasPostenOptions) {
-    $("s-posten-select").innerHTML = path.postenOptions.map((opt) =>
+    $("s-posten-select").innerHTML = eff.postenOptions.map((opt) =>
       "<option value='" + esc(opt.id) + "'>" + esc(opt.label) + "</option>"
     ).join("");
-    $("s-posten-select").value = path.postenOptions[0].id;
+    $("s-posten-select").value = eff.postenOptions[0].id;
     updatePostenOptionsUI();
   }
   $("s-erprobung-wrap").hidden = !hasErprobung;
 
   const notes = $("s-notes");
-  notes.innerHTML = (path.notes || []).map((t) => "<p>" + esc(t) + "</p>").join("");
-  notes.hidden = !(path.notes || []).length;
+  notes.innerHTML = (eff.notes || []).map((t) => "<p>" + esc(t) + "</p>").join("");
+  notes.hidden = !(eff.notes || []).length;
   const diesesJahr = new Date().getFullYear();
-  const maxYear = diesesJahr + (path.futureYears || 0);
-  const minYear = path.minYear || 1970;
+  const maxYear = diesesJahr + (eff.futureYears || 0);
+  const minYear = eff.minYear || 1970;
   updateYearSelect("s-jahr", minYear, maxYear);
-  if (path.second) {
+  if (eff.second) {
     updateYearSelect("s-jahr-2", minYear, maxYear);
   }
   if (hasErprobung) {
@@ -1868,7 +1982,7 @@ function applyPath(path) {
     $("s-erprobung-jahr").value = "";
   }
   if (hasPostenOptions) {
-    $("s-posten-select").value = path.postenOptions[0].id;
+    $("s-posten-select").value = eff.postenOptions[0].id;
     updatePostenOptionsUI();
   }
   if ($("s-einzel")) $("s-einzel").value = "";
@@ -1895,14 +2009,15 @@ function renderSimpleAuswahlTable(aus) {
 }
 
 function tableRows(path) {
-  if (path.kind === "fuenftel") return (path.fuenftelList || FUENFTEL).map((f) => ({ key: f.id, label: f.label, months: f.months }));
-  if (path.kind === "flat") return path.rows;
-  if (path.postenOptions && path.postenOptions.length) {
-    const opt = (typeof getActivePostenOption === "function" ? getActivePostenOption() : null) || path.postenOptions[0];
+  const eff = (typeof effectivePath === "function" ? effectivePath() : null) || path;
+  if (eff.kind === "fuenftel") return (eff.fuenftelList || FUENFTEL).map((f) => ({ key: f.id, label: f.label, months: f.months }));
+  if (eff.kind === "flat") return eff.rows || [{ key: "flat", label: eff.flatLabel || (eff.flatMonths + " Monate"), months: eff.flatMonths }];
+  if (eff.postenOptions && eff.postenOptions.length) {
+    const opt = (typeof getActivePostenOption === "function" ? getActivePostenOption() : null) || eff.postenOptions[0];
     if (opt.flatMonths) return [{ key: "flat", label: opt.flatLabel || (opt.flatMonths + " Monate"), months: opt.flatMonths }];
     return (opt.bands || []).map((b) => ({ key: b.label, label: b.label, months: b.months }));
   }
-  return (path.bands || []).map((b) => ({ key: b.label, label: b.label, months: b.months }));
+  return (eff.bands || []).map((b) => ({ key: b.label, label: b.label, months: b.months }));
 }
 
 function renderSimpleTable(activeKey) {
@@ -1913,7 +2028,8 @@ function renderSimpleTable(activeKey) {
 }
 
 function readSimple() {
-  const path = currentPath;
+  const path = (typeof effectivePath === "function" ? effectivePath() : null) || currentPath;
+  if (!path) return { missing: [] };
   const monat = Number($("s-monat").value);
   const jahr = Number($("s-jahr").value);
   const start = monat && jahr ? { y: jahr, m: monat } : null;
@@ -2095,24 +2211,34 @@ function evalSimpleAuswahl(path, input) {
     };
   }
 
+  const isFuture = input.start && cmpMonth(input.start, cutoffDate) > 0;
+  const futureText = isFuture ? " Am Stichtag der Auswahl (" + aus.dateLabel + ") lag das Statusamt noch nicht vor (künftige Beförderung am " + formatLong(input.start) + ")." : "";
   return {
     ok: false,
     cls: "wait",
     badge: "Warteliste",
     title: title,
-    text: "Mit " + a9Monate + " Monaten Dienstzeit im Amt " + (aus.statusAmt || "A 9 mit Amtszulage") + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " wird die Mindestzeit von " + aus.sonstMinA9Months + " Monaten bis zum Stichtag nicht erreicht (und Schwerbehinderung liegt nicht vor)."
+    text: "Mit " + a9Monate + " Monaten Dienstzeit im Amt " + (aus.statusAmt || "A 9 mit Amtszulage") + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " wird die Mindestzeit von " + aus.sonstMinA9Months + " Monaten bis zum Stichtag nicht erreicht (und Schwerbehinderung liegt nicht vor)." + futureText
   };
 }
 
 function validateSimpleInput(path, input) {
-  if (!path || !input) return null;
+  let eff = path;
+  if (eff && eff.tracks && eff.tracks.length) {
+    const tid = (input && input.track) || (typeof getActiveTrack === "function" && getActiveTrack() ? getActiveTrack().id : null);
+    const tr = eff.tracks.find((t) => t.id === tid) || eff.tracks[0];
+    eff = { ...eff, ...tr };
+  } else if (typeof effectivePath === "function" && currentPath === path) {
+    eff = effectivePath();
+  }
+  if (!eff || !input) return null;
 
-  // 1. Pfade mit zwei Datumsfeldern (Qualifikationsprüfung vs. Statusamt: A 14 und A 10)
-  if (path.second && input.start && input.second) {
+  // 1. Pfade mit zwei Datumsfeldern (Qualifikationsprüfung vs. Statusamt: A 14 und A 10 bei AQ)
+  if (eff.second && input.start && input.second) {
     const diff = diffMonths(input.start, input.second); // positiv = second liegt nach start
 
     // Für A 14 (4. QE): QP an DHPol vs. Ernennung zu A 13
-    if (path.id === "qe4-a14") {
+    if (eff.id === "qe4-a14" || eff.short === "Master an der DHPol") {
       if (diff > 2) {
         return {
           title: "Bestehen der Qualifikationsprüfung vs. Ernennung zu A 13",
@@ -2130,46 +2256,25 @@ function validateSimpleInput(path, input) {
     }
 
     // Für A 10 (3. QE): QP Studium vs. Amt mindestens A 9
-    if (path.id === "qe3-a10") {
+    if (eff.id === "qe3-a10" || eff.short === "Ausbildungsqualifizierung") {
       if (diff > 2) {
         return {
           title: "Qualifikationsprüfung vs. Übertragung Amt mindestens A 9",
-          message: "Mit erfolgreichem Abschluss des Studiums (Qualifikationsprüfung) wird unmittelbar das Eingangsamt A 9 (Polizeikommissar/in) verliehen. Das Amt mindestens A 9 (" + formatLong(input.second) + ") kann daher nicht nach der Qualifikationsprüfung (" + formatLong(input.start) + ") liegen.",
-          hint: "Geben Sie für das Amt A 9 denselben Monat wie für die Qualifikationsprüfung an (bzw. bei Aufstiegsbeamten den früheren Monat der Beförderung zum PHM A 9)."
+          message: "Mit erfolgreichem Abschluss des Studiums (Qualifikationsprüfung) wird die Befähigung für die 3. QE erworben. Das Amt mindestens A 9 (" + formatLong(input.second) + ") kann daher bei Aufsteigern nicht nach der Qualifikationsprüfung (" + formatLong(input.start) + ") liegen.",
+          hint: "Geben Sie für das Amt mindestens A 9 denselben Monat wie für die Qualifikationsprüfung an (bzw. den früheren Monat der Beförderung zum PHM A 9)."
         };
       }
     }
   }
 
   // 2. Erprobungszeit auf dem Dienstposten vs. bisherige Beförderung
-  if (path.askErprobung && input.start && input.erprobungStart) {
-    const diffErp = diffMonths(input.start, input.erprobungStart);
+  if (eff.askErprobung && input.start && input.erprobungStart) {
     const today = new Date();
     if (relation(input.start, today) === "future" && relation(input.erprobungStart, today) === "past") {
       return {
         title: "Dienstpostenübernahme vs. Beförderungsdatum",
         message: "Das Datum Ihrer Beförderung (" + formatLong(input.start) + ") liegt in der Zukunft, während die Übernahme des Dienstpostens (" + formatLong(input.erprobungStart) + ") in der Vergangenheit liegt. Eine Erprobung für das höhere Amt setzt die entsprechende Vorbeförderung voraus.",
         hint: "Bitte prüfen Sie, ob die Jahreszahlen versehentlich vertauscht wurden."
-      };
-    }
-    if (diffErp < -48) {
-      return {
-        title: "Dienstpostenübernahme liegt zu weit vor der Beförderung",
-        message: "Die angegebene Dienstpostenübernahme (" + formatLong(input.erprobungStart) + ") liegt mehr als 4 Jahre vor Ihrer letzten Beförderung (" + formatLong(input.start) + "). Das ist für die Erprobungszeit nach Art. 16 Abs. 5 LlbG nicht plausibel.",
-        hint: "Geben Sie den Monat an, in dem Ihnen der für das jetzige Zielamt bewertete Dienstposten übertragen wurde."
-      };
-    }
-  }
-
-  // 3. Beförderungsauswahl (A 10 und A 11 in 2. QE): Vorbeförderung darf nicht nach dem Stichtag liegen
-  if (path.auswahl && input.start) {
-    const [cy, cm] = (path.auswahl.date || "2026-12-01").split("-").map(Number);
-    const cutoffDate = { y: cy, m: cm };
-    if (cmpMonth(input.start, cutoffDate) > 0) {
-      return {
-        title: "Beförderungsdatum liegt nach dem Stichtag der Auswahl",
-        message: "Das angegebene Beförderungsdatum (" + formatLong(input.start) + ") liegt nach dem Stichtag der Beförderungsauswahl (" + path.auswahl.dateLabel + "). Eine Teilnahme an diesem Auswahltermin setzt voraus, dass Sie das Statusamt am Stichtag bereits innehatten.",
-        hint: "Wählen Sie ein Datum vor oder am Stichtag (" + path.auswahl.dateLabel + ") oder nutzen Sie die Zukunftsprognose für die Mindestbewährungszeit."
       };
     }
   }
@@ -2180,18 +2285,19 @@ function validateSimpleInput(path, input) {
 function renderSimple() {
   const box = $("s-ergebnis");
   if (!currentPath) return;
+  const eff = effectivePath();
   const input = readSimple();
-  const preview = currentPath.kind === "flat"
-    ? waitOf(currentPath, 0, null)
-    : (currentPath.askAssessment === false ? input.fuenftel : input.gu)
-      ? waitOf(currentPath, input.gu, input.fuenftel, input.postenId)
+  const preview = eff.kind === "flat"
+    ? waitOf(eff, 0, null)
+    : (eff.askAssessment === false ? input.fuenftel : input.gu)
+      ? waitOf(eff, input.gu, input.fuenftel, input.postenId)
       : null;
   renderSimpleTable(preview && preview.ok ? preview.key : null);
   if (input.missing.length) {
-    box.innerHTML = "<h2>" + (currentPath.kind === "flat" && currentPath.flatMonths === 0 ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit") + "</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
+    box.innerHTML = "<h2>" + (eff.kind === "flat" && eff.flatMonths === 0 ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit") + "</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
     return;
   }
-  const error = validateSimpleInput(currentPath, input);
+  const error = validateSimpleInput(eff, input);
   if (error) {
     box.innerHTML = "<h2>Plausibilitätsprüfung</h2>" +
       "<p class='lede' style='color:var(--red);font-weight:700;'>Unplausible Eingabe</p>" +
@@ -2199,9 +2305,9 @@ function renderSimple() {
       "<p class='hint'><strong>Hinweis zur Korrektur:</strong> " + esc(error.hint || "Bitte überprüfen Sie die eingegebenen Daten und passen Sie die Monats- oder Jahresauswahl an.") + "</p>";
     return;
   }
-  const wait = waitOf(currentPath, input.gu, input.fuenftel, input.postenId);
+  const wait = waitOf(eff, input.gu, input.fuenftel, input.postenId);
   if (!wait.ok) {
-    const text = wait.message || (wait.reason === "min" ? (currentPath.minMessage ? currentPath.minMessage(input.gu) : "Nicht vorgesehen.") : (currentPath.bandMessage ? currentPath.bandMessage(input.gu) : "Mit diesem Gesamturteil nicht vorgesehen."));
+    const text = wait.message || (wait.reason === "min" ? (eff.minMessage ? eff.minMessage(input.gu) : "Nicht vorgesehen.") : (eff.bandMessage ? eff.bandMessage(input.gu) : "Mit diesem Gesamturteil nicht vorgesehen."));
     box.innerHTML = "<h2>Beförderungsfähigkeit</h2><p class='when'>Mit diesem Gesamturteil nicht vorgesehen</p><p>" + esc(text) + "</p>" +
       factWrap(factHtml("Gesamturteil", false, esc(text), "open"));
     return;
@@ -2209,14 +2315,14 @@ function renderSimple() {
   const whenFuenftel = addMonths(input.start.y, input.start.m, wait.months);
   let when = whenFuenftel;
   let amtFact = "";
-  if (currentPath.second && input.second) {
-    const whenAmt = addMonths(input.second.y, input.second.m, currentPath.second.months);
+  if (eff.second && input.second) {
+    const whenAmt = addMonths(input.second.y, input.second.m, eff.second.months);
     when = cmpMonth(whenFuenftel, whenAmt) >= 0 ? whenFuenftel : whenAmt;
     const relAmt = relation(whenAmt, new Date());
     const amtClass = relAmt === "future" ? "wait" : "met";
-    const amtText = currentPath.second.months + " Monate seit dem " + formatLong(input.second) + ". " +
+    const amtText = eff.second.months + " Monate seit dem " + formatLong(input.second) + ". " +
       (relAmt === "future" ? "Frühester Monatserste ist der " + formatLong(whenAmt) + "." : "Erreicht am " + formatLong(whenAmt) + ".");
-    const amtFactTitle = (currentPath.second && currentPath.second.factTitle) || ("36 Monate im Amt mindestens " + currentPath.second.short);
+    const amtFactTitle = (eff.second && eff.second.factTitle) || ("36 Monate im Amt mindestens " + eff.second.short);
     amtFact = factHtml(amtFactTitle, true, esc(amtText), amtClass);
   }
 
@@ -2228,7 +2334,7 @@ function renderSimple() {
       if (cmpMonth(when, whenMinAmt) < 0) when = whenMinAmt;
       const relMinAmt = relation(whenMinAmt, new Date());
       const minAmtClass = relMinAmt === "future" ? "wait" : "met";
-      const minAmtText = postenOption.minAmtMonths + " Monate (" + Math.round(postenOption.minAmtMonths / 12) + " Jahre) im Statusamt " + (currentPath.id === "qe3-a12" ? "A 11" : "A 12") + " seit dem " + formatLong(input.start) + ". " +
+      const minAmtText = postenOption.minAmtMonths + " Monate (" + Math.round(postenOption.minAmtMonths / 12) + " Jahre) im Statusamt " + (eff.id === "qe3-a12" ? "A 11" : "A 12") + " seit dem " + formatLong(input.start) + ". " +
         (relMinAmt === "future" ? "Frühester Monatserste ist der " + formatLong(whenMinAmt) + "." : "Erreicht am " + formatLong(whenMinAmt) + ".");
       postenFact += factHtml(postenOption.minAmtLabel, relMinAmt !== "future", esc(minAmtText), minAmtClass);
     }
@@ -2239,8 +2345,8 @@ function renderSimple() {
   }
 
   let erprobungFact = "";
-  if (currentPath.askErprobung && input.erprobungStart) {
-    const erpMonths = currentPath.erprobungMonths || 6;
+  if (eff.askErprobung && input.erprobungStart) {
+    const erpMonths = eff.erprobungMonths || 6;
     const whenErprobung = addMonths(input.erprobungStart.y, input.erprobungStart.m, erpMonths);
     if (cmpMonth(when, whenErprobung) < 0) when = whenErprobung;
     const relErp = relation(whenErprobung, new Date());
@@ -2261,21 +2367,21 @@ function renderSimple() {
   const factClass = relFuenftel === "future" ? "wait" : "met";
   const kern = isEingangsamt
     ? (relFuenftel === "future"
-        ? "Voraussichtliche Ernennung zum/zur " + esc(currentPath.rank) + " (" + esc(currentPath.title) + ") unmittelbar mit Bestehen der Qualifikationsprüfung zum " + formatLong(whenFuenftel) + ". Eine Mindestbewährungszeit fällt für das Eingangsamt nicht an."
-        : "Ernennung zum/zur " + esc(currentPath.rank) + " (" + esc(currentPath.title) + ") unmittelbar mit Bestehen der Qualifikationsprüfung zum " + formatLong(whenFuenftel) + ". Eine Mindestbewährungszeit fällt für das Eingangsamt nicht an.")
+        ? "Voraussichtliche Ernennung zum/zur " + esc(eff.rank) + " (" + esc(eff.title) + ") unmittelbar mit Bestehen der Qualifikationsprüfung zum " + formatLong(whenFuenftel) + ". Eine Mindestbewährungszeit fällt für das Eingangsamt nicht an."
+        : "Ernennung zum/zur " + esc(eff.rank) + " (" + esc(eff.title) + ") unmittelbar mit Bestehen der Qualifikationsprüfung zum " + formatLong(whenFuenftel) + ". Eine Mindestbewährungszeit fällt für das Eingangsamt nicht an.")
     : wait.months + " Monate (" + wait.label + ") seit dem " + formatLong(input.start) + ". Das sind " + formatDauer(wait.months) + ". " +
       (relFuenftel === "future"
         ? "Frühester Monatserste ist der " + formatLong(whenFuenftel) + "."
         : "Erreicht am " + formatLong(whenFuenftel) + ".");
-  const kopf = (isEingangsamt && rel === "future" ? "Voraussichtlicher " + esc(currentPath.startShort) : esc(currentPath.startShort.charAt(0).toUpperCase() + currentPath.startShort.slice(1))) + ": " + esc(formatLong(input.start)) + ".";
-  const zweit = input.second ? " " + esc(currentPath.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
+  const kopf = (isEingangsamt && rel === "future" ? "Voraussichtlicher " + esc(eff.startShort) : esc(eff.startShort.charAt(0).toUpperCase() + eff.startShort.slice(1))) + ": " + esc(formatLong(input.start)) + ".";
+  const zweit = input.second && eff.second ? " " + esc(eff.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
   const erpZusatz = input.erprobungStart ? " Dienstpostenübernahme: " + esc(formatLong(input.erprobungStart)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
-  const spaeter = (input.second || (postenOption && postenOption.minAmtMonths) || input.erprobungStart) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
+  const spaeter = (input.second && eff.second || (postenOption && postenOption.minAmtMonths) || input.erprobungStart) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
 
-  if (currentPath.auswahl) {
-    const aus = currentPath.auswahl;
-    const ausEval = evalSimpleAuswahl(currentPath, input);
+  if (eff.auswahl) {
+    const aus = eff.auswahl;
+    const ausEval = evalSimpleAuswahl(eff, input);
     const [cy, cm] = (aus.date || "2026-12-01").split("-").map(Number);
     const cutoffDate = { y: cy, m: cm };
     let ledeText = "";
@@ -2318,7 +2424,7 @@ function renderSimple() {
         factHtml("1. Bewährungszeit", factClass !== "open", esc(kern), factClass) +
         auswahlFact
       ) +
-      "<p class='hint'><strong>Beförderungsauswahl:</strong> Für die Beförderung nach " + esc(currentPath.title) + " gilt neben der Bewährungszeit zusätzlich die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Der Rechner gleicht Ihre Daten mit den Grenzwerten des aktuellen Stichtags (" + esc(aus.dateLabel) + ") ab.</p>" +
+      "<p class='hint'><strong>Beförderungsauswahl:</strong> Für die Beförderung nach " + esc(eff.title) + " gilt neben der Bewährungszeit zusätzlich die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr.&nbsp;5 BefRPolVS haben Beamtinnen und Beamte der 3.&nbsp;QE (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang vor Praxisaufsteigern. Der Rechner gleicht Ihre Daten mit den Grenzwerten des aktuellen Stichtags (" + esc(aus.dateLabel) + ") ab.</p>" +
       "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
     return;
   }
@@ -2338,7 +2444,7 @@ function renderSimple() {
       erprobungFact +
       (input.gu ? factHtml("Gesamturteil", true, esc(wait.label + "."), "met") : "")
     ) +
-    "<p class='hint'>" + esc(currentPath.hintText || "Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.") + "</p>";
+    "<p class='hint'>" + esc(eff.hintText || "Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.") + "</p>";
 }
 
 function factWrap(inner) {
@@ -2733,7 +2839,7 @@ function render() {
     parts.push("<p class='when'>Kein Termin aus dem bisherigen Muster</p>");
     parts.push("<p>" + begruendung(input, warte, forecast, todayProfile, hits) + "</p>");
   }
-  const warteOk = !!(warte && cmpMonth(warte, nextMonth(today)) < 0);
+  const warteOk = !!(warte && cmpMonth(warte, nextMonth(today)) <= 0);
   const auswahlOk = !!(lastCheck && lastCheck.ok);
   parts.push("<div class='facts'>");
   parts.push(factHtml("1. Bewährungszeit", warteOk, warteSatz(input, warte, today), warteOk ? "met" : "open"));
@@ -2759,7 +2865,9 @@ function render() {
 function warteSatz(input, warte, today) {
   if (!warte) return "Nicht aus der Tabelle ableitbar.";
   const kern = "Bei " + warte.gu + " Punkten sind es " + warte.need + " Monate ab dem " + formatDE(input.a9) + ". Erfüllt zum " + formatDE(warte) + ".";
-  if (cmpMonth(warte, nextMonth(today)) < 0) return kern + " Das liegt bereits zurück. Damit entscheidet die Beförderungsauswahl.";
+  const cmp = cmpMonth(warte, nextMonth(today));
+  if (cmp < 0) return kern + " Das liegt bereits zurück. Damit entscheidet die Beförderungsauswahl.";
+  if (cmp === 0) return kern + " Erfüllt zum kommenden Monatsersten (" + formatLong(warte) + "). Damit entscheidet die Beförderungsauswahl.";
   return kern + " Frühester Termin ist der " + formatLong(warte) + ".";
 }
 function letzterSatz(last, check, profile) {
@@ -2950,6 +3058,13 @@ function init() {
   });
   $("simple-form").addEventListener("input", renderSimple);
   $("simple-form").addEventListener("change", renderSimple);
+  if ($("s-track")) {
+    $("s-track").addEventListener("change", () => {
+      updateTrackUI();
+      renderSimpleTable(null);
+      renderSimple();
+    });
+  }
   if ($("s-posten-select")) {
     $("s-posten-select").addEventListener("change", () => {
       updatePostenOptionsUI();
@@ -2977,39 +3092,45 @@ function init() {
   $("s-beispiel").addEventListener("click", () => {
     const path = currentPath;
     if (!path) return;
+    if (path.tracks && path.tracks.length) {
+      const tr = pick(path.tracks);
+      $("s-track").value = tr.id;
+      updateTrackUI();
+    }
+    const eff = effectivePath();
     const jahr = new Date().getFullYear();
-    const minYear = path.minYear || 2008;
-    const maxYear = jahr + (path.futureYears || 0);
+    const minYear = eff.minYear || 2008;
+    const maxYear = jahr + (eff.futureYears || 0);
     $("s-monat").value = String(randInt(1, 12));
     $("s-jahr").value = String(randInt(minYear, maxYear));
-    const minGu = path.minGu || (path.id === "qe4-a16" ? 12 : (path.id === "qe3-a13" || path.id === "qe4-a15" ? 9 : 4));
-    if (path.askAssessment !== false) $("s-gu").value = String(randInt(minGu, 16));
-    if (path.kind === "fuenftel") {
-      const flist = path.fuenftelList || FUENFTEL;
+    const minGu = eff.minGu || (eff.id === "qe4-a16" ? 12 : (eff.id === "qe3-a13" || eff.id === "qe4-a15" ? 9 : 4));
+    if (eff.askAssessment !== false) $("s-gu").value = String(randInt(minGu, 16));
+    if (eff.kind === "fuenftel") {
+      const flist = eff.fuenftelList || FUENFTEL;
       $("s-fuenftel").value = pick(flist).id;
     }
-    if (path.second) {
-      const min2 = path.second.minYear || path.minYear || 2010;
-      const max2 = jahr + (path.second.futureYears || path.futureYears || 0);
+    if (eff.second) {
+      const min2 = eff.second.minYear || eff.minYear || 2010;
+      const max2 = jahr + (eff.second.futureYears || eff.futureYears || 0);
       $("s-monat-2").value = String(randInt(1, 12));
       $("s-jahr-2").value = String(randInt(min2, max2));
     }
-    if (path.statusLabel) $("s-status").checked = true;
-    if (path.postenLabel) $("s-posten").checked = true;
-    if (path.postenOptions && path.postenOptions.length) {
-      const opt = pick(path.postenOptions);
+    if (eff.statusLabel) $("s-status").checked = true;
+    if (eff.postenLabel) $("s-posten").checked = true;
+    if (eff.postenOptions && eff.postenOptions.length) {
+      const opt = pick(eff.postenOptions);
       $("s-posten-select").value = opt.id;
       updatePostenOptionsUI();
       if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
     }
-    if (path.askErprobung) {
+    if (eff.askErprobung) {
       $("s-erprobung-monat").value = String(randInt(1, 12));
       $("s-erprobung-jahr").value = String(randInt(2010, jahr + 3));
     }
-    if (path.auswahl) {
+    if (eff.auswahl) {
       $("s-einzel").value = String(randInt(50, 75));
       $("s-rw").value = String(randInt(8, 14));
-      if (path.auswahl.hasSonst) {
+      if (eff.auswahl.hasSonst) {
         $("s-sb").checked = Math.random() < 0.2;
       }
     }
@@ -3021,6 +3142,10 @@ function init() {
     $("s-status").checked = true;
     $("s-posten").checked = true;
     if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
+    if (currentPath && currentPath.tracks && currentPath.tracks.length) {
+      $("s-track").value = currentPath.tracks[0].id;
+      updateTrackUI();
+    }
     if (currentPath && currentPath.postenOptions && currentPath.postenOptions.length) {
       $("s-posten-select").value = currentPath.postenOptions[0].id;
       updatePostenOptionsUI();
@@ -3112,7 +3237,12 @@ function selfTest() {
   assert(a9Dritte && a9Dritte.board.stars === 1 && a9Dritte.board.tone === "white", "A9 dritte 1 silberner Stern");
   assert(waitOf(a9Dritte, 0, null).months === 0, "A9 dritte Eingangsamt 0 Monate");
   assert(a9Dritte && a9Dritte.minYear === 2010 && a9Dritte.futureYears === 6, "A9 dritte minYear 2010 futureYears");
-  assert(waitOf(byId("qe3-a10"), 0, "1").months === 24 && waitOf(byId("qe3-a10"), 0, "5").months === 36 && byId("qe3-a10").second.months === 36, "A10 dritte");
+  const a10Dritte = byId("qe3-a10");
+  assert(a10Dritte && a10Dritte.tracks && a10Dritte.tracks.length === 2, "A10 dritte Tracks");
+  assert(waitOf(a10Dritte, 0, null, null, "direkt").months === 36, "A10 Direkteinstieg 36 Monate");
+  assert(waitOf(a10Dritte, 0, "1", null, "aq").months === 24 && waitOf(a10Dritte, 0, "5", null, "aq").months === 36, "A10 AQ Fünftel");
+  const a10Aq = a10Dritte.tracks.find((t) => t.id === "aq");
+  assert(a10Aq && a10Aq.second && a10Aq.second.months === 36, "A10 dritte AQ 36 Monate A9");
   const pruefung = addMonths(2022, 3, 24);
   const amtA9 = addMonths(2022, 10, 36);
   assert(formatDE(cmpMonth(pruefung, amtA9) >= 0 ? pruefung : amtA9) === "01.10.2025", "A10 dritte später");
@@ -3205,10 +3335,16 @@ function selfTest() {
   const a14Path = byId("qe4-a14");
   assert(a14Path && a14Path.beta, "A14 Beta");
   assert(a14Path.board.stars === 2 && a14Path.board.tone === "gold", "A14 2 goldene Sterne");
-  assert(waitOf(a14Path, 3, "1-2").months === 24, "A14 1./2. Fünftel 24 Monate");
-  assert(waitOf(a14Path, 3, "3-4").months === 30, "A14 3./4. Fünftel 30 Monate");
-  assert(waitOf(a14Path, 3, "5").months === 36, "A14 5. Fünftel 36 Monate");
-  assert(a14Path.second && a14Path.second.months === 36, "A14 36 Monate Amt A13");
+  assert(a14Path.tracks && a14Path.tracks.length === 2, "A14 4. QE Tracks");
+  assert(waitOf(a14Path, 0, "1-2", null, "dhpol").months === 24, "A14 DHPol 1./2. Fünftel 24 Monate");
+  assert(waitOf(a14Path, 0, "3-4", null, "dhpol").months === 30, "A14 DHPol 3./4. Fünftel 30 Monate");
+  assert(waitOf(a14Path, 0, "5", null, "dhpol").months === 36, "A14 DHPol 5. Fünftel 36 Monate");
+  const a14Dhpol = a14Path.tracks.find((t) => t.id === "dhpol");
+  assert(a14Dhpol && a14Dhpol.second && a14Dhpol.second.months === 36, "A14 DHPol 36 Monate Amt A13");
+  assert(waitOf(a14Path, 16, null, null, "direkt").months === 24, "A14 Direkt 16 Pkt 24 Monate");
+  assert(waitOf(a14Path, 10, null, null, "direkt").months === 27, "A14 Direkt 10 Pkt 27 Monate");
+  assert(waitOf(a14Path, 4, null, null, "direkt").months === 33, "A14 Direkt 4 Pkt 33 Monate");
+  assert(waitOf(a14Path, 2, null, null, "direkt").ok === false, "A14 Direkt 2 Pkt nicht vorgesehen");
 
   const a15Path = byId("qe4-a15");
   assert(a15Path && a15Path.beta, "A15 Beta");
@@ -3236,6 +3372,7 @@ function selfTest() {
   assert($("s-erprobung-monat") && $("s-erprobung-jahr"), "Erprobung Controls existieren");
 
   const a14Err = validateSimpleInput(a14Path, {
+    track: "dhpol",
     start: { y: 2026, m: 5 },
     second: { y: 2030, m: 2 },
     missing: []
@@ -3243,6 +3380,7 @@ function selfTest() {
   assert(a14Err && a14Err.title.includes("Qualifikationsprüfung"), "A14 QP vs A13 Plausibilitätstest fehlgeschlagen");
 
   const a14Ok = validateSimpleInput(a14Path, {
+    track: "dhpol",
     start: { y: 2026, m: 5 },
     second: { y: 2026, m: 5 },
     missing: []
@@ -3250,6 +3388,7 @@ function selfTest() {
   assert(a14Ok === null, "A14 identische Daten plausibel");
 
   const a10Err = validateSimpleInput(byId("qe3-a10"), {
+    track: "aq",
     start: { y: 2026, m: 5 },
     second: { y: 2030, m: 2 },
     missing: []
@@ -3257,11 +3396,28 @@ function selfTest() {
   assert(a10Err && a10Err.title.includes("Qualifikationsprüfung"), "A10 QP vs A9 Plausibilitätstest fehlgeschlagen");
 
   const a10Aufstieg = validateSimpleInput(byId("qe3-a10"), {
+    track: "aq",
     start: { y: 2026, m: 5 },
     second: { y: 2022, m: 10 },
     missing: []
   });
   assert(a10Aufstieg === null, "A10 Aufstiegsbeamter vor QP plausibel");
+
+  const a10Zukunft = validateSimpleInput(byId("qe2-a10"), {
+    start: { y: 2028, m: 1 },
+    missing: []
+  });
+  assert(a10Zukunft === null, "A10 2. QE zukünftiges Beförderungsdatum blockiert nicht");
+
+  const a12ErpPast = validateSimpleInput(byId("qe3-a12"), {
+    start: { y: 2016, m: 1 },
+    erprobungStart: { y: 2017, m: 1 },
+    missing: []
+  });
+  assert(a12ErpPast === null, "A12 Erprobung weit in der Vergangenheit blockiert nicht");
+
+  const wSatz0 = warteSatz({ a9: { y: 2023, m: 11 } }, { y: 2026, m: 12, need: 36, gu: 12 }, new Date(2026, 10, 10));
+  assert(wSatz0.includes("Erfüllt zum kommenden Monatsersten"), "Wartezeit Satz zum Monatsersten");
 }
 
 init();

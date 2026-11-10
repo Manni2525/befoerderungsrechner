@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 5.5 148 148">
+  <style>
+    .bar1 { fill: #053360; }
+    .bar2 { fill: #043564; }
+    .bar3 { fill: #0D6FC0; }
+    .arrow { fill: #1486F4; }
+    @media (prefers-color-scheme: dark) {
+      .bar1 { fill: #387ebb; }
+      .bar2 { fill: #5196d5; }
+      .bar3 { fill: #78b8f2; }
+      .arrow { fill: #38bdf8; }
+    }
+  </style>
+  <rect class="bar1" fill="#053360" x="11" y="108" width="34" height="29"/>
+  <rect class="bar2" fill="#043564" x="53" y="86" width="34" height="51"/>
+  <rect class="bar3" fill="#0D6FC0" x="95" y="64" width="34" height="73"/>
+  <path class="arrow" fill="#1486F4" d="M70 62.4C74.1 60.5 77.9 58.9 82.4 56.6C86.9 54.3 91.1 52.5 97.1 48.6C103.1 44.7 111.2 38.5 118.3 33.4L112 26.8L137.2 22L130.4 45.2L124.6 39.7L114.7 46.3C109.3 49 104.2 52 98.6 54.3C93 56.6 85.8 58.9 81 60.2C76.2 61.6 73.7 61.7 70 62.4Z"/>
+</svg>

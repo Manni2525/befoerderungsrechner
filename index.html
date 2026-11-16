@@ -797,10 +797,12 @@
               <select id="s-posten-select"></select>
             </label>
             <p class="hint" id="s-posten-select-hint"></p>
-            <div id="s-posten-extra-wrap" hidden style="margin-top:10px">
-              <label class="check">
-                <input type="checkbox" id="s-posten-extra-check" checked>
-                <span id="s-posten-extra-label"></span>
+            <div id="s-posten-extra-wrap" hidden style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line);">
+              <label class="field"><span class="lbl" id="s-posten-extra-label"></span>
+                <span class="pair">
+                  <select id="s-posten-extra-monat"></select>
+                  <select id="s-posten-extra-jahr"></select>
+                </span>
               </label>
               <p class="hint" id="s-posten-extra-hint"></p>
             </div>
@@ -812,7 +814,7 @@
                 <select id="s-erprobung-jahr"></select>
               </span>
             </label>
-            <p class="hint">Monat und Jahr, in dem Ihnen der höher bewertete Dienstposten übertragen wurde oder voraussichtlich übertragen wird. Die 6-monatige Erprobungszeit (Art.&nbsp;16 Abs.&nbsp;5 LlbG) läuft ab dem Ersten dieses Monats. Vor deren Ablauf besteht eine gesetzliche Beförderungssperre.</p>
+            <p class="hint">Monat und Jahr, in dem Ihnen der höher bewertete Dienstposten übertragen wurde oder voraussichtlich übertragen wird. Die gesetzliche Mindesterprobungszeit beträgt 3&nbsp;Monate (Art.&nbsp;16 Abs.&nbsp;5 Satz&nbsp;2, Art.&nbsp;17 Abs.&nbsp;1 Satz&nbsp;3 Nr.&nbsp;2 LlbG) und läuft ab dem Ersten dieses Monats; im Einzelfall kann sie bis zu 6&nbsp;Monate dauern oder bei Bewährung auf einem gleichwertigen Dienstposten entfallen.</p>
           </div>
         </fieldset>
         <div class="actions">
@@ -934,7 +936,15 @@
       <button class="back" type="button" data-back>← Zur Auswahl</button>
       <article class="card">
         <h2>Versionen</h2>
-        <p class="version-now">Aktuelle Fassung: <strong>Version 1.8</strong>, gültig seit dem 10.&nbsp;November 2026.</p>
+        <p class="version-now">Aktuelle Fassung: <strong>Version 1.9</strong>, gültig seit dem 16.&nbsp;November 2026.</p>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 1.9</span><span class="since">seit dem 16. November 2026</span></p>
+          <ul>
+            <li>Erprobungszeit auf dem höher bewerteten Dienstposten (A&nbsp;12, A&nbsp;13, A&nbsp;15 und A&nbsp;16) auf die gesetzliche Mindestdauer von 3&nbsp;Monaten korrigiert (Art.&nbsp;16 Abs.&nbsp;5 Satz&nbsp;2, Art.&nbsp;17 Abs.&nbsp;1 Satz&nbsp;3 Nr.&nbsp;2 LlbG), mit Hinweis auf eine mögliche Ausdehnung bis 6&nbsp;Monate sowie den Entfall bei Vorbewährung.</li>
+            <li>A&nbsp;12 (Nrn.&nbsp;4.7.3 und 4.7.4 BefRPolVS): Statt der bloßen Bestätigungs-Checkbox wird nun das Beginn-Datum (Monat und Jahr ab 1990) der 8-jährigen fachspezifischen bzw. Kripo-Verwendung ab 3.&nbsp;QE abgefragt und zeitgenau in die Prognose eingerechnet.</li>
+          </ul>
+        </section>
 
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.8</span><span class="since">seit dem 10. November 2026</span></p>
@@ -1042,7 +1052,7 @@
 </main>
 <footer class="site">
   <p>Personalrat Schwaben Nord. Erstellt von © Nowadnick.</p>
-  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.8</a> · Stand: 10.11.2026</p>
+  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.9</a> · Stand: 16.11.2026</p>
 </footer>
 
 <script>
@@ -1344,11 +1354,11 @@ const PATHS = [
     board: { stars: 4, tone: "white" },
     kind: "points",
     askErprobung: true,
-    erprobungMonths: 6,
+    erprobungMonths: 3,
     minYear: 2010,
     futureYears: 6,
     notes: [
-      "Voraussetzung für die Beförderung nach A 12 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
+      "Voraussetzung für die Beförderung nach A 12 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 3-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 Satz 2 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG); im Einzelfall soll sie 6 Monate nicht überschreiten und kann bei Bewährung auf einem gleichwertigen Dienstposten entfallen (Art. 16 Abs. 5 Satz 3 Nr. 1 LlbG)."
     ],
     startLegend: "Letzte Beförderung",
     startLabel: "Beförderung nach A 11",
@@ -1357,7 +1367,7 @@ const PATHS = [
     statusLabel: "Diese Beurteilung ist im Statusamt A 11 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 11 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 11.",
-    method: "Seit der letzten Beförderung (A 11), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.7 BefRPolVS). Vor Beförderung ist eine mindestens 6-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 LlbG).",
+    method: "Seit der letzten Beförderung (A 11), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.7 BefRPolVS). Vor Beförderung ist eine mindestens 3-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 Satz 2, Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG).",
     col: "Gesamturteil",
     postenOptions: [
       {
@@ -1395,9 +1405,12 @@ const PATHS = [
         method: "Fachspezifischer Dienstposten (Nr. 4.7.3 BefRPolVS). Bewährungszeit nach Nr. 4.7.2, mindestens aber 5 Jahre (60 Monate) im Statusamt A 11 und 8 Jahre fachspezifische Verwendung.",
         minAmtMonths: 60,
         minAmtLabel: "Mindestens 5 Jahre im Amt A 11",
-        extraLabel: "Mindestens 8 Jahre fachspezifische Verwendung gemäß RBestPol liegen vor.",
+        extraMonths: 96,
+        extraMinYear: 1990,
+        extraLabel: "Beginn der fachspezifischen Verwendung",
         extraShort: "Fachspezifische Verwendung",
-        extraMissing: "Bestätigung der mindestens 8-jährigen fachspezifischen Verwendung",
+        extraHint: "Monat und Jahr des Beginns der fachspezifischen Verwendung gemäß RBestPol (mindestens 8 Jahre / 96 Monate erforderlich). Läuft ab dem Ersten dieses Monats; bei Unterbrechungen, Verfall oder Zeiten vor Erwerb der Qualifikation (Nr. 4.2.4, 4.4, 4.5 RBestPol) ggf. entsprechend späteres (bereinigtes) Datum eintragen.",
+        extraMissing: "Beginn der fachspezifischen Verwendung",
         bands: [
           { min: 15, max: 16, months: 36, label: "16 bis 15 Punkte" },
           { min: 12, max: 14, months: 42, label: "14 bis 12 Punkte" },
@@ -1414,9 +1427,12 @@ const PATHS = [
         method: "K-Sachbearbeiter/in (Nr. 4.7.4 BefRPolVS). Bewährungszeit nach Nr. 4.7.2, mindestens aber 4 Jahre (48 Monate) im Statusamt A 11 und 8 Jahre Verwendung bei der Kripo ab 3. QE.",
         minAmtMonths: 48,
         minAmtLabel: "Mindestens 4 Jahre im Amt A 11",
-        extraLabel: "Mindestens 8 Jahre Verwendung in Ämtern ab der 3. Qualifikationsebene bei der Kriminalpolizei liegen vor.",
+        extraMonths: 96,
+        extraMinYear: 1990,
+        extraLabel: "Beginn der Kripo-Verwendung ab 3. QE",
         extraShort: "Kripo-Verwendung ab 3. QE",
-        extraMissing: "Bestätigung der mindestens 8-jährigen Verwendung bei der Kriminalpolizei ab 3. QE",
+        extraHint: "Monat und Jahr des Beginns der Verwendung in Ämtern ab der 3. Qualifikationsebene bei der Kriminalpolizei (mindestens 8 Jahre / 96 Monate erforderlich, Nr. 4.7.4 BefRPolVS). Läuft ab dem Ersten dieses Monats; bei Unterbrechungen ggf. entsprechend späteres Datum eintragen.",
+        extraMissing: "Beginn der Kripo-Verwendung ab 3. QE",
         bands: [
           { min: 15, max: 16, months: 36, label: "16 bis 15 Punkte" },
           { min: 12, max: 14, months: 42, label: "14 bis 12 Punkte" },
@@ -1438,11 +1454,11 @@ const PATHS = [
     board: { stars: 5, tone: "white", layout: "ephk" },
     kind: "points",
     askErprobung: true,
-    erprobungMonths: 6,
+    erprobungMonths: 3,
     minYear: 2010,
     futureYears: 6,
     notes: [
-      "Voraussetzung für die Beförderung nach A 13 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
+      "Voraussetzung für die Beförderung nach A 13 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 3-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 Satz 2 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG); im Einzelfall soll sie 6 Monate nicht überschreiten und kann bei Bewährung auf einem gleichwertigen Dienstposten entfallen (Art. 16 Abs. 5 Satz 3 Nr. 1 LlbG)."
     ],
     startLegend: "Letzte Beförderung",
     startLabel: "Beförderung nach A 12",
@@ -1451,7 +1467,7 @@ const PATHS = [
     statusLabel: "Diese Beurteilung ist im Statusamt A 12 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 12 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 12.",
-    method: "Seit der letzten Beförderung (A 12), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.8 BefRPolVS). Vor Beförderung ist eine mindestens 6-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 LlbG).",
+    method: "Seit der letzten Beförderung (A 12), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.8 BefRPolVS). Vor Beförderung ist eine mindestens 3-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 Satz 2, Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG).",
     col: "Gesamturteil",
     postenOptions: [
       {
@@ -1616,11 +1632,11 @@ const PATHS = [
     board: { stars: 3, tone: "gold" },
     kind: "points",
     askErprobung: true,
-    erprobungMonths: 6,
+    erprobungMonths: 3,
     minYear: 2010,
     futureYears: 6,
     notes: [
-      "Voraussetzung für die Beförderung nach A 15 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
+      "Voraussetzung für die Beförderung nach A 15 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 3-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 Satz 2 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG); im Einzelfall soll sie 6 Monate nicht überschreiten und kann bei Bewährung auf einem gleichwertigen Dienstposten entfallen (Art. 16 Abs. 5 Satz 3 Nr. 1 LlbG)."
     ],
     startLegend: "Letzte Beförderung",
     startLabel: "Beförderung nach A 14",
@@ -1629,7 +1645,7 @@ const PATHS = [
     statusLabel: "Diese Beurteilung ist im Statusamt A 14 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 14 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 14.",
-    method: "Seit der letzten Beförderung (A 14), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.11 BefRPolVS). Vor Beförderung ist eine mindestens 6-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 LlbG).",
+    method: "Seit der letzten Beförderung (A 14), abgestuft nach Dienstposten und Gesamturteil der Beurteilung (Nr. 4.11 BefRPolVS). Vor Beförderung ist eine mindestens 3-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 Satz 2, Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG).",
     col: "Gesamturteil",
     postenOptions: [
       {
@@ -1684,11 +1700,11 @@ const PATHS = [
     board: { stars: 4, tone: "gold" },
     kind: "points",
     askErprobung: true,
-    erprobungMonths: 6,
+    erprobungMonths: 3,
     minYear: 2010,
     futureYears: 6,
     notes: [
-      "Voraussetzung für die Beförderung nach A 16 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 6-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG)."
+      "Voraussetzung für die Beförderung nach A 16 ist neben der Mindestbewährungszeit im bisherigen Statusamt eine mindestens 3-monatige Erprobungszeit auf dem höher bewerteten Dienstposten (Art. 16 Abs. 5 Satz 2 i. V. m. Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG); im Einzelfall soll sie 6 Monate nicht überschreiten und kann bei Bewährung auf einem gleichwertigen Dienstposten entfallen (Art. 16 Abs. 5 Satz 3 Nr. 1 LlbG)."
     ],
     startLegend: "Letzte Beförderung",
     startLabel: "Beförderung nach A 15",
@@ -1699,7 +1715,7 @@ const PATHS = [
     postenLabel: "Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A 16/00 oder A 15/16.",
     postenMissing: "Bestätigung zum Dienstposten A 16/00 oder A 15/16",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 15.",
-    method: "Seit der letzten Beförderung (A 15), auf einem Dienstposten A 16/00 oder A 15/16, abgestuft nach dem Gesamturteil (Nr. 4.12 BefRPolVS). Vor Beförderung ist eine mindestens 6-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 LlbG).",
+    method: "Seit der letzten Beförderung (A 15), auf einem Dienstposten A 16/00 oder A 15/16, abgestuft nach dem Gesamturteil (Nr. 4.12 BefRPolVS). Vor Beförderung ist eine mindestens 3-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 Satz 2, Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG).",
     col: "Gesamturteil",
     bands: [
       { min: 16, max: 16, months: 36, label: "16 Punkte" },
@@ -1919,12 +1935,14 @@ function updatePostenOptionsUI() {
   if (opt.method) $("s-method").textContent = opt.method;
   const extraWrap = $("s-posten-extra-wrap");
   if (extraWrap) {
-    extraWrap.hidden = !opt.extraLabel;
-    if (opt.extraLabel) {
-      $("s-posten-extra-label").textContent = opt.extraLabel;
+    extraWrap.hidden = !opt.extraMonths;
+    if (opt.extraMonths) {
+      $("s-posten-extra-label").textContent = opt.extraLabel || "";
       $("s-posten-extra-hint").textContent = opt.extraHint || "";
-      const extraCheck = $("s-posten-extra-check");
-      if (extraCheck) extraCheck.checked = true;
+      const eff = effectivePath();
+      const diesesJahr = new Date().getFullYear();
+      const maxExtra = diesesJahr + ((eff && eff.futureYears) || 0);
+      updateYearSelect("s-posten-extra-jahr", opt.extraMinYear || 1990, maxExtra);
     }
   }
 }
@@ -1987,6 +2005,8 @@ function applyPath(path) {
     $("s-erprobung-monat").value = "";
     $("s-erprobung-jahr").value = "";
   }
+  if ($("s-posten-extra-monat")) $("s-posten-extra-monat").value = "";
+  if ($("s-posten-extra-jahr")) $("s-posten-extra-jahr").value = "";
   if (hasPostenOptions) {
     $("s-posten-select").value = eff.postenOptions[0].id;
     updatePostenOptionsUI();
@@ -2051,11 +2071,15 @@ function readSimple() {
 
   let postenOption = null;
   let postenId = null;
+  let postenExtraStart = null;
   if (path.postenOptions && path.postenOptions.length) {
     postenOption = getActivePostenOption();
     postenId = postenOption ? postenOption.id : null;
-    if (postenOption && postenOption.extraLabel) {
-      if (!$("s-posten-extra-check") || !$("s-posten-extra-check").checked) {
+    if (postenOption && postenOption.extraMonths) {
+      const pem = Number($("s-posten-extra-monat") && $("s-posten-extra-monat").value);
+      const pey = Number($("s-posten-extra-jahr") && $("s-posten-extra-jahr").value);
+      postenExtraStart = pem && pey ? { y: pey, m: pem } : null;
+      if (!postenExtraStart) {
         missing.push(postenOption.extraMissing || postenOption.extraLabel);
       }
     }
@@ -2082,7 +2106,7 @@ function readSimple() {
   const rwRaw = rwEl && rwEl.value ? Number(rwEl.value) : null;
   const sb = $("s-sb") ? $("s-sb").checked : false;
   const status = $("s-status") ? $("s-status").checked : true;
-  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status, postenId, postenOption, erprobungStart };
+  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status, postenId, postenOption, postenExtraStart, erprobungStart };
 }
 
 function evalSimpleAuswahl(path, input) {
@@ -2344,20 +2368,25 @@ function renderSimple() {
         (relMinAmt === "future" ? "Frühester Monatserste ist der " + formatLong(whenMinAmt) + "." : "Erreicht am " + formatLong(whenMinAmt) + ".");
       postenFact += factHtml(postenOption.minAmtLabel, relMinAmt !== "future", esc(minAmtText), minAmtClass);
     }
-    if (postenOption.extraLabel) {
-      const extraChecked = $("s-posten-extra-check") && $("s-posten-extra-check").checked;
-      postenFact += factHtml(postenOption.extraShort || "Verwendungsvoraussetzung", extraChecked, esc(postenOption.extraLabel), extraChecked ? "met" : "wait");
+    if (postenOption.extraMonths && input.postenExtraStart) {
+      const whenExtra = addMonths(input.postenExtraStart.y, input.postenExtraStart.m, postenOption.extraMonths);
+      if (cmpMonth(when, whenExtra) < 0) when = whenExtra;
+      const relExtra = relation(whenExtra, new Date());
+      const extraClass = relExtra === "future" ? "wait" : "met";
+      const extraText = postenOption.extraMonths + " Monate (" + Math.round(postenOption.extraMonths / 12) + " Jahre) seit dem " + formatLong(input.postenExtraStart) + ". " +
+        (relExtra === "future" ? "Frühester Monatserste ist der " + formatLong(whenExtra) + "." : "Erreicht am " + formatLong(whenExtra) + ".");
+      postenFact += factHtml(postenOption.extraShort || "Verwendungsvoraussetzung", relExtra !== "future", esc(extraText), extraClass);
     }
   }
 
   let erprobungFact = "";
   if (eff.askErprobung && input.erprobungStart) {
-    const erpMonths = eff.erprobungMonths || 6;
+    const erpMonths = eff.erprobungMonths || 3;
     const whenErprobung = addMonths(input.erprobungStart.y, input.erprobungStart.m, erpMonths);
     if (cmpMonth(when, whenErprobung) < 0) when = whenErprobung;
     const relErp = relation(whenErprobung, new Date());
     const erpClass = relErp === "future" ? "wait" : "met";
-    const erpText = erpMonths + " Monate Erprobungszeit (Art. 16 Abs. 5 LlbG) seit dem " + formatLong(input.erprobungStart) + ". " +
+    const erpText = erpMonths + " Monate Mindesterprobungszeit (Art. 16 Abs. 5 Satz 2, Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG) seit dem " + formatLong(input.erprobungStart) + ". " +
       (relErp === "future" ? "Frühester Monatserste ist der " + formatLong(whenErprobung) + "." : "Erreicht am " + formatLong(whenErprobung) + ".");
     erprobungFact = factHtml(
       "Erprobungszeit auf dem Dienstposten",
@@ -2381,9 +2410,10 @@ function renderSimple() {
         : "Erreicht am " + formatLong(whenFuenftel) + ".");
   const kopf = (isEingangsamt && rel === "future" ? "Voraussichtlicher " + esc(eff.startShort) : esc(eff.startShort.charAt(0).toUpperCase() + eff.startShort.slice(1))) + ": " + esc(formatLong(input.start)) + ".";
   const zweit = input.second && eff.second ? " " + esc(eff.second.short) + ": " + esc(formatLong(input.second)) + "." : "";
+  const postenExtraZusatz = (postenOption && postenOption.extraMonths && input.postenExtraStart) ? " " + esc(postenOption.extraShort || "Verwendung") + " seit: " + esc(formatLong(input.postenExtraStart)) + "." : "";
   const erpZusatz = input.erprobungStart ? " Dienstpostenübernahme: " + esc(formatLong(input.erprobungStart)) + "." : "";
   const punkte = input.gu ? " Gesamturteil: " + input.gu + " Punkte." : "";
-  const spaeter = (input.second && eff.second || (postenOption && postenOption.minAmtMonths) || input.erprobungStart) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
+  const spaeter = (input.second && eff.second || (postenOption && (postenOption.minAmtMonths || postenOption.extraMonths)) || input.erprobungStart) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
 
   if (eff.auswahl) {
     const aus = eff.auswahl;
@@ -2442,7 +2472,7 @@ function renderSimple() {
   const heading = isEingangsamt ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit";
   const customBadge = isEingangsamt && rel === "future" ? "Voraussichtlich" : undefined;
   box.innerHTML = "<h2>" + esc(heading) + "</h2><p class='lede'>" + esc(lede) + "</p><p class='when'>" + esc(formatLong(when)) + "</p><p>" +
-    kopf + zweit + erpZusatz + punkte + spaeter + "</p>" +
+    kopf + zweit + postenExtraZusatz + erpZusatz + punkte + spaeter + "</p>" +
     factWrap(
       factHtml(isEingangsamt ? "Eingangsamt" : "Bewährungszeit", factClass !== "open", esc(kern), factClass, customBadge) +
       amtFact +
@@ -3012,6 +3042,7 @@ function init() {
   $("a9z-board").innerHTML = boardMarkup({ stars: 4, tone: "blue" });
   fillMonthYear("s-monat", "s-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillMonthYear("s-monat-2", "s-jahr-2", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+  fillMonthYear("s-posten-extra-monat", "s-posten-extra-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillMonthYear("s-erprobung-monat", "s-erprobung-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillPunktSelect($("s-gu"), 4, 16);
   fillPunktSelect($("s-rw"), 4, 16);
@@ -3127,7 +3158,11 @@ function init() {
       const opt = pick(eff.postenOptions);
       $("s-posten-select").value = opt.id;
       updatePostenOptionsUI();
-      if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
+      if (opt.extraMonths) {
+        const minExtra = opt.extraMinYear || 1990;
+        $("s-posten-extra-monat").value = String(randInt(1, 12));
+        $("s-posten-extra-jahr").value = String(randInt(Math.max(minExtra, jahr - 12), jahr));
+      }
     }
     if (eff.askErprobung) {
       $("s-erprobung-monat").value = String(randInt(1, 12));
@@ -3147,7 +3182,8 @@ function init() {
     $("simple-form").reset();
     $("s-status").checked = true;
     $("s-posten").checked = true;
-    if ($("s-posten-extra-check")) $("s-posten-extra-check").checked = true;
+    if ($("s-posten-extra-monat")) $("s-posten-extra-monat").value = "";
+    if ($("s-posten-extra-jahr")) $("s-posten-extra-jahr").value = "";
     if (currentPath && currentPath.tracks && currentPath.tracks.length) {
       $("s-track").value = currentPath.tracks[0].id;
       updateTrackUI();
@@ -3296,9 +3332,15 @@ function selfTest() {
   assert(waitOf(a12Path, 7, null, "a12-00").months === 72, "A12 Hoeher 7 Pkt");
   assert(waitOf(a12Path, 5, null, "a12-00").ok === false, "A12 Hoeher 5 Pkt");
   const a12Fach = a12Path.postenOptions.find((o) => o.id === "a09-12-fach");
-  assert(a12Fach && a12Fach.minAmtMonths === 60, "A12 Fach 60 Mo");
+  assert(a12Fach && a12Fach.minAmtMonths === 60 && a12Fach.extraMonths === 96, "A12 Fach 60 Mo und 96 Mo Verwendung");
   const a12Kripo = a12Path.postenOptions.find((o) => o.id === "a09-12-kripo");
-  assert(a12Kripo && a12Kripo.minAmtMonths === 48, "A12 Kripo 48 Mo");
+  assert(a12Kripo && a12Kripo.minAmtMonths === 48 && a12Kripo.extraMonths === 96, "A12 Kripo 48 Mo und 96 Mo Verwendung");
+  assert($("s-posten-extra-monat") && $("s-posten-extra-jahr"), "Posten Extra Datum Controls existieren");
+  const fachStart = { y: 2018, m: 11 };
+  const a11Start = { y: 2021, m: 5 };
+  const fachEnde = addMonths(fachStart.y, fachStart.m, a12Fach.extraMonths);
+  const a11MinEnde = addMonths(a11Start.y, a11Start.m, a12Fach.minAmtMonths);
+  assert(formatDE(fachEnde) === "01.11.2026" && formatDE(a11MinEnde) === "01.05.2026" && cmpMonth(fachEnde, a11MinEnde) > 0, "A12 Fach 8 Jahre später als 5 Jahre A11");
 
   const a13Path = byId("qe3-a13");
   assert(a13Path && a13Path.beta, "A13 Beta");
@@ -3322,14 +3364,14 @@ function selfTest() {
 
   const ephkSvg = boardMarkup(a13Path.board);
   assert(ephkSvg.includes("board-ephk") && ephkSvg.includes("polygon"), "EPHK Schulterklappe Markup");
-  assert(a12Path.askErprobung === true && a12Path.erprobungMonths === 6, "A12 Erprobung Konfiguration");
-  assert(a13Path.askErprobung === true && a13Path.erprobungMonths === 6, "A13 Erprobung Konfiguration");
+  assert(a12Path.askErprobung === true && a12Path.erprobungMonths === 3, "A12 Erprobung Konfiguration");
+  assert(a13Path.askErprobung === true && a13Path.erprobungMonths === 3, "A13 Erprobung Konfiguration");
   const a12Ernennung = { y: 2016, m: 11 };
   const dpUebernahme = { y: 2026, m: 12 };
   const stehzeitA12 = addMonths(a12Ernennung.y, a12Ernennung.m, 36);
-  const erpEnde = addMonths(dpUebernahme.y, dpUebernahme.m, 6);
+  const erpEnde = addMonths(dpUebernahme.y, dpUebernahme.m, 3);
   assert(formatDE(stehzeitA12) === "01.11.2019", "Stehzeit A12 2019");
-  assert(formatDE(erpEnde) === "01.06.2027", "Erprobung A13 2027");
+  assert(formatDE(erpEnde) === "01.03.2027", "Erprobung A13 2027");
   assert(cmpMonth(stehzeitA12, erpEnde) < 0, "Erprobung liegt später als Stehzeit");
 
   const a13Qe4Path = byId("qe4-a13");
@@ -3355,7 +3397,7 @@ function selfTest() {
   const a15Path = byId("qe4-a15");
   assert(a15Path && a15Path.beta, "A15 Beta");
   assert(a15Path.board.stars === 3 && a15Path.board.tone === "gold", "A15 3 goldene Sterne");
-  assert(a15Path.askErprobung === true && a15Path.erprobungMonths === 6, "A15 Erprobung");
+  assert(a15Path.askErprobung === true && a15Path.erprobungMonths === 3, "A15 Erprobung");
   assert(waitOf(a15Path, 16, null, "a15-00").months === 36, "A15 Hoeher 16 Pkt");
   assert(waitOf(a15Path, 13, null, "a15-00").months === 48, "A15 Hoeher 13 Pkt");
   assert(waitOf(a15Path, 10, null, "a15-00").months === 60, "A15 Hoeher 10 Pkt");
@@ -3370,7 +3412,7 @@ function selfTest() {
   const a16Path = byId("qe4-a16");
   assert(a16Path && a16Path.beta, "A16 Beta");
   assert(a16Path.board.stars === 4 && a16Path.board.tone === "gold", "A16 4 goldene Sterne");
-  assert(a16Path.askErprobung === true && a16Path.erprobungMonths === 6, "A16 Erprobung");
+  assert(a16Path.askErprobung === true && a16Path.erprobungMonths === 3, "A16 Erprobung");
   assert(waitOf(a16Path, 16, null).months === 36, "A16 16 Pkt");
   assert(waitOf(a16Path, 15, null).months === 48, "A16 15 Pkt");
   assert(waitOf(a16Path, 13, null).months === 60, "A16 13 Pkt");

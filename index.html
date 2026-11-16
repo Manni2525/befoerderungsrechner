@@ -655,7 +655,7 @@
             <h3>2. Beförderungsauswahl</h3>
             <p>Das Innenministerium veröffentlicht jeden Monat, wer bei zu wenigen freien Haushaltsstellen noch zum Zug kommt. Auch wer die Bewährungszeit schon erfüllt hat, wird nur befördert, wenn er die Auswahlkriterien erfüllt. Das jeweils nächste Kriterium gilt nur für diejenigen, die exakt die Mindestpunktzahl des vorherigen Kriteriums erreicht haben. Wer darüber liegt, muss die weiteren Hürden nicht nehmen. Wer darunter liegt, kann auch beim Erfüllen der restlichen Kriterien nicht befördert werden.</p>
             <p>Die Reihenfolge ist: Gesamturteil der Beurteilung 2026, Summe der fünf doppelt gewichteten Einzelmerkmale, Gesamturteil der Beurteilung 2023, dann die sonstige Voraussetzung. Schwerbehinderung oder die in der Tabelle genannte Dienstzeit ersetzen einander. Steht dort ein Plus, müssen beide Dienstzeiten erreicht sein. Steht „oder“, genügt eine davon.</p>
-            <p>Für künftige Monate nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Oktober 2027 wird also an Oktober 2024 gemessen, Dezember 2026 an Dezember 2023. Der Dezember (wird stetig aktualisiert) 2026 ist der letzte eingetragene Stichtag.</p>
+            <p>Für künftige Monate nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Oktober 2027 wird also an Oktober 2024 gemessen, Dezember 2026 an Dezember 2023. Der Dezember 2026 (wird stetig aktualisiert) ist der letzte eingetragene Stichtag.</p>
           </div>
         </div>
         <h3 style="margin-top:16px">Gesamturteil der bekannten Stichtage</h3>
@@ -790,7 +790,7 @@
               <input type="checkbox" id="s-posten" checked>
               <span id="s-posten-label"></span>
             </label>
-            <p class="hint">Nötig ist ein Dienstposten der Bewertung A&nbsp;9/11, A&nbsp;11/00 oder höher.</p>
+            <p class="hint" id="s-posten-hint"></p>
           </div>
           <div id="s-posten-select-wrap" hidden>
             <label class="field"><span class="lbl">Bewertung des Dienstpostens</span>
@@ -943,6 +943,7 @@
           <ul>
             <li>Erprobungszeit auf dem höher bewerteten Dienstposten (A&nbsp;12, A&nbsp;13, A&nbsp;15 und A&nbsp;16) auf die gesetzliche Mindestdauer von 3&nbsp;Monaten korrigiert (Art.&nbsp;16 Abs.&nbsp;5 Satz&nbsp;2, Art.&nbsp;17 Abs.&nbsp;1 Satz&nbsp;3 Nr.&nbsp;2 LlbG), mit Hinweis auf eine mögliche Ausdehnung bis 6&nbsp;Monate sowie den Entfall bei Vorbewährung.</li>
             <li>A&nbsp;12 (Nrn.&nbsp;4.7.3 und 4.7.4 BefRPolVS): Statt der bloßen Bestätigungs-Checkbox wird nun das Beginn-Datum (Monat und Jahr ab 1990) der 8-jährigen fachspezifischen bzw. Kripo-Verwendung ab 3.&nbsp;QE abgefragt und zeitgenau in die Prognose eingerechnet.</li>
+            <li>Dienstposten-Hinweis bei A&nbsp;16 korrigiert, Formularwerte beim Pfad- und Laufwegwechsel sauber zurückgesetzt bzw. Jahresauswahl bei A&nbsp;10 (AQ) aktualisiert sowie „Beispiel eintragen“ und automatische Datumsübernahme bei A&nbsp;14 (DHPol) repariert.</li>
           </ul>
         </section>
 
@@ -1306,6 +1307,7 @@ const PATHS = [
           hint: "Zusätzlich sind mindestens 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9 nötig (oft bereits vor dem Studium als PHM erworben). Gerechnet wird ab dem Ersten des Monats der Übertragung.",
           short: "Amt mindestens A 9",
           factTitle: "36 Monate im Amt mindestens A 9",
+          minYear: 1990,
           months: 36
         },
         method: "Ausbildungsqualifizierung: Seit Bestehen der Qualifikationsprüfung, abgestuft nach dem Fünftel (24 bis 36 Monate). Zusätzlich sind mindestens 36 Monate in einem Amt mindestens der Besoldungsgruppe A 9 erforderlich (Nr. 4.5.2 BefRPolVS).",
@@ -1337,6 +1339,7 @@ const PATHS = [
     statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
     postenLabel: "Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A 9/11, A 11/00 oder höher.",
+    postenHint: "Nötig ist ein Dienstposten der Bewertung A 9/11, A 11/00 oder höher.",
     postenMissing: "Bestätigung zum Dienstposten A 9/11, A 11/00 oder höher",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10.",
     method: "Eingangsamt A 9 oder niedriger, Dienstposten A 9/11, A 11/00 oder höher. Bewährungszeit seit der letzten Beförderung, nach dem Gesamturteil.",
@@ -1713,6 +1716,7 @@ const PATHS = [
     statusLabel: "Diese Beurteilung ist im Statusamt A 15 erstellt worden. Die Beförderungsrichtlinien verlangen das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 15 erstellt wurde",
     postenLabel: "Bestellung oder Aufgabenwahrnehmung auf einem Dienstposten der Bewertung A 16/00 oder A 15/16.",
+    postenHint: "Nötig ist ein Dienstposten der Bewertung A 16/00 oder A 15/16.",
     postenMissing: "Bestätigung zum Dienstposten A 16/00 oder A 15/16",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 15.",
     method: "Seit der letzten Beförderung (A 15), auf einem Dienstposten A 16/00 oder A 15/16, abgestuft nach dem Gesamturteil (Nr. 4.12 BefRPolVS). Vor Beförderung ist eine mindestens 3-monatige Erprobungszeit auf dem Dienstposten erforderlich (Art. 16 Abs. 5 Satz 2, Art. 17 Abs. 1 Satz 3 Nr. 2 LlbG).",
@@ -1897,6 +1901,11 @@ function updateTrackUI() {
   $("s-method").textContent = eff.method;
   $("s-col-a").textContent = eff.col;
 
+  const diesesJahr = new Date().getFullYear();
+  const maxYear = diesesJahr + (eff.futureYears || 0);
+  const minYear = eff.minYear || 1970;
+  updateYearSelect("s-jahr", minYear, maxYear);
+
   $("s-fuenftel-box").hidden = eff.kind !== "fuenftel";
   if (eff.kind === "fuenftel") {
     const flist = eff.fuenftelList || FUENFTEL;
@@ -1911,6 +1920,9 @@ function updateTrackUI() {
     $("s-second-legend").textContent = eff.second.legend;
     $("s-second-label").textContent = eff.second.label;
     $("s-second-hint").textContent = eff.second.hint;
+    const min2 = eff.second.minYear || minYear;
+    const max2 = diesesJahr + (eff.second.futureYears || eff.futureYears || 0);
+    updateYearSelect("s-jahr-2", min2, max2);
   }
 
   $("s-gu-box").hidden = eff.askAssessment === false;
@@ -1961,6 +1973,9 @@ function applyPath(path) {
       "<option value='" + esc(t.id) + "'>" + esc(t.label) + "</option>"
     ).join("");
     $("s-track").value = path.tracks[0].id;
+  } else if ($("s-track")) {
+    $("s-track").innerHTML = "";
+    $("s-track").value = "";
   }
   updateTrackUI();
 
@@ -1981,6 +1996,7 @@ function applyPath(path) {
   $("s-posten-check-wrap").hidden = !hasPostenLabel;
   $("s-posten-select-wrap").hidden = !hasPostenOptions;
   if (hasPostenLabel) $("s-posten-label").textContent = eff.postenLabel;
+  if ($("s-posten-hint")) $("s-posten-hint").textContent = hasPostenLabel ? (eff.postenHint || "") : "";
   if (hasPostenOptions) {
     $("s-posten-select").innerHTML = eff.postenOptions.map((opt) =>
       "<option value='" + esc(opt.id) + "'>" + esc(opt.label) + "</option>"
@@ -1994,17 +2010,19 @@ function applyPath(path) {
   notes.innerHTML = (eff.notes || []).map((t) => "<p>" + esc(t) + "</p>").join("");
   notes.hidden = !(eff.notes || []).length;
   const diesesJahr = new Date().getFullYear();
-  const maxYear = diesesJahr + (eff.futureYears || 0);
-  const minYear = eff.minYear || 1970;
-  updateYearSelect("s-jahr", minYear, maxYear);
-  if (eff.second) {
-    updateYearSelect("s-jahr-2", minYear, maxYear);
-  }
+  if ($("s-monat")) $("s-monat").value = "";
+  if ($("s-jahr")) $("s-jahr").value = "";
+  if ($("s-fuenftel")) $("s-fuenftel").value = "";
+  if ($("s-monat-2")) $("s-monat-2").value = "";
+  if ($("s-jahr-2")) $("s-jahr-2").value = "";
+  if ($("s-gu")) $("s-gu").value = "";
+  if ($("s-status")) $("s-status").checked = true;
+  if ($("s-posten")) $("s-posten").checked = true;
   if (hasErprobung) {
     updateYearSelect("s-erprobung-jahr", 2010, diesesJahr + 6);
-    $("s-erprobung-monat").value = "";
-    $("s-erprobung-jahr").value = "";
   }
+  if ($("s-erprobung-monat")) $("s-erprobung-monat").value = "";
+  if ($("s-erprobung-jahr")) $("s-erprobung-jahr").value = "";
   if ($("s-posten-extra-monat")) $("s-posten-extra-monat").value = "";
   if ($("s-posten-extra-jahr")) $("s-posten-extra-jahr").value = "";
   if (hasPostenOptions) {
@@ -3110,10 +3128,11 @@ function init() {
     });
   }
   const handleStartChange = () => {
-    if (currentPath && currentPath.second) {
+    const eff = effectivePath();
+    if (eff && eff.second) {
       const m2 = $("s-monat-2");
       const y2 = $("s-jahr-2");
-      if (m2 && y2 && (!m2.value || currentPath.id === "qe4-a14")) {
+      if (m2 && y2 && (!m2.value || !y2.value || (currentPath && currentPath.id === "qe4-a14"))) {
         m2.value = $("s-monat").value;
         y2.value = $("s-jahr").value;
       }
@@ -3135,11 +3154,14 @@ function init() {
       updateTrackUI();
     }
     const eff = effectivePath();
-    const jahr = new Date().getFullYear();
+    const today = new Date();
+    const jahr = today.getFullYear();
     const minYear = eff.minYear || 2008;
     const maxYear = jahr + (eff.futureYears || 0);
-    $("s-monat").value = String(randInt(1, 12));
-    $("s-jahr").value = String(randInt(minYear, maxYear));
+    const startMonth = randInt(1, 12);
+    const startYear = randInt(minYear, maxYear);
+    $("s-monat").value = String(startMonth);
+    $("s-jahr").value = String(startYear);
     const minGu = eff.minGu || (eff.id === "qe4-a16" ? 12 : (eff.id === "qe3-a13" || eff.id === "qe4-a15" ? 9 : 4));
     if (eff.askAssessment !== false) $("s-gu").value = String(randInt(minGu, 16));
     if (eff.kind === "fuenftel") {
@@ -3147,10 +3169,17 @@ function init() {
       $("s-fuenftel").value = pick(flist).id;
     }
     if (eff.second) {
-      const min2 = eff.second.minYear || eff.minYear || 2010;
-      const max2 = jahr + (eff.second.futureYears || eff.futureYears || 0);
-      $("s-monat-2").value = String(randInt(1, 12));
-      $("s-jahr-2").value = String(randInt(min2, max2));
+      if (path.id === "qe4-a14") {
+        $("s-monat-2").value = String(startMonth);
+        $("s-jahr-2").value = String(startYear);
+      } else {
+        const min2 = eff.second.minYear || eff.minYear || 2010;
+        const max2 = Math.min(jahr + (eff.second.futureYears || eff.futureYears || 0), startYear);
+        const y2 = randInt(Math.max(min2, startYear - 10), Math.max(min2, max2));
+        const m2 = y2 === startYear ? randInt(1, startMonth) : randInt(1, 12);
+        $("s-monat-2").value = String(m2);
+        $("s-jahr-2").value = String(y2);
+      }
     }
     if (eff.statusLabel) $("s-status").checked = true;
     if (eff.postenLabel) $("s-posten").checked = true;
@@ -3165,8 +3194,25 @@ function init() {
       }
     }
     if (eff.askErprobung) {
-      $("s-erprobung-monat").value = String(randInt(1, 12));
-      $("s-erprobung-jahr").value = String(randInt(2010, jahr + 3));
+      const startIsFuture = relation({ y: startYear, m: startMonth }, today) === "future";
+      let erpYear, erpMonth;
+      if (startIsFuture) {
+        erpYear = randInt(Math.max(jahr, startYear), jahr + 6);
+        const minFutureMonth = (erpYear === jahr)
+          ? Math.min(12, today.getMonth() + (today.getDate() === 1 ? 1 : 2))
+          : 1;
+        if (erpYear === jahr && today.getMonth() === 11 && today.getDate() > 1) {
+          erpYear = jahr + 1;
+          erpMonth = randInt(1, 12);
+        } else {
+          erpMonth = randInt(minFutureMonth, 12);
+        }
+      } else {
+        erpYear = randInt(2010, jahr + 3);
+        erpMonth = randInt(1, 12);
+      }
+      $("s-erprobung-monat").value = String(erpMonth);
+      $("s-erprobung-jahr").value = String(erpYear);
     }
     if (eff.auswahl) {
       $("s-einzel").value = String(randInt(50, 75));
@@ -3466,6 +3512,9 @@ function selfTest() {
 
   const wSatz0 = warteSatz({ a9: { y: 2023, m: 11 } }, { y: 2026, m: 12, need: 36, gu: 12 }, new Date(2026, 10, 10));
   assert(wSatz0.includes("Erfüllt zum kommenden Monatsersten"), "Wartezeit Satz zum Monatsersten");
+  assert($("s-posten-hint") && byId("qe3-a11").postenHint.includes("A 9/11") && a16Path.postenHint.includes("A 16/00"), "Dienstposten-Hinweise A11 und A16");
+  const a10AqTrack = byId("qe3-a10").tracks.find((t) => t.id === "aq");
+  assert(a10AqTrack && a10AqTrack.second && a10AqTrack.second.minYear === 1990, "A10 AQ Amt A9 ab 1990");
 }
 
 init();

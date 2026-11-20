@@ -654,8 +654,8 @@
           <div>
             <h3>2. Beförderungsauswahl</h3>
             <p>Das Innenministerium veröffentlicht jeden Monat, wer bei zu wenigen freien Haushaltsstellen noch zum Zug kommt. Auch wer die Bewährungszeit schon erfüllt hat, wird nur befördert, wenn er die Auswahlkriterien erfüllt. Das jeweils nächste Kriterium gilt nur für diejenigen, die exakt die Mindestpunktzahl des vorherigen Kriteriums erreicht haben. Wer darüber liegt, muss die weiteren Hürden nicht nehmen. Wer darunter liegt, kann auch beim Erfüllen der restlichen Kriterien nicht befördert werden.</p>
-            <p>Die Reihenfolge ist: Gesamturteil der Beurteilung 2026, Summe der fünf doppelt gewichteten Einzelmerkmale, Gesamturteil der Beurteilung 2023, dann die sonstige Voraussetzung. Schwerbehinderung oder die in der Tabelle genannte Dienstzeit ersetzen einander. Steht dort ein Plus, müssen beide Dienstzeiten erreicht sein. Steht „oder“, genügt eine davon.</p>
-            <p>Für künftige Monate nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Oktober 2027 wird also an Oktober 2024 gemessen, Dezember 2026 an Dezember 2023. Der Dezember 2026 (wird stetig aktualisiert) ist der letzte eingetragene Stichtag.</p>
+            <p>Die Reihenfolge ist: Gesamturteil der Beurteilung 2026, Summe der fünf doppelt gewichteten Einzelmerkmale, Gesamturteil der Beurteilung 2023, dann die sonstige Voraussetzung. Schwerbehinderung oder die in der Tabelle genannte Dienstzeit ersetzen einander. Steht dort „und“, müssen beide Dienstzeiten erreicht sein; bei zwei getrennten Stufen gilt die allgemeine Dienstzeit nur bei exakt gleicher Dienstzeit im Besoldungsamt. Steht „oder“, genügt eine davon.</p>
+            <p>Für künftige Monate nimmt das Tool den Stichtag mit demselben Abstand zum Oktober der Beurteilung aus dem vorherigen Zyklus. Oktober 2027 wird also an Oktober 2024 gemessen, Januar 2027 an Januar 2024. Der Januar 2027 (wird stetig aktualisiert) ist der letzte eingetragene Stichtag.</p>
           </div>
         </div>
         <h3 style="margin-top:16px">Gesamturteil der bekannten Stichtage</h3>
@@ -780,7 +780,16 @@
               <input type="checkbox" id="s-sb">
               <span>Schwerbehinderung nach §&nbsp;2 Abs.&nbsp;2 SGB&nbsp;IX (GdB mindestens 50).</span>
             </label>
-            <p class="hint">Die Dienstzeit im Amt A&nbsp;9 mit Amtszulage (sofern nicht schwerbehindert) wird automatisch aus Ihrem oben angegebenen Beförderungsdatum berechnet.</p>
+            <p class="hint" id="s-sonst-hint">Die Dienstzeit im jeweiligen Statusamt (sofern nicht schwerbehindert) wird automatisch aus Ihrem oben angegebenen Beförderungsdatum berechnet.</p>
+            <div id="s-allg-wrap" style="margin-top:12px" hidden>
+              <label class="field"><span class="lbl">Allgemeiner Dienstzeitbeginn</span>
+                <span class="pair">
+                  <select id="s-allg-monat"></select>
+                  <select id="s-allg-jahr"></select>
+                </span>
+              </label>
+              <p class="hint" id="s-allg-hint">Nur erforderlich bei Gleichstand auf allen übrigen Auswahlkriterien einschließlich exakt gleicher Dienstzeit im Statusamt. Gerechnet wird ab dem Ersten dieses Monats.</p>
+            </div>
           </div>
         </fieldset>
         <fieldset id="s-posten-box">
@@ -856,6 +865,7 @@
                   <th>Gesamturteil 2023</th>
                   <th>Sonstige Voraussetzung</th>
                   <th>Befördert / fähig</th>
+                  <th>Ihre Lage</th>
                 </tr>
               </thead>
               <tbody id="s-auswahl-table"></tbody>
@@ -889,8 +899,8 @@
         <p>Die Berechnungen in diesem Tool stützen sich auf diese Grundlagen:</p>
         <ul>
           <li>Beförderungsrichtlinien vom 21.&nbsp;Juli 2026, für die Bewährungszeiten.</li>
-          <li>Veröffentlichte Beförderungsauswahl für A&nbsp;9 mit Amtszulage, September 2023 bis Dezember 2026.</li>
-          <li>Veröffentlichte Beförderungsauswahl für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene, Stand Dezember 2026.</li>
+          <li>Veröffentlichte Beförderungsauswahl für A&nbsp;9 mit Amtszulage, September 2023 bis Januar 2027.</li>
+          <li>Veröffentlichte Beförderungsauswahl für A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene, Dezember 2026 bis Januar 2027.</li>
         </ul>
 
         <h3>1. Haftungsausschluss und wichtige rechtliche Hinweise zur Nutzung</h3>
@@ -936,7 +946,16 @@
       <button class="back" type="button" data-back>← Zur Auswahl</button>
       <article class="card">
         <h2>Versionen</h2>
-        <p class="version-now">Aktuelle Fassung: <strong>Version 1.9</strong>, gültig seit dem 16.&nbsp;November 2026.</p>
+        <p class="version-now">Aktuelle Fassung: <strong>Version 2.0</strong>, gültig seit dem 20.&nbsp;November 2026.</p>
+
+        <section class="version">
+          <p class="version-meta"><span class="num">Version 2.0</span><span class="since">seit dem 20. November 2026</span></p>
+          <ul>
+            <li>Beförderungsauswahl für Januar 2027 bei A&nbsp;9 mit Amtszulage sowie bei A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene ergänzt.</li>
+            <li>Bei A&nbsp;10 (2.&nbsp;QE) wird bei Gleichstand auf allen übrigen Kriterien (inklusive exakt 54&nbsp;Monaten im Amt A&nbsp;9 mit Amtszulage) nun zusätzlich der allgemeine Dienstzeitbeginn (mindestens 268&nbsp;Monate) geprüft.</li>
+            <li>Bei A&nbsp;11 (2.&nbsp;QE) wird nun auch die neu hinzugekommene Dienstzeit im Statusamt A&nbsp;10 (mindestens 67&nbsp;Monate bzw. Schwerbehinderung) berücksichtigt und alle veröffentlichten Stichtage werden mit Status angezeigt.</li>
+          </ul>
+        </section>
 
         <section class="version">
           <p class="version-meta"><span class="num">Version 1.9</span><span class="since">seit dem 16. November 2026</span></p>
@@ -1053,7 +1072,7 @@
 </main>
 <footer class="site">
   <p>Personalrat Schwaben Nord. Erstellt von © Nowadnick.</p>
-  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 1.9</a> · Stand: 16.11.2026</p>
+  <p><a href="#impressum">Impressum und Datenschutz</a> · <a href="#versionen">Version 2.0</a> · Stand: 20.11.2026</p>
 </footer>
 
 <script>
@@ -1180,20 +1199,36 @@ const PATHS = [
     method: "Seit A 9 mit Amtszulage, abgestuft nach dem Gesamturteil. Mindestens neun Punkte.",
     col: "Gesamturteil",
     bandMessage: (gu) => "Nötig sind mindestens neun Punkte. Eingetragen sind " + gu + " Punkte.",
-    auswahl: {
-      date: "2026-12-01",
-      dateLabel: "1. Dezember 2026",
-      gu: 11,
-      einzel: 57,
-      rw: 9,
-      rwYear: 2023,
-      statusAmt: "A 9 mit Amtszulage",
-      faehig: 22,
-      befoerdert: 10,
-      hasSonst: true,
-      sonstMinA9Months: 54,
-      desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr. 5 BefRPolVS haben Beamtinnen und Beamte der 3. Qualifikationsebene (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang bei der Stellenbesetzung."
-    }
+    auswahlDesc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr. 5 BefRPolVS haben Beamtinnen und Beamte der 3. Qualifikationsebene (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang bei der Stellenbesetzung.",
+    auswahlHistorie: [
+      {
+        date: "2026-12-01",
+        dateLabel: "1. Dezember 2026",
+        gu: 11,
+        einzel: 57,
+        rw: 9,
+        rwYear: 2023,
+        statusAmt: "A 9 mit Amtszulage",
+        faehig: 22,
+        befoerdert: 10,
+        hasSonst: true,
+        sonstMinAmtMonths: 54
+      },
+      {
+        date: "2027-01-01",
+        dateLabel: "1. Januar 2027",
+        gu: 11,
+        einzel: 57,
+        rw: 9,
+        rwYear: 2023,
+        statusAmt: "A 9 mit Amtszulage",
+        faehig: 56,
+        befoerdert: 27,
+        hasSonst: true,
+        sonstMinAmtMonths: 54,
+        sonstMinAllgMonths: 268
+      }
+    ]
   },
   {
     id: "qe2-a11",
@@ -1212,28 +1247,43 @@ const PATHS = [
       { min: 6, max: 8, months: 72, label: "08 bis 06 Punkte" }
     ],
     startLegend: "Letzte Beförderung",
-    startLabel: "Letzte Beförderung",
-    startHint: "Die Bewährungszeit läuft seit der letzten Beförderung, in der Regel der Übertragung von A 10.",
-    startShort: "letzte Beförderung",
+    startLabel: "Beförderung nach A 10",
+    startHint: "Monat und Jahr, in dem Ihnen das Amt A 10 übertragen wurde. Daraus errechnet das Tool sowohl die Bewährungszeit als auch die Dienstzeit im Amt A 10 für die Beförderungsauswahl.",
+    startShort: "Beförderung nach A 10",
     statusLabel: "Diese Beurteilung ist im Statusamt A 10 erstellt worden. Die Beförderungsauswahl verlangt das ausdrücklich.",
     statusMissing: "Bestätigung, dass die letzte dienstliche Beurteilung im Statusamt A 10 erstellt wurde",
     guHint: "Gesamturteil der letzten Beurteilung im Statusamt A 10.",
     method: "Seit der letzten Beförderung, abgestuft nach dem Gesamturteil der letzten Beurteilung.",
     col: "Gesamturteil",
     bandMessage: (gu) => "Für " + gu + " Punkte ist keine Bewährungszeit bestimmt. Die Tabelle endet bei sechs Punkten.",
-    auswahl: {
-      date: "2026-12-01",
-      dateLabel: "1. Dezember 2026",
-      gu: 11,
-      einzel: 53,
-      rw: 11,
-      rwYear: 2023,
-      statusAmt: "A 10",
-      faehig: 38,
-      befoerdert: 33,
-      hasSonst: false,
-      desc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr. 5 BefRPolVS haben Beamtinnen und Beamte der 3. Qualifikationsebene (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang bei der Stellenbesetzung."
-    }
+    auswahlDesc: "Zusätzlich zur Bewährungszeit entscheidet bei zu wenigen freien Planstellen die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr. 5 BefRPolVS haben Beamtinnen und Beamte der 3. Qualifikationsebene (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang bei der Stellenbesetzung.",
+    auswahlHistorie: [
+      {
+        date: "2026-12-01",
+        dateLabel: "1. Dezember 2026",
+        gu: 11,
+        einzel: 53,
+        rw: 11,
+        rwYear: 2023,
+        statusAmt: "A 10",
+        faehig: 38,
+        befoerdert: 33,
+        hasSonst: false
+      },
+      {
+        date: "2027-01-01",
+        dateLabel: "1. Januar 2027",
+        gu: 10,
+        einzel: 51,
+        rw: 10,
+        rwYear: 2023,
+        statusAmt: "A 10",
+        faehig: 47,
+        befoerdert: 40,
+        hasSonst: true,
+        sonstMinAmtMonths: 67
+      }
+    ]
   },
   {
     id: "qe3-a9",
@@ -1736,6 +1786,12 @@ const GROUPS = [
   { id: "qe4", title: "Vierte Qualifikationsebene", tone: " gold" }
 ];
 
+for (const p of PATHS) {
+  if (p.auswahlHistorie && p.auswahlHistorie.length && !p.auswahl) {
+    p.auswahl = { ...p.auswahlHistorie[p.auswahlHistorie.length - 1], desc: p.auswahlDesc };
+  }
+}
+
 function addMonths(y, m, n) {
   const zero = y * 12 + (m - 1) + n;
   return { y: Math.floor(zero / 12), m: (zero % 12) + 1 };
@@ -1984,9 +2040,20 @@ function applyPath(path) {
   $("s-auswahl-box").hidden = !hasAuswahl;
   $("s-auswahl-table-box").hidden = !hasAuswahl;
   if (hasAuswahl) {
-    $("s-auswahl-desc").textContent = eff.auswahl.desc;
+    $("s-auswahl-desc").textContent = eff.auswahl.desc || eff.auswahlDesc || "";
     $("s-a10-sonst").hidden = !eff.auswahl.hasSonst;
-    renderSimpleAuswahlTable(eff.auswahl);
+    if ($("s-sonst-hint")) {
+      $("s-sonst-hint").textContent = "Die Dienstzeit im Amt " + (eff.auswahl.statusAmt || "A 9 mit Amtszulage") + " (sofern nicht schwerbehindert) wird automatisch aus Ihrem oben angegebenen Beförderungsdatum berechnet.";
+    }
+    if ($("s-allg-wrap")) {
+      const hasAllg = !!eff.auswahl.sonstMinAllgMonths;
+      $("s-allg-wrap").hidden = !hasAllg;
+      if (hasAllg && $("s-allg-hint")) {
+        const minAmt = eff.auswahl.sonstMinAmtMonths != null ? eff.auswahl.sonstMinAmtMonths : eff.auswahl.sonstMinA9Months;
+        $("s-allg-hint").textContent = "Nur erforderlich bei Gleichstand auf allen übrigen Auswahlkriterien einschließlich exakt " + minAmt + " Monaten im Amt " + (eff.auswahl.statusAmt || "A 9 mit Amtszulage") + " (Stichtag " + eff.auswahl.dateLabel + ": mindestens " + eff.auswahl.sonstMinAllgMonths + " Monate). Gerechnet wird ab dem Ersten dieses Monats.";
+      }
+    }
+    renderSimpleAuswahlTable(eff, null);
   }
 
   const hasPostenOptions = !!(eff.postenOptions && eff.postenOptions.length);
@@ -2032,24 +2099,48 @@ function applyPath(path) {
   if ($("s-einzel")) $("s-einzel").value = "";
   if ($("s-rw")) $("s-rw").value = "";
   if ($("s-sb")) $("s-sb").checked = false;
+  if ($("s-allg-monat")) $("s-allg-monat").value = "";
+  if ($("s-allg-jahr")) $("s-allg-jahr").value = "";
   renderSimpleTable(null);
   renderSimple();
 }
 
-function renderSimpleAuswahlTable(aus) {
+function getAuswahlList(path) {
+  if (!path) return [];
+  if (path.auswahlHistorie && path.auswahlHistorie.length) return path.auswahlHistorie;
+  return path.auswahl ? [path.auswahl] : [];
+}
+
+function auswahlSonstText(aus) {
+  if (!aus || !aus.hasSonst) return "Keine weiteren Einschränkungen";
+  const minAmt = aus.sonstMinAmtMonths != null ? aus.sonstMinAmtMonths : aus.sonstMinA9Months;
+  let txt = "Schwerbehindert (§ 2 Abs. 2 SGB IX) oder mind. " + minAmt + " Monate im Amt " + (aus.statusAmt || "A 9 mit Amtszulage");
+  if (aus.sonstMinAllgMonths) {
+    txt += "; bei exakt " + minAmt + " Monaten mind. " + aus.sonstMinAllgMonths + " Monate allgemeine Dienstzeit";
+  }
+  return txt;
+}
+
+function renderSimpleAuswahlTable(pathOrAus, input) {
   const tbody = $("s-auswahl-table");
-  if (!tbody || !aus) return;
-  const sonstText = aus.hasSonst
-    ? "Schwerbehindert (§ 2 Abs. 2 SGB IX) oder mind. " + aus.sonstMinA9Months + " Monate im Amt A 9 mit Amtszulage"
-    : "Keine weiteren Einschränkungen";
-  tbody.innerHTML = "<tr>" +
-    "<td>" + esc(aus.dateLabel) + "</td>" +
-    "<td>" + aus.gu + "</td>" +
-    "<td>" + aus.einzel + "</td>" +
-    "<td>" + aus.rw + " (" + aus.rwYear + ")</td>" +
-    "<td>" + esc(sonstText) + "</td>" +
-    "<td>" + aus.befoerdert + " / " + aus.faehig + "</td>" +
-    "</tr>";
+  if (!tbody || !pathOrAus) return;
+  const list = Array.isArray(pathOrAus.auswahlHistorie) || pathOrAus.auswahl
+    ? getAuswahlList(pathOrAus)
+    : [pathOrAus];
+  tbody.innerHTML = list.map((aus) => {
+    const check = input && input.gu > 0 ? evalSimpleAuswahl(pathOrAus, input, aus) : null;
+    const cls = check && check.ok === true ? " class='hit'" : check && check.ok === false ? " class='miss'" : "";
+    const status = check ? (check.ok === true ? "erfüllt" : check.ok === false ? "nicht erfüllt" : "offen") : "–";
+    return "<tr" + cls + ">" +
+      "<td>" + esc(aus.dateLabel) + "</td>" +
+      "<td>" + aus.gu + "</td>" +
+      "<td>" + aus.einzel + "</td>" +
+      "<td>" + aus.rw + " (" + aus.rwYear + ")</td>" +
+      "<td>" + esc(auswahlSonstText(aus)) + "</td>" +
+      "<td>" + aus.befoerdert + " / " + aus.faehig + "</td>" +
+      "<td>" + status + "</td>" +
+      "</tr>";
+  }).join("");
 }
 
 function tableRows(path) {
@@ -2123,12 +2214,15 @@ function readSimple() {
   const rwEl = $("s-rw");
   const rwRaw = rwEl && rwEl.value ? Number(rwEl.value) : null;
   const sb = $("s-sb") ? $("s-sb").checked : false;
+  const allgMonat = Number($("s-allg-monat") && $("s-allg-monat").value);
+  const allgJahr = Number($("s-allg-jahr") && $("s-allg-jahr").value);
+  const allgStart = allgMonat && allgJahr ? { y: allgJahr, m: allgMonat } : null;
   const status = $("s-status") ? $("s-status").checked : true;
-  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, status, postenId, postenOption, postenExtraStart, erprobungStart };
+  return { missing, start, gu, fuenftel, second, einzel: einzelRaw, rw: rwRaw, sb, a9Monate: null, allgStart, allgMonate: null, status, postenId, postenOption, postenExtraStart, erprobungStart };
 }
 
-function evalSimpleAuswahl(path, input) {
-  const aus = path.auswahl;
+function evalSimpleAuswahl(path, input, ausOverride) {
+  const aus = ausOverride || (path && path.auswahl);
   if (!aus) return null;
   const title = "2. Beförderungsauswahl (" + aus.dateLabel + ")";
 
@@ -2147,7 +2241,7 @@ function evalSimpleAuswahl(path, input) {
       cls: "wait",
       badge: "Warteliste",
       title: title,
-      text: "Ihr Gesamturteil (" + input.gu + " Punkte) liegt unter der Mindestgrenze des aktuellen Stichtags (" + aus.gu + " Punkte). Eine Beförderung zum " + aus.dateLabel + " ist daher nicht möglich."
+      text: "Ihr Gesamturteil (" + input.gu + " Punkte) liegt unter der Mindestgrenze des Stichtags (" + aus.gu + " Punkte). Eine Beförderung zum " + aus.dateLabel + " ist daher nicht möglich."
     };
   }
 
@@ -2232,41 +2326,79 @@ function evalSimpleAuswahl(path, input) {
     };
   }
 
-  const [cy, cm] = (aus.date || "2026-12-01").split("-").map(Number);
+  const [cy, cm] = (aus.date || "2027-01-01").split("-").map(Number);
   const cutoffDate = { y: cy, m: cm };
-  let a9Monate = input.a9Monate;
-  if ((a9Monate === null || isNaN(a9Monate)) && input.start) {
-    a9Monate = Math.max(0, diffMonths(input.start, cutoffDate));
+  const minAmt = aus.sonstMinAmtMonths != null ? aus.sonstMinAmtMonths : aus.sonstMinA9Months;
+  const minAllg = aus.sonstMinAllgMonths || 0;
+  const statusAmt = aus.statusAmt || "A 9 mit Amtszulage";
+  let amtMonate = input.a9Monate;
+  if ((amtMonate === null || isNaN(amtMonate)) && input.start) {
+    amtMonate = Math.max(0, diffMonths(input.start, cutoffDate));
   }
 
-  if (a9Monate === null || isNaN(a9Monate)) {
+  if (amtMonate === null || isNaN(amtMonate)) {
     return {
       ok: null,
       cls: "wait",
       badge: "Prüfung offen",
       title: title,
-      text: "Bei Gleichstand entscheidet die Schwerbehinderung oder mindestens " + aus.sonstMinA9Months + " Monate Dienstzeit im Amt " + (aus.statusAmt || "A 9 mit Amtszulage") + ". Bitte geben Sie oben Ihr Beförderungsdatum an oder markieren Sie die Schwerbehinderung."
+      text: "Bei Gleichstand entscheidet die Schwerbehinderung oder mindestens " + minAmt + " Monate Dienstzeit im Amt " + statusAmt + ". Bitte geben Sie oben Ihr Beförderungsdatum an oder markieren Sie die Schwerbehinderung."
     };
   }
 
-  if (a9Monate >= aus.sonstMinA9Months) {
+  if (amtMonate < minAmt) {
+    const isFuture = input.start && cmpMonth(input.start, cutoffDate) > 0;
+    const futureText = isFuture ? " Am Stichtag der Auswahl (" + aus.dateLabel + ") lag das Statusamt noch nicht vor (künftige Beförderung am " + formatLong(input.start) + ")." : "";
+    return {
+      ok: false,
+      cls: "wait",
+      badge: "Warteliste",
+      title: title,
+      text: "Mit " + amtMonate + " Monaten Dienstzeit im Amt " + statusAmt + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " wird die Mindestzeit von " + minAmt + " Monaten bis zum Stichtag nicht erreicht (und Schwerbehinderung liegt nicht vor)." + futureText
+    };
+  }
+
+  if (amtMonate > minAmt || !minAllg) {
     return {
       ok: true,
       cls: "met",
       badge: "Erfüllt",
       title: title,
-      text: "Mit " + a9Monate + " Monaten Dienstzeit im Amt " + (aus.statusAmt || "A 9 mit Amtszulage") + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " ist die Mindestzeit (" + aus.sonstMinA9Months + " Monate) erfüllt."
+      text: minAllg > 0
+        ? "Mit " + amtMonate + " Monaten Dienstzeit im Amt " + statusAmt + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " wird die Mindestzeit von " + minAmt + " Monaten überschritten; die allgemeine Dienstzeit wird nicht herangezogen."
+        : "Mit " + amtMonate + " Monaten Dienstzeit im Amt " + statusAmt + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " ist die Mindestzeit (" + minAmt + " Monate) erfüllt."
     };
   }
 
-  const isFuture = input.start && cmpMonth(input.start, cutoffDate) > 0;
-  const futureText = isFuture ? " Am Stichtag der Auswahl (" + aus.dateLabel + ") lag das Statusamt noch nicht vor (künftige Beförderung am " + formatLong(input.start) + ")." : "";
+  // Hier gilt amtMonate === minAmt && minAllg > 0
+  let allgMonate = input.allgMonate;
+  if ((allgMonate === null || isNaN(allgMonate)) && input.allgStart) {
+    allgMonate = Math.max(0, diffMonths(input.allgStart, cutoffDate));
+  }
+  if (allgMonate === null || isNaN(allgMonate)) {
+    return {
+      ok: null,
+      cls: "wait",
+      badge: "Prüfung offen",
+      title: title,
+      text: "Bei exakt " + minAmt + " Monaten im Amt " + statusAmt + " entscheidet als nächstes Kriterium die Dienstzeit seit dem allgemeinen Dienstzeitbeginn (mindestens " + minAllg + " Monate erforderlich). Bitte geben Sie oben Ihren allgemeinen Dienstzeitbeginn an."
+    };
+  }
+  if (allgMonate >= minAllg) {
+    return {
+      ok: true,
+      cls: "met",
+      badge: "Erfüllt",
+      title: title,
+      text: "Bei " + minAmt + " Monaten im Amt " + statusAmt + " ist auch die Mindestzeit ab allgemeinem Dienstzeitbeginn mit " + allgMonate + " Monaten" + (input.allgStart ? " (seit dem " + formatLong(input.allgStart) + ")" : "") + " erfüllt (mindestens " + minAllg + " Monate nötig)."
+    };
+  }
   return {
     ok: false,
     cls: "wait",
     badge: "Warteliste",
     title: title,
-    text: "Mit " + a9Monate + " Monaten Dienstzeit im Amt " + (aus.statusAmt || "A 9 mit Amtszulage") + (input.start ? " (seit dem " + formatLong(input.start) + ")" : "") + " wird die Mindestzeit von " + aus.sonstMinA9Months + " Monaten bis zum Stichtag nicht erreicht (und Schwerbehinderung liegt nicht vor)." + futureText
+    text: "Bei " + minAmt + " Monaten im Amt " + statusAmt + " wird die zusätzlich erforderliche allgemeine Dienstzeit von " + minAllg + " Monaten bis zum Stichtag mit " + allgMonate + " Monaten" + (input.allgStart ? " (seit dem " + formatLong(input.allgStart) + ")" : "") + " nicht erreicht."
   };
 }
 
@@ -2327,7 +2459,37 @@ function validateSimpleInput(path, input) {
     }
   }
 
+  // 3. Allgemeiner Dienstzeitbeginn vs. Beförderungsamt (bei A 10 2. QE)
+  if (eff.auswahl && eff.auswahl.sonstMinAllgMonths && input.start && input.allgStart) {
+    if (diffMonths(input.allgStart, input.start) < 0) {
+      return {
+        title: "Allgemeiner Dienstzeitbeginn vs. " + (eff.startShort || "letzte Beförderung"),
+        message: "Der allgemeine Dienstzeitbeginn (" + formatLong(input.allgStart) + ") kann nicht nach der Beförderung in das Amt " + (eff.auswahl.statusAmt || "A 9 mit Amtszulage") + " (" + formatLong(input.start) + ") liegen.",
+        hint: "Bitte prüfen Sie den allgemeinen Dienstzeitbeginn sowie das Beförderungsdatum."
+      };
+    }
+  }
+
   return null;
+}
+
+function selectAuswahlForPrognose(eff, input, when) {
+  const list = getAuswahlList(eff);
+  if (!list.length) return null;
+  const latest = list[list.length - 1];
+  const start = nextMonth(new Date());
+  for (const aus of list) {
+    const [cy, cm] = aus.date.split("-").map(Number);
+    const cutoffDate = { y: cy, m: cm };
+    if (cmpMonth(cutoffDate, start) < 0) continue;
+    if (cmpMonth(when, cutoffDate) > 0) continue;
+    const ev = evalSimpleAuswahl(eff, input, aus);
+    if (ev.ok !== false) {
+      return { aus, eval: ev, cutoffDate, latest };
+    }
+  }
+  const [ly, lm] = latest.date.split("-").map(Number);
+  return { aus: latest, eval: evalSimpleAuswahl(eff, input, latest), cutoffDate: { y: ly, m: lm }, latest };
 }
 
 function renderSimple() {
@@ -2341,6 +2503,7 @@ function renderSimple() {
       ? waitOf(eff, input.gu, input.fuenftel, input.postenId)
       : null;
   renderSimpleTable(preview && preview.ok ? preview.key : null);
+  if (eff.auswahl) renderSimpleAuswahlTable(eff, input);
   if (input.missing.length) {
     box.innerHTML = "<h2>" + (eff.kind === "flat" && eff.flatMonths === 0 ? "Ernennung in das Eingangsamt" : "Beförderungsfähigkeit") + "</h2><p class='lede'>Noch offen: " + esc(input.missing.join(", ")) + ".</p>";
     return;
@@ -2434,10 +2597,10 @@ function renderSimple() {
   const spaeter = (input.second && eff.second || (postenOption && (postenOption.minAmtMonths || postenOption.extraMonths)) || input.erprobungStart) ? " Maßgeblich ist der spätere der Zeitpunkte." : "";
 
   if (eff.auswahl) {
-    const aus = eff.auswahl;
-    const ausEval = evalSimpleAuswahl(eff, input);
-    const [cy, cm] = (aus.date || "2026-12-01").split("-").map(Number);
-    const cutoffDate = { y: cy, m: cm };
+    const picked = selectAuswahlForPrognose(eff, input, when);
+    const aus = picked.aus;
+    const ausEval = picked.eval;
+    const cutoffDate = picked.cutoffDate;
     let ledeText = "";
     let whenText = "";
     let mainText = "";
@@ -2460,6 +2623,9 @@ function renderSimple() {
       ledeText = rel === "future" ? "Bewährungszeit erfüllt ab" : "Bewährungszeit bereits erfüllt seit";
       whenText = formatLong(when);
       mainText = "Die Bewährungszeit ist " + (rel === "future" ? "ab " + formatLong(when) + " erfüllt" : "bereits erfüllt") + ". Da Ihr Gesamturteil genau " + aus.gu + " Punkte beträgt, entscheidet die Beförderungsauswahl anhand der weiteren Kriterien. " + kopf + punkte;
+      if (aus !== picked.latest && evalSimpleAuswahl(eff, input, picked.latest).ok === true) {
+        ausEval.text += " Für den folgenden Stichtag (" + picked.latest.dateLabel + ") sind Ihre Kriterien unabhängig davon bereits erfüllt.";
+      }
     }
 
     const auswahlFact = factHtml(
@@ -2478,7 +2644,7 @@ function renderSimple() {
         factHtml("1. Bewährungszeit", factClass !== "open", esc(kern), factClass) +
         auswahlFact
       ) +
-      "<p class='hint'><strong>Beförderungsauswahl:</strong> Für die Beförderung nach " + esc(eff.title) + " gilt neben der Bewährungszeit zusätzlich die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr.&nbsp;5 BefRPolVS haben Beamtinnen und Beamte der 3.&nbsp;QE (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang vor Praxisaufsteigern. Der Rechner gleicht Ihre Daten mit den Grenzwerten des aktuellen Stichtags (" + esc(aus.dateLabel) + ") ab.</p>" +
+      "<p class='hint'><strong>Beförderungsauswahl:</strong> Für die Beförderung nach " + esc(eff.title) + " gilt neben der Bewährungszeit zusätzlich die monatlich veröffentlichte Beförderungsauswahl nach Leistungskriterien. Gemäß Nr.&nbsp;5 BefRPolVS haben Beamtinnen und Beamte der 3.&nbsp;QE (sowie Aufsteiger mit Ausbildungsqualifizierung) gesetzlichen Vorrang vor Praxisaufsteigern. Der Rechner gleicht Ihre Daten mit den veröffentlichten Grenzwerten (aktuell bis " + esc(picked.latest.dateLabel) + ") ab.</p>" +
       "<p class='hint'>Ob eine freie Planstelle besteht, sagt dieser Rechner nicht. Ein Anspruch auf Beförderung besteht nicht.</p>";
     return;
   }
@@ -2562,7 +2728,7 @@ function show(id, scroll) {
 
 const WARTEZEIT = { 16: 36, 15: 39, 14: 42, 13: 45, 12: 48, 11: 54, 10: 60, 9: 72 };
 
-/** Stichtage September 2023 bis Dezember 2026 aus der Tabelle Beförderungsauswahl. */
+/** Stichtage September 2023 bis Januar 2027 aus der Tabelle Beförderungsauswahl. */
 const RAW = [
   ["2023-09-01", 10, 50, 10, 2017, ["a9", 98], 1187, 73],
   ["2023-10-01", 14, 70, 11, 2020, ["a9", 53], 1640, 94],
@@ -2603,7 +2769,8 @@ const RAW = [
   ["2026-09-01", 11, 53, 9, 2020, ["none"], 1516, 41],
   ["2026-10-01", 13, 66, 10, 2023, ["or", 104, 188], 1977, 35],
   ["2026-11-01", 12, 62, 10, 2023, ["a9", 87], 1966, 116],
-  ["2026-12-01", 12, 62, 9, 2023, ["a9", 207], 1935, 66]
+  ["2026-12-01", 12, 62, 9, 2023, ["a9", 207], 1935, 66],
+  ["2027-01-01", 12, 61, 10, 2023, ["seq", 98, 179], 1887, 53]
 ];
 
 const CUTOFFS = RAW.map(([date, gu, einzel, rw, rwYear, sonst, faehig, befoerdert]) => {
@@ -2632,6 +2799,7 @@ function sonstigeText(rule) {
   if (rule.t === "none") return "Keine weiteren Einschränkungen";
   if (rule.t === "a9") return "Schwerbehindert oder mindestens " + rule.a9 + " Monate im Amt A 9";
   if (rule.t === "or") return "Schwerbehindert oder mindestens " + rule.a9 + " Monate im Amt A 9 oder mindestens " + rule.allg + " Monate allgemeine Dienstzeit";
+  if (rule.t === "seq") return "Schwerbehindert oder mindestens " + rule.a9 + " Monate im Amt A 9; bei exakt " + rule.a9 + " Monaten mindestens " + rule.allg + " Monate allgemeine Dienstzeit";
   return "Schwerbehindert oder mindestens " + rule.a9 + " Monate im Amt A 9 und mindestens " + rule.allg + " Monate allgemeine Dienstzeit";
 }
 function evalSonstige(person, rule) {
@@ -2641,6 +2809,15 @@ function evalSonstige(person, rule) {
   const haben = "Vorhanden sind " + person.a9Months + " Monate im Amt A 9 und " + person.allgMonths + " Monate allgemeine Dienstzeit.";
   if (rule.t === "a9") return { ok: a9ok, text: "Nötig sind mindestens " + rule.a9 + " Monate im Amt A 9. " + haben };
   if (rule.t === "or") return { ok: a9ok || allgok, text: "Es genügt eine der beiden Dienstzeiten: mindestens " + rule.a9 + " Monate im Amt A 9 oder mindestens " + rule.allg + " Monate allgemeine Dienstzeit. " + haben };
+  if (rule.t === "seq") {
+    if (person.a9Months > rule.a9) {
+      return { ok: true, text: "Mit " + person.a9Months + " Monaten im Amt A 9 wird die Grenze von " + rule.a9 + " Monaten überschritten; die allgemeine Dienstzeit (" + person.allgMonths + " Monate) wird daher nicht benötigt." };
+    }
+    if (person.a9Months === rule.a9) {
+      return { ok: allgok, text: "Bei exakt " + rule.a9 + " Monaten im Amt A 9 sind zusätzlich mindestens " + rule.allg + " Monate allgemeine Dienstzeit nötig. " + haben };
+    }
+    return { ok: false, text: "Nötig sind mindestens " + rule.a9 + " Monate im Amt A 9 (bei exakt " + rule.a9 + " Monaten zudem " + rule.allg + " Monate allgemeine Dienstzeit). " + haben };
+  }
   return { ok: a9ok && allgok, text: "Nötig sind mindestens " + rule.a9 + " Monate im Amt A 9 und mindestens " + rule.allg + " Monate allgemeine Dienstzeit. " + haben };
 }
 function explain(person, cut) {
@@ -3062,6 +3239,7 @@ function init() {
   fillMonthYear("s-monat-2", "s-jahr-2", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillMonthYear("s-posten-extra-monat", "s-posten-extra-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillMonthYear("s-erprobung-monat", "s-erprobung-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+  fillMonthYear("s-allg-monat", "s-allg-jahr", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   fillPunktSelect($("s-gu"), 4, 16);
   fillPunktSelect($("s-rw"), 4, 16);
   fillPunktSelect($("s-einzel"), 20, 80);
@@ -3220,6 +3398,11 @@ function init() {
       if (eff.auswahl.hasSonst) {
         $("s-sb").checked = Math.random() < 0.2;
       }
+      if (eff.auswahl.sonstMinAllgMonths) {
+        const maxAllgYear = Math.max(1995, Math.min(jahr - 4, startYear - 5));
+        $("s-allg-monat").value = pick(["3", "9"]);
+        $("s-allg-jahr").value = String(Math.max(1970, randInt(1995, maxAllgYear)));
+      }
     }
     renderSimpleTable(null);
     renderSimple();
@@ -3243,6 +3426,8 @@ function init() {
       $("s-erprobung-jahr").value = "";
     }
     if ($("s-sb")) $("s-sb").checked = false;
+    if ($("s-allg-monat")) $("s-allg-monat").value = "";
+    if ($("s-allg-jahr")) $("s-allg-jahr").value = "";
     renderSimpleTable(null);
     renderSimple();
   });
@@ -3274,6 +3459,7 @@ function selfTest() {
   const sep2026 = CUTOFFS.find((c) => c.date === "2026-09-01");
   const nov2026 = CUTOFFS.find((c) => c.date === "2026-11-01");
   const dez2026 = CUTOFFS.find((c) => c.date === "2026-12-01");
+  const jan2027 = CUTOFFS.find((c) => c.date === "2027-01-01");
   const person = (gu, einzel, rw, disabled, a9, allg) => ({ gu, einzel, rw, disabled, a9Months: a9, allgMonths: allg, inA9: true });
   assert(explain(person(14, 50, 1, false, 0, 0), oct2026).ok, "über GU");
   assert(!explain(person(12, 80, 16, true, 200, 300), oct2026).ok, "unter GU");
@@ -3299,6 +3485,15 @@ function selfTest() {
   assert(!explain(person(12, 61, 16, true, 200, 300), dez2026).ok, "dez unter Einzel");
   assert(explain(person(12, 62, 9, false, 207, 0), dez2026).ok, "dez A9");
   assert(!explain(person(12, 62, 9, false, 206, 400), dez2026).ok, "dez A9 fehlt");
+  assert(jan2027 && jan2027.gu === 12 && jan2027.einzel === 61 && jan2027.rw === 10 && jan2027.rwYear === 2023 && jan2027.rule.t === "seq" && jan2027.rule.a9 === 98 && jan2027.rule.allg === 179, "Jan 2027 Grenze");
+  assert(jan2027.faehig === 1887 && jan2027.befoerdert === 53, "Jan 2027 Zahlen");
+  assert(explain(person(13, 1, 1, false, 0, 0), jan2027).ok, "jan über GU");
+  assert(!explain(person(12, 60, 16, true, 200, 300), jan2027).ok, "jan unter Einzel");
+  assert(explain(person(12, 61, 10, true, 0, 0), jan2027).ok, "jan schwerbehindert");
+  assert(explain(person(12, 61, 10, false, 99, 150), jan2027).ok, "jan über 98 Mo A9 überspringt allg. DZ");
+  assert(explain(person(12, 61, 10, false, 98, 179), jan2027).ok, "jan exakt 98 Mo A9 und 179 Mo allg. DZ");
+  assert(!explain(person(12, 61, 10, false, 98, 178), jan2027).ok, "jan exakt 98 Mo A9 unter 179 Mo allg. DZ");
+  assert(!explain(person(12, 61, 10, false, 97, 400), jan2027).ok, "jan unter 98 Mo A9");
   assert(referenceFor(2026, 11).date === "2023-11-01", "Vergleich November");
   assert(warteMonate(16) === 36 && warteMonate(11) === 54 && warteMonate(9) === 72 && warteMonate(5) === 84, "Wartezeit");
   assert(beurteilungYear(2023, 9) === 2020 && beurteilungYear(2023, 10) === 2023 && beurteilungYear(2026, 10) === 2026, "Zyklus");
@@ -3340,10 +3535,12 @@ function selfTest() {
   assert(formatDE(addMonths(2021, 10, 45)) === "01.07.2025", "45 Monate");
   const a10Path = byId("qe2-a10");
   const a11Path = byId("qe2-a11");
-  assert(a10Path && a10Path.auswahl && a10Path.auswahl.gu === 11 && a10Path.auswahl.einzel === 57, "A10 Auswahl Konfiguration");
-  assert(a11Path && a11Path.auswahl && a11Path.auswahl.gu === 11 && a11Path.auswahl.einzel === 53, "A11 Auswahl Konfiguration");
-  const simpleInput = (gu, einzel, rw, sb, a9Monate, start) => ({
-    gu, einzel, rw, sb, a9Monate, start: start || { y: 2021, m: 10 }, status: true, missing: []
+  assert(a10Path && a10Path.auswahl && a10Path.auswahl.date === "2027-01-01" && a10Path.auswahl.gu === 11 && a10Path.auswahl.einzel === 57 && a10Path.auswahl.sonstMinAllgMonths === 268, "A10 Auswahl Konfiguration");
+  assert(a10Path.auswahlHistorie && a10Path.auswahlHistorie.length === 2, "A10 Auswahl Historie");
+  assert(a11Path && a11Path.auswahl && a11Path.auswahl.date === "2027-01-01" && a11Path.auswahl.gu === 10 && a11Path.auswahl.einzel === 51 && a11Path.auswahl.rw === 10 && a11Path.auswahl.sonstMinAmtMonths === 67, "A11 Auswahl Konfiguration");
+  assert(a11Path.auswahlHistorie && a11Path.auswahlHistorie.length === 2, "A11 Auswahl Historie");
+  const simpleInput = (gu, einzel, rw, sb, a9Monate, start, allgMonate, allgStart) => ({
+    gu, einzel, rw, sb, a9Monate, start: start || { y: 2021, m: 10 }, allgMonate: allgMonate !== undefined ? allgMonate : null, allgStart: allgStart || null, status: true, missing: []
   });
   assert(evalSimpleAuswahl(a10Path, simpleInput(12, null, null, false, null)).ok === true, "A10 über GU");
   assert(evalSimpleAuswahl(a10Path, simpleInput(10, null, null, false, null)).ok === false, "A10 unter GU");
@@ -3354,17 +3551,30 @@ function selfTest() {
   assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 10, false, null)).ok === true, "A10 über RW");
   assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 8, false, null)).ok === false, "A10 unter RW");
   assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, true, null)).ok === true, "A10 RW gleich schwerbehindert");
-  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 54)).ok === true, "A10 RW gleich 54 Monate A9");
-  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 53)).ok === false, "A10 RW gleich 53 Monate A9 verfehlt");
-  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2021, m: 10 })).ok === true, "A10 automatisch aus Beförderungsdatum 62 Monate erfüllt");
-  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2022, m: 7 })).ok === false, "A10 automatisch aus Beförderungsdatum 53 Monate verfehlt");
-  assert(evalSimpleAuswahl(a11Path, simpleInput(12, null, null, false, null)).ok === true, "A11 über GU");
-  assert(evalSimpleAuswahl(a11Path, simpleInput(10, null, null, false, null)).ok === false, "A11 unter GU");
-  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 54, null, false, null)).ok === true, "A11 über Einzel");
-  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 52, null, false, null)).ok === false, "A11 unter Einzel");
-  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 11, false, null)).ok === true, "A11 RW gleich ohne sonst");
-  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 10, false, null)).ok === false, "A11 unter RW");
-  assert($("einzel") && $("s-einzel"), "einzel selects exist");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 55, null, 200)).ok === true, "A10 über 54 Monate A9Z überspringt allg. DZ");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 54)).ok === null, "A10 exakt 54 Monate A9Z ohne allg. DZ offen");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 54, null, 268)).ok === true, "A10 exakt 54 Monate A9Z und 268 Monate allg. DZ");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 54, null, 267)).ok === false, "A10 exakt 54 Monate A9Z unter 268 Monate allg. DZ");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, 53, null, 400)).ok === false, "A10 unter 54 Monate A9Z verfehlt");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2021, m: 10 })).ok === true, "A10 automatisch aus Beförderungsdatum 63 Monate erfüllt");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2022, m: 7 }, null, { y: 2004, m: 9 })).ok === true, "A10 automatisch 54 Monate A9Z und 268 Monate allg. DZ erfüllt");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2022, m: 7 }, null, { y: 2004, m: 10 })).ok === false, "A10 automatisch 54 Monate A9Z und 267 Monate allg. DZ verfehlt");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2022, m: 8 })).ok === false, "A10 automatisch aus Beförderungsdatum 53 Monate verfehlt");
+  assert(evalSimpleAuswahl(a10Path, simpleInput(11, 57, 9, false, null, { y: 2022, m: 6 }), a10Path.auswahlHistorie[0]).ok === true, "A10 Dez 2026 mit 54 Monaten erfüllt");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(11, null, null, false, null)).ok === true, "A11 über GU");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(9, null, null, false, null)).ok === false, "A11 unter GU");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, null, null, false, null)).ok === null, "A11 GU gleich ohne Einzel");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, 52, null, false, null)).ok === true, "A11 über Einzel");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, 50, null, false, null)).ok === false, "A11 unter Einzel");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, 51, null, false, null)).ok === null, "A11 Einzel gleich ohne RW");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, 51, 11, false, null)).ok === true, "A11 über RW");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, 51, 9, false, null)).ok === false, "A11 unter RW");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, 51, 10, true, null, { y: 2025, m: 1 })).ok === true, "A11 RW gleich schwerbehindert");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, 51, 10, false, null, { y: 2021, m: 6 })).ok === true, "A11 RW gleich 67 Monate A10 erfüllt");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(10, 51, 10, false, null, { y: 2021, m: 7 })).ok === false, "A11 RW gleich 66 Monate A10 verfehlt");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 11, false, null), a11Path.auswahlHistorie[0]).ok === true, "A11 Dez 2026 erfüllt");
+  assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 10, false, null), a11Path.auswahlHistorie[0]).ok === false, "A11 Dez 2026 unter RW");
+  assert($("einzel") && $("s-einzel") && $("s-allg-monat") && $("s-allg-jahr"), "einzel and allg selects exist");
 
   const a12Path = byId("qe3-a12");
   assert(a12Path && a12Path.beta, "A12 Beta");
@@ -3502,6 +3712,20 @@ function selfTest() {
     missing: []
   });
   assert(a10Zukunft === null, "A10 2. QE zukünftiges Beförderungsdatum blockiert nicht");
+
+  const a10AllgErr = validateSimpleInput(byId("qe2-a10"), {
+    start: { y: 2020, m: 5 },
+    allgStart: { y: 2021, m: 9 },
+    missing: []
+  });
+  assert(a10AllgErr && a10AllgErr.title.includes("Allgemeiner Dienstzeitbeginn"), "A10 2. QE allgemeiner Dienstzeitbeginn nach A9Z wird abgewiesen");
+
+  const a10AllgOk = validateSimpleInput(byId("qe2-a10"), {
+    start: { y: 2022, m: 7 },
+    allgStart: { y: 2004, m: 9 },
+    missing: []
+  });
+  assert(a10AllgOk === null, "A10 2. QE allgemeiner Dienstzeitbeginn vor A9Z plausibel");
 
   const a12ErpPast = validateSimpleInput(byId("qe3-a12"), {
     start: { y: 2016, m: 1 },

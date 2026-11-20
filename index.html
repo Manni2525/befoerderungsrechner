@@ -940,6 +940,7 @@
             <li>Bei A&nbsp;10 (2.&nbsp;QE) wird bei Gleichstand auf allen übrigen Kriterien (inklusive exakt 54&nbsp;Monaten im Amt A&nbsp;9 mit Amtszulage) nun zusätzlich der allgemeine Dienstzeitbeginn (mindestens 268&nbsp;Monate) geprüft.</li>
             <li>Bei A&nbsp;11 (2.&nbsp;QE) wird nun auch die neu hinzugekommene Dienstzeit im Statusamt A&nbsp;10 (mindestens 67&nbsp;Monate bzw. Schwerbehinderung) berücksichtigt und alle veröffentlichten Stichtage werden mit Status angezeigt.</li>
             <li>Beta-Hinweis bei A&nbsp;12, A&nbsp;13 (3.&nbsp;QE) sowie in der 4.&nbsp;Qualifikationsebene (A&nbsp;13 bis A&nbsp;16) entfernt.</li>
+            <li>Tabellen der veröffentlichten Stichtage bei A&nbsp;9 mit Amtszulage sowie bei A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene zeigen nun jeweils den neuesten Stichtag zuerst.</li>
           </ul>
         </section>
 
@@ -2105,7 +2106,7 @@ function renderSimpleAuswahlTable(pathOrAus, input) {
   const tbody = $("s-auswahl-table");
   if (!tbody || !pathOrAus) return;
   const list = Array.isArray(pathOrAus.auswahlHistorie) || pathOrAus.auswahl
-    ? getAuswahlList(pathOrAus)
+    ? [...getAuswahlList(pathOrAus)].reverse()
     : [pathOrAus];
   tbody.innerHTML = list.map((aus) => {
     const check = input && input.gu > 0 ? evalSimpleAuswahl(pathOrAus, input, aus) : null;
@@ -3009,11 +3010,12 @@ function render() {
   const todayDt = { y: today.getFullYear(), m: today.getMonth() + 1 };
   const todayProfile = input.missing.length ? null : scoresAt(input, todayDt.y, todayDt.m);
   let hits = 0;
-  historie.innerHTML = CUTOFFS.map((row, index) => {
+  const revCutoffs = [...CUTOFFS].reverse();
+  historie.innerHTML = revCutoffs.map((row, index) => {
     const check = todayProfile && todayProfile.known ? explain(todayProfile, row) : null;
     if (check && check.ok) hits += 1;
     const cls = check ? (check.ok ? "hit" : "miss") : "";
-    const isNewPeriod = index > 0 && beurteilungYear(row.y, row.m) !== beurteilungYear(CUTOFFS[index - 1].y, CUTOFFS[index - 1].m);
+    const isNewPeriod = index > 0 && beurteilungYear(row.y, row.m) !== beurteilungYear(revCutoffs[index - 1].y, revCutoffs[index - 1].m);
     const trCls = [cls, isNewPeriod ? "period-sep" : ""].filter(Boolean).join(" ");
     const clsAttr = trCls ? " class='" + trCls + "'" : "";
     const status = check ? (check.ok ? "erfüllt" : "nicht erfüllt") : "–";
@@ -3555,6 +3557,7 @@ function selfTest() {
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 11, false, null), a11Path.auswahlHistorie[0]).ok === true, "A11 Dez 2026 erfüllt");
   assert(evalSimpleAuswahl(a11Path, simpleInput(11, 53, 10, false, null), a11Path.auswahlHistorie[0]).ok === false, "A11 Dez 2026 unter RW");
   assert($("einzel") && $("s-einzel") && $("s-allg-monat") && $("s-allg-jahr"), "einzel and allg selects exist");
+  assert($("historie").innerHTML.indexOf("01.01.2027") >= 0 && $("historie").innerHTML.indexOf("01.01.2027") < $("historie").innerHTML.indexOf("01.09.2023"), "Historie beginnt mit dem neuesten Stichtag");
 
   const a12Path = byId("qe3-a12");
   assert(a12Path && !a12Path.beta, "A12 ohne Beta");

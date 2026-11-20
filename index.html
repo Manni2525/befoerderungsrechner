@@ -181,21 +181,6 @@
   .pick-title { font-size: 1.12rem; font-weight: 700; color: var(--navy); letter-spacing: -0.03em; line-height: 1.2; }
   .pick-rank { color: var(--ink); font-size: 0.92rem; }
   .pick-text { color: var(--muted); font-size: 0.86rem; }
-  .badge-beta {
-    display: inline-block;
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    background: #e9eef4;
-    color: #1b3a4b;
-    border: 1px solid #c5d3e0;
-    vertical-align: middle;
-    margin-left: 6px;
-    line-height: 1.4;
-  }
   button.back {
     background: none;
     border: 0;
@@ -954,6 +939,7 @@
             <li>Beförderungsauswahl für Januar 2027 bei A&nbsp;9 mit Amtszulage sowie bei A&nbsp;10 und A&nbsp;11 der zweiten Qualifikationsebene ergänzt.</li>
             <li>Bei A&nbsp;10 (2.&nbsp;QE) wird bei Gleichstand auf allen übrigen Kriterien (inklusive exakt 54&nbsp;Monaten im Amt A&nbsp;9 mit Amtszulage) nun zusätzlich der allgemeine Dienstzeitbeginn (mindestens 268&nbsp;Monate) geprüft.</li>
             <li>Bei A&nbsp;11 (2.&nbsp;QE) wird nun auch die neu hinzugekommene Dienstzeit im Statusamt A&nbsp;10 (mindestens 67&nbsp;Monate bzw. Schwerbehinderung) berücksichtigt und alle veröffentlichten Stichtage werden mit Status angezeigt.</li>
+            <li>Beta-Hinweis bei A&nbsp;12, A&nbsp;13 (3.&nbsp;QE) sowie in der 4.&nbsp;Qualifikationsebene (A&nbsp;13 bis A&nbsp;16) entfernt.</li>
           </ul>
         </section>
 
@@ -1399,7 +1385,6 @@ const PATHS = [
   {
     id: "qe3-a12",
     group: "qe3",
-    beta: true,
     rank: "Polizeihauptkommissar/in",
     title: "A 12",
     card: "Nach Dienstposten und letzter Beurteilung in A 11",
@@ -1499,7 +1484,6 @@ const PATHS = [
   {
     id: "qe3-a13",
     group: "qe3",
-    beta: true,
     rank: "Erste/r Polizeihauptkommissar/in",
     title: "A 13",
     card: "Nach Dienstposten und letzter Beurteilung in A 12",
@@ -1591,7 +1575,6 @@ const PATHS = [
   {
     id: "qe4-a13",
     group: "qe4",
-    beta: true,
     rank: "Polizeirat/in",
     title: "A 13",
     card: "Eingangsamt nach der Qualifikationsprüfung (DHPol)",
@@ -1617,7 +1600,6 @@ const PATHS = [
   {
     id: "qe4-a14",
     group: "qe4",
-    beta: true,
     rank: "Polizeioberrat/in",
     title: "A 14",
     card: "Masterabschluss (DHPol) oder Direkteinstieg",
@@ -1677,7 +1659,6 @@ const PATHS = [
   {
     id: "qe4-a15",
     group: "qe4",
-    beta: true,
     rank: "Polizeidirektor/in",
     title: "A 15",
     card: "Nach Dienstposten und letzter Beurteilung in A 14",
@@ -1745,7 +1726,6 @@ const PATHS = [
   {
     id: "qe4-a16",
     group: "qe4",
-    beta: true,
     rank: "Leitende/r Polizeidirektor/in",
     title: "A 16",
     card: "Nach Dienstposten und letzter Beurteilung in A 15",
@@ -1913,7 +1893,7 @@ function buildSelection() {
     const cards = PATHS.filter((p) => p.group === group.id).map((p) =>
       "<button type='button' class='pick' data-open='" + p.id + "'>" +
       boardMarkup(p.board) +
-      "<span class='pick-copy'><span class='pick-title'>" + esc(p.title) + (p.beta ? " <span class='badge-beta'>Beta</span>" : "") + "</span>" +
+      "<span class='pick-copy'><span class='pick-title'>" + esc(p.title) + "</span>" +
       "<span class='pick-rank'>" + esc(p.rank || "") + "</span>" +
       "<span class='pick-text'>" + esc(p.card) + "</span></span></button>"
     ).join("");
@@ -2019,7 +1999,7 @@ function applyPath(path) {
   currentPath = path;
   $("s-board").innerHTML = boardMarkup(path.board);
   $("s-kicker").textContent = path.rank || "";
-  $("s-title").innerHTML = esc(path.title) + (path.beta ? " <span class='badge-beta'>Beta</span>" : "");
+  $("s-title").innerHTML = esc(path.title);
   $("s-lede").textContent = path.lede;
 
   const hasTracks = !!(path.tracks && path.tracks.length);
@@ -3577,7 +3557,7 @@ function selfTest() {
   assert($("einzel") && $("s-einzel") && $("s-allg-monat") && $("s-allg-jahr"), "einzel and allg selects exist");
 
   const a12Path = byId("qe3-a12");
-  assert(a12Path && a12Path.beta, "A12 Beta");
+  assert(a12Path && !a12Path.beta, "A12 ohne Beta");
   assert(waitOf(a12Path, 16, null, "a11-12").months === 36, "A12 Standard 16 Pkt");
   assert(waitOf(a12Path, 13, null, "a11-12").months === 42, "A12 Standard 13 Pkt");
   assert(waitOf(a12Path, 10, null, "a11-12").months === 54, "A12 Standard 10 Pkt");
@@ -3599,7 +3579,7 @@ function selfTest() {
   assert(formatDE(fachEnde) === "01.11.2026" && formatDE(a11MinEnde) === "01.05.2026" && cmpMonth(fachEnde, a11MinEnde) > 0, "A12 Fach 8 Jahre später als 5 Jahre A11");
 
   const a13Path = byId("qe3-a13");
-  assert(a13Path && a13Path.beta, "A13 Beta");
+  assert(a13Path && !a13Path.beta, "A13 ohne Beta");
   assert(waitOf(a13Path, 16, null, "a12-13").months === 36, "A13 Buendel 16 Pkt");
   assert(waitOf(a13Path, 13, null, "a12-13").months === 42, "A13 Buendel 13 Pkt");
   assert(waitOf(a13Path, 10, null, "a12-13").months === 84, "A13 Buendel 10 Pkt");
@@ -3631,13 +3611,13 @@ function selfTest() {
   assert(cmpMonth(stehzeitA12, erpEnde) < 0, "Erprobung liegt später als Stehzeit");
 
   const a13Qe4Path = byId("qe4-a13");
-  assert(a13Qe4Path && a13Qe4Path.beta, "A13 4.QE Beta");
+  assert(a13Qe4Path && !a13Qe4Path.beta, "A13 4.QE ohne Beta");
   assert(a13Qe4Path.board.stars === 1 && a13Qe4Path.board.tone === "gold", "A13 4.QE 1 goldener Stern");
   assert(waitOf(a13Qe4Path, 0, null).months === 0, "A13 4.QE Eingangsamt 0 Monate");
   assert(boardMarkup(a13Qe4Path.board).includes("#f0b429"), "A13 4.QE goldene Sternfarbe");
 
   const a14Path = byId("qe4-a14");
-  assert(a14Path && a14Path.beta, "A14 Beta");
+  assert(a14Path && !a14Path.beta, "A14 ohne Beta");
   assert(a14Path.board.stars === 2 && a14Path.board.tone === "gold", "A14 2 goldene Sterne");
   assert(a14Path.tracks && a14Path.tracks.length === 2, "A14 4. QE Tracks");
   assert(waitOf(a14Path, 0, "1-2", null, "dhpol").months === 24, "A14 DHPol 1./2. Fünftel 24 Monate");
@@ -3651,7 +3631,7 @@ function selfTest() {
   assert(waitOf(a14Path, 2, null, null, "direkt").ok === false, "A14 Direkt 2 Pkt nicht vorgesehen");
 
   const a15Path = byId("qe4-a15");
-  assert(a15Path && a15Path.beta, "A15 Beta");
+  assert(a15Path && !a15Path.beta, "A15 ohne Beta");
   assert(a15Path.board.stars === 3 && a15Path.board.tone === "gold", "A15 3 goldene Sterne");
   assert(a15Path.askErprobung === true && a15Path.erprobungMonths === 3, "A15 Erprobung");
   assert(waitOf(a15Path, 16, null, "a15-00").months === 36, "A15 Hoeher 16 Pkt");
@@ -3666,7 +3646,7 @@ function selfTest() {
   assert(waitOf(a15Path, 10, null, "a13-15").months === 78, "A15 Dreifach 10 Pkt");
 
   const a16Path = byId("qe4-a16");
-  assert(a16Path && a16Path.beta, "A16 Beta");
+  assert(a16Path && !a16Path.beta, "A16 ohne Beta");
   assert(a16Path.board.stars === 4 && a16Path.board.tone === "gold", "A16 4 goldene Sterne");
   assert(a16Path.askErprobung === true && a16Path.erprobungMonths === 3, "A16 Erprobung");
   assert(waitOf(a16Path, 16, null).months === 36, "A16 16 Pkt");
